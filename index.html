@@ -187,9 +187,64 @@ body{font-family:"Noto Sans KR",sans-serif;background:#f8fbff;color:var(--t);fon
 /* KAKAO */
 .kfloat{position:fixed;bottom:24px;right:24px;z-index:9999;background:#FEE500;color:#1a1a1a;font-weight:800;padding:13px 19px;border-radius:100px;display:flex;align-items:center;gap:7px;box-shadow:0 5px 22px rgba(0,0,0,.15);text-decoration:none;font-size:14px;transition:transform .2s;}
 .kfloat:hover{transform:translateY(-2px);}
+.sns-float{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:10px;align-items:center;}
+.sns-btn{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;box-shadow:0 4px 16px rgba(0,0,0,.18);transition:transform .2s;}
+.sns-btn:hover{transform:translateY(-3px);}
+.sns-btn.youtube{background:#FF0000;color:#fff;}
+.sns-btn.naver{background:#03C75A;color:#fff;}
+.sns-btn.kakao{background:#FEE500;color:#3A1D1D;}
 footer{background:#1a3a4a;color:#8bb8c8;text-align:center;padding:30px 20px;font-size:14px;line-height:2.3;}
 footer strong{color:#fff;}
 .page{display:none;}.page.active{display:block;}
+
+/* ===== 모바일 최적화 ===== */
+@media(max-width:768px){
+  /* 네비게이션 */
+  .nav-in{padding:0 12px;gap:0;flex-wrap:wrap;}
+  .logo{font-size:18px;padding:12px 0;margin-right:8px;}
+  .nt{padding:12px 8px;font-size:13px;}
+  .nav-cta{padding:9px 12px;font-size:13px;margin-left:auto;}
+
+  /* 히어로 버튼 */
+  .hero-btns{position:static;padding:14px 16px;flex-direction:column;gap:10px;background:rgba(0,0,0,0.03);}
+  .hbtn-main,.hbtn-sub{font-size:15px;padding:13px 22px;text-align:center;width:100%;}
+
+  /* 섹션 패딩 */
+  .sec{padding:32px 16px;}
+  .sec-t{font-size:20px;}
+
+  /* 요금제 탭 */
+  .tb{font-size:14px;padding:14px 0;}
+
+  /* 리뷰 카드 */
+  .rcard{flex:0 0 calc(100% - 4px);}
+  .rev-arr-l{left:-10px;}
+  .rev-arr-r{right:-10px;}
+
+  /* 후기 작성 */
+  .wbox{padding:18px 14px;}
+
+  /* 셀프개통/유심 */
+  .shero{padding:28px 16px;}
+  .shero h2{font-size:22px;}
+  .spage-body{padding:24px 16px;}
+
+  /* 유심 카드 */
+  .udcard{flex-direction:column;align-items:center;}
+  .uimg{width:180px;height:180px;}
+
+  /* eSIM 카드 */
+  .esim-card{flex-direction:column;padding:20px 16px;gap:16px;}
+  .esim-card-title{font-size:20px;}
+  .esim-phone{width:110px;margin:0 auto;}
+
+  /* FAQ */
+  .faq-wrap{padding:28px 16px;}
+  .faq-wrap h2{font-size:22px;}
+
+  /* 카카오 플로팅 버튼 */
+  .kfloat{padding:10px 14px;font-size:13px;}
+}
 </style>
 </head>
 <body>
@@ -483,7 +538,17 @@ footer strong{color:#fff;}
   </div>
 </div>
 
-<a href="http://pf.kakao.com/_espRn/chat" target="_blank" class="kfloat">💬 카카오톡 상담</a>
+<div class="sns-float">
+  <a href="https://www.youtube.com/@gato4477" target="_blank" class="sns-btn youtube" title="유튜브">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+  </a>
+  <a href="https://blog.naver.com/gato4477" target="_blank" class="sns-btn naver" title="네이버 블로그">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16.273 12.845L7.376 0H0v24h7.727V11.155L16.624 24H24V0h-7.727z"/></svg>
+  </a>
+  <a href="http://pf.kakao.com/_espRn/chat" target="_blank" class="sns-btn kakao" title="카카오톡 상담">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.477 3 2 6.477 2 10.5c0 2.636 1.607 4.95 4.04 6.318L5.2 20.1a.375.375 0 0 0 .545.415l4.333-2.887A11.9 11.9 0 0 0 12 18c5.523 0 10-3.477 10-7.5S17.523 3 12 3z"/></svg>
+  </a>
+</div>
 
 <footer>
   <div style="max-width:1200px;margin:0 auto;padding:0 32px;">
@@ -496,9 +561,7 @@ footer strong{color:#fff;}
           연락처: 010-4316-4477 | Email: greeny89@naver.com
         </span>
       </div>
-      <div style="text-align:right;">
-        <a href="http://pf.kakao.com/_espRn/chat" target="_blank" style="color:#7dd3f0;font-size:14px;">💬 카카오톡 채널 바로가기</a>
-      </div>
+      <div style="text-align:right;"></div>
     </div>
     <div style="text-align:center;opacity:.5;font-size:12px;">© 2025 가토통신. All rights reserved.</div>
   </div>
@@ -579,7 +642,9 @@ var SR=[
   {n:'김*수님',p:'K망 플랫폼 10GB+(밀리의서재)',c:'KT',s:5,t:'이젠 대리점 안 가도 집에서 바로 개통! 본인 인증만으로 복잡한 서류 없이 금방 끝났어요.',img:null},
   {n:'박*연님',p:'L망 선불 770',c:'LGU+',s:5,t:'앤플랫폼으로 정말 편하게 개통했어요. 단 5분 만에 개통 완료! 복잡한 서류 없이 시간도 절약했답니다.',img:null},
 ];
-var UR=[],CS=0,revIdx=0,CARDS_PER=3;
+var UR=[],CS=0,revIdx=0;
+function getCardsPerPage(){return window.innerWidth<=768?1:3;}
+var CARDS_PER=getCardsPerPage();
 
 function cleanOldRevs(){var now=Date.now();var week=7*24*60*60*1000;UR=UR.filter(function(r){return !r.ts||(now-r.ts)<week;});if(UR.length>20)UR=UR.slice(0,20);}
 
@@ -598,20 +663,27 @@ function renderRev(){
   revIdx=0; setTimeout(function(){updateSlider();},50);
 }
 function updateSlider(){
+  CARDS_PER=getCardsPerPage();
   var track=document.getElementById('rev-track');
   var slider=document.querySelector('.rev-slider');
   if(!track||!slider) return;
-  var W=slider.offsetWidth/CARDS_PER;
-  track.style.transform='translateX(-'+(revIdx*W*CARDS_PER)+'px)';
+  var cards=track.querySelectorAll('.rcard');
+  var cardW=slider.offsetWidth/CARDS_PER;
+  cards.forEach(function(c){c.style.minWidth=cardW+'px';c.style.maxWidth=cardW+'px';});
+  track.style.transform='translateX(-'+(revIdx*cardW*CARDS_PER)+'px)';
+  var all=UR.concat(SR);
+  var pages=Math.ceil(all.length/CARDS_PER);
+  if(revIdx>=pages)revIdx=0;
   document.querySelectorAll('[id^="rdot-"]').forEach(function(d,i){d.style.background=i===revIdx?'var(--sky)':'#d1d5db';});
 }
 function slideRev(dir){
+  CARDS_PER=getCardsPerPage();
   var all=UR.concat(SR);
   var pages=Math.ceil(all.length/CARDS_PER);
   revIdx=(revIdx+dir+pages)%pages; updateSlider();
 }
 function goRevPage(i){revIdx=i;updateSlider();}
-window.addEventListener('resize',function(){updateSlider();});
+window.addEventListener('resize',function(){CARDS_PER=getCardsPerPage();renderRev();});
 
 function setStar(n){CS=n;document.querySelectorAll('.sbtn').forEach(function(b,i){b.classList.toggle('lit',i<n);});}
 var rImg=null;

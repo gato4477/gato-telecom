@@ -630,7 +630,16 @@ var PL={
 };
 
 window.addEventListener('DOMContentLoaded',function(){
-  buildAcc('post',BP); buildAcc('pre',BPR); renderRev(); renderFaq(FAQS);
+  buildAcc('post',BP); buildAcc('pre',BPR); renderFaq(FAQS);
+  // 구글 시트에서 승인된 후기 불러오기
+  fetch(GAS_URL).then(function(r){return r.json();}).then(function(data){
+    if(Array.isArray(data)&&data.length>0){
+      data.reverse().forEach(function(r){
+        SR.push({n:r.name,p:r.plan,c:r.carrier,s:parseInt(r.stars)||5,t:r.text,tags:r.tags?r.tags.split(',').map(function(x){return x.trim();}):[]});
+      });
+    }
+    renderRev();
+  }).catch(function(){renderRev();});
 });
 
 function buildAcc(tab,brands){
@@ -799,6 +808,7 @@ var rImg=null;
 function previewImg(input){if(input.files&&input.files[0]){var r=new FileReader();r.onload=function(e){rImg=e.target.result;document.getElementById('img-pv').src=e.target.result;document.getElementById('img-pw').style.display='block';};r.readAsDataURL(input.files[0]);}}
 function removeImg(){rImg=null;document.getElementById('r-img').value='';document.getElementById('img-pw').style.display='none';}
 function maskName(n){if(n.length<=1)return n;if(n.length===2)return n[0]+'*';return n[0]+'*'.repeat(n.length-2)+n[n.length-1];}
+var GAS_URL='https://script.google.com/macros/s/AKfycbx5cKcdXQ1cX33eVK8_OlUK3dC8afiaZ1LmSv20lMH9yXIU7q04WHywuvTVhD5aQbtbCw/exec';
 function submitReview(){
   var n=document.getElementById('r-name').value.trim();
   var p=document.getElementById('r-plan').value;
@@ -809,7 +819,12 @@ function submitReview(){
   if(!p){alert('요금제를 선택해주세요!');return;}
   if(CS===0){alert('별점을 선택해주세요!');return;}
   if(t.length<5){alert('후기를 조금 더 작성해주세요!');return;}
-  UR.unshift({n:maskName(n)+'님',p:p,c:carrier,s:CS,t:t,img:rImg,ts:Date.now()});
+  var masked=maskName(n)+'님';
+  // 구글 시트에 저장
+  var payload={name:masked,plan:p,carrier:carrier,stars:CS,text:t,tags:''};
+  fetch(GAS_URL,{method:'POST',body:JSON.stringify(payload)}).catch(function(){});
+  // 화면에도 즉시 표시
+  UR.unshift({n:masked,p:p,c:carrier,s:CS,t:t,img:rImg,ts:Date.now()});
   renderRev();
   document.getElementById('r-name').value='';
   document.getElementById('r-text').value='';

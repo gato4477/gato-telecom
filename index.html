@@ -1379,7 +1379,7 @@ function setCarrier(c){
 function setStar(n){CS=n;document.querySelectorAll('.sbtn').forEach(function(b,i){b.classList.toggle('lit',i<n);});}
 
 function maskName(n){if(n.length<=1)return n;if(n.length===2)return n[0]+'*';return n[0]+'*'.repeat(n.length-2)+n[n.length-1];}
-var GAS_URL='https://script.google.com/macros/s/AKfycbx5cKcdXQ1cX33eVK8_OlUK3dC8afiaZ1LmSv20lMH9yXIU7q04WHywuvTVhD5aQbtbCw/exec';
+var GAS_URL='https://script.google.com/macros/s/AKfycbzlB8BAWG2G6MiPMFrMYqBm13IrDJjoQLL1Rlyr_wU5zFya5zhWFgNUwLWZxLuO8IQFFw/exec';
 function submitReview(){
   var n=document.getElementById('r-name').value.trim();
   var p=document.getElementById('r-plan').value;

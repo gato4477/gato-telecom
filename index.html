@@ -1355,6 +1355,8 @@ function submitReview(){
   if(t.length<5){alert('후기를 조금 더 작성해주세요!');return;}
   var masked=maskName(n)+'님';
   // 구글 시트에 저장 (CORS 우회 - iframe 방식)
+  // Firebase에도 저장
+  window.submitReviewToFirebase({name:masked,plan:p,carrier:carrier,stars:CS,text:t});
   var payload={name:masked,plan:p,carrier:carrier,stars:CS,text:t,tags:''};
   var form=document.createElement('form');
   form.method='POST';

@@ -628,6 +628,12 @@ footer strong{color:#fff;}
     </div>
   </div>
   <div id="blog-list-wrap" style="max-width:780px;margin:0 auto;padding:32px 24px;">
+    <!-- 검색창 -->
+    <div style="display:flex;gap:8px;margin-bottom:24px;">
+      <input id="blog-search-input" type="text" placeholder="🔍  궁금한 내용을 검색해보세요" onkeydown="if(event.key==='Enter')searchBlog()" style="flex:1;border:1.5px solid #e5e9f5;border-radius:11px;padding:12px 16px;font-size:14px;font-family:inherit;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='var(--sky)'" onblur="this.style.borderColor='#e5e9f5'">
+      <button onclick="searchBlog()" style="background:var(--sky);color:#fff;font-weight:800;border:none;border-radius:11px;padding:12px 20px;font-size:14px;cursor:pointer;white-space:nowrap;">검색</button>
+      <button onclick="document.getElementById('blog-search-input').value='';renderBlogList(window._allBlogDocs);" style="background:#f3f4f6;color:#6b7280;font-weight:700;border:none;border-radius:11px;padding:12px 14px;font-size:13px;cursor:pointer;">전체</button>
+    </div>
     <div id="blog-list"><div style="text-align:center;padding:60px;color:#9ca3af;">불러오는 중...</div></div>
   </div>
   <div id="blog-detail" style="display:none;"></div>
@@ -769,22 +775,20 @@ footer strong{color:#fff;}
         <input type="hidden" id="blog-edit-id">
         <div style="display:flex;flex-direction:column;gap:12px;">
           <input id="blog-title" type="text" placeholder="제목" style="border:1.5px solid #e5e9f5;border-radius:11px;padding:13px 16px;font-size:15px;font-family:inherit;outline:none;">
-          <select id="blog-category" style="border:1.5px solid #e5e9f5;border-radius:11px;padding:13px 16px;font-size:15px;font-family:inherit;background:#fff;outline:none;">
-            <option>알뜰폰</option>
-            <option>선불폰</option>
-            <option>개통후기</option>
-            <option>창업정보</option>
-            <option>공지사항</option>
-          </select>
-          <!-- 리치 텍스트 에디터 툴바 -->
-          <div style="border:1.5px solid #e5e9f5;border-radius:11px;overflow:hidden;">
+          <input type="hidden" id="blog-category" value="일반">
+          <!-- 에디터 탭 -->
+          <div style="display:flex;gap:0;border:1.5px solid #e5e9f5;border-radius:11px 11px 0 0;overflow:hidden;">
+            <button id="tab-wysiwyg" type="button" onclick="switchEditorTab('wysiwyg')" style="flex:1;padding:10px;font-size:13px;font-weight:700;background:var(--sky);color:#fff;border:none;cursor:pointer;">✏️ 일반 편집</button>
+            <button id="tab-html" type="button" onclick="switchEditorTab('html')" style="flex:1;padding:10px;font-size:13px;font-weight:700;background:#f3f4f6;color:#6b7280;border:none;cursor:pointer;">&lt;/&gt; HTML 붙여넣기</button>
+          </div>
+
+          <!-- 일반 편집 영역 -->
+          <div id="editor-wysiwyg" style="border:1.5px solid #e5e9f5;border-top:none;border-radius:0 0 11px 11px;overflow:hidden;">
             <div style="background:#f8faff;border-bottom:1.5px solid #e5e9f5;padding:8px 12px;display:flex;flex-wrap:wrap;gap:4px;align-items:center;">
-              <!-- 텍스트 스타일 -->
               <button type="button" onclick="execCmd('bold')" title="굵게" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-weight:900;font-size:14px;">B</button>
               <button type="button" onclick="execCmd('italic')" title="기울게" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-style:italic;font-size:14px;">I</button>
               <button type="button" onclick="execCmd('underline')" title="밑줄" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;text-decoration:underline;font-size:14px;">U</button>
               <div style="width:1px;height:22px;background:#e5e9f5;margin:0 2px;"></div>
-              <!-- 글씨 크기 -->
               <select onchange="execCmd('fontSize', this.value);this.selectedIndex=0;" style="border:1px solid #e5e9f5;border-radius:6px;padding:4px 6px;font-size:13px;background:#fff;cursor:pointer;">
                 <option value="">크기</option>
                 <option value="1">작게</option>
@@ -792,35 +796,39 @@ footer strong{color:#fff;}
                 <option value="5">크게</option>
                 <option value="7">매우 크게</option>
               </select>
-              <!-- 글씨 색상 -->
               <label title="글씨 색상" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:4px 8px;cursor:pointer;font-size:13px;display:flex;align-items:center;gap:4px;">
                 🎨<input type="color" onchange="execCmd('foreColor', this.value)" style="width:20px;height:20px;border:none;cursor:pointer;padding:0;background:none;">
               </label>
               <div style="width:1px;height:22px;background:#e5e9f5;margin:0 2px;"></div>
-              <!-- 정렬 -->
-              <button type="button" onclick="execCmd('justifyLeft')" title="왼쪽 정렬" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:14px;">≡</button>
-              <button type="button" onclick="execCmd('justifyCenter')" title="가운데 정렬" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:14px;">☰</button>
-              <button type="button" onclick="execCmd('justifyRight')" title="오른쪽 정렬" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:14px;">▤</button>
+              <button type="button" onclick="execCmd('justifyLeft')" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:14px;">≡</button>
+              <button type="button" onclick="execCmd('justifyCenter')" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:14px;">☰</button>
+              <button type="button" onclick="execCmd('justifyRight')" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:14px;">▤</button>
               <div style="width:1px;height:22px;background:#e5e9f5;margin:0 2px;"></div>
-              <!-- 목록 -->
-              <button type="button" onclick="execCmd('insertUnorderedList')" title="글머리 목록" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:14px;">• 목록</button>
-              <button type="button" onclick="execCmd('insertOrderedList')" title="번호 목록" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:14px;">1. 목록</button>
+              <button type="button" onclick="execCmd('insertUnorderedList')" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:14px;">• 목록</button>
+              <button type="button" onclick="execCmd('insertOrderedList')" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:14px;">1. 목록</button>
               <div style="width:1px;height:22px;background:#e5e9f5;margin:0 2px;"></div>
-              <!-- 링크/이미지 -->
-              <button type="button" onclick="insertLink()" title="링크 삽입" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:14px;">🔗</button>
-              <button type="button" onclick="insertImage()" title="이미지 URL 삽입" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:14px;">🖼️</button>
+              <button type="button" onclick="insertLink()" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:14px;">🔗</button>
+              <button type="button" onclick="insertImage()" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:14px;">🖼️</button>
               <div style="width:1px;height:22px;background:#e5e9f5;margin:0 2px;"></div>
-              <!-- 구분선/인용 -->
-              <button type="button" onclick="execCmd('insertHorizontalRule')" title="구분선" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:14px;">— 구분선</button>
-              <button type="button" onclick="insertQuote()" title="인용" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:14px;">❝ 인용</button>
+              <button type="button" onclick="execCmd('insertHorizontalRule')" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:14px;">— 구분선</button>
+              <button type="button" onclick="insertQuote()" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:14px;">❝ 인용</button>
             </div>
-            <!-- 에디터 본문 -->
             <div id="blog-content-editor" contenteditable="true" style="min-height:220px;padding:16px;font-size:15px;font-family:inherit;outline:none;line-height:1.7;" placeholder="내용을 입력하세요..."></div>
           </div>
+
+          <!-- HTML 붙여넣기 영역 -->
+          <div id="editor-html" style="display:none;border:1.5px solid #e5e9f5;border-top:none;border-radius:0 0 11px 11px;overflow:hidden;">
+            <div style="background:#1a1a2e;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;">
+              <span style="color:#4DBDE8;font-size:12px;font-weight:700;font-family:monospace;">&lt;HTML&gt; 코드를 붙여넣으세요</span>
+              <button type="button" onclick="applyHtml()" style="background:#4DBDE8;color:#fff;border:none;border-radius:6px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;">✓ 적용</button>
+            </div>
+            <textarea id="blog-html-input" placeholder="여기에 HTML 코드를 붙여넣고 [적용] 버튼을 누르세요" style="width:100%;min-height:220px;padding:16px;font-size:13px;font-family:monospace;border:none;outline:none;background:#0f0f1a;color:#e2e8f0;line-height:1.6;resize:vertical;box-sizing:border-box;"></textarea>
+          </div>
           <textarea id="blog-content" style="display:none;"></textarea>
-          <div style="display:flex;gap:10px;">
-            <button onclick="saveBlogPost()" style="background:var(--sky);color:#fff;font-weight:800;padding:13px 28px;border-radius:11px;border:none;cursor:pointer;font-size:15px;font-family:inherit;flex:1;">저장 · 발행</button>
-            <button onclick="document.getElementById('blog-edit-id').value='';document.getElementById('blog-title').value='';document.getElementById('blog-content').value='';document.getElementById('blog-form-title').textContent='새 글 작성';" style="background:#f3f4f6;color:#6b7280;font-weight:700;padding:13px 20px;border-radius:11px;border:none;cursor:pointer;font-size:15px;font-family:inherit;">초기화</button>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button onclick="saveBlogPost('일반')" style="background:var(--sky);color:#fff;font-weight:800;padding:13px 0;border-radius:11px;border:none;cursor:pointer;font-size:15px;font-family:inherit;flex:1;min-width:120px;">저장 · 발행</button>
+            <button onclick="saveBlogPost('공지')" style="background:#FF6B35;color:#fff;font-weight:800;padding:13px 0;border-radius:11px;border:none;cursor:pointer;font-size:15px;font-family:inherit;flex:1;min-width:120px;">📌 공지로 올리기</button>
+            <button onclick="resetBlogForm()" style="background:#f3f4f6;color:#6b7280;font-weight:700;padding:13px 16px;border-radius:11px;border:none;cursor:pointer;font-size:15px;font-family:inherit;">초기화</button>
           </div>
         </div>
       </div>
@@ -880,6 +888,8 @@ footer strong{color:#fff;}
   window._fbModules = { query, collection, where, orderBy, getDocs };
 
   // ==================== 블로그 ====================
+  window._allBlogDocs = [];
+
   window.loadBlogPosts = async function() {
     const container = document.getElementById('blog-list');
     if (!container) return;
@@ -887,26 +897,48 @@ footer strong{color:#fff;}
     try {
       const q = query(collection(db, 'blog'), orderBy('createdAt', 'desc'));
       const snap = await getDocs(q);
-      if (snap.empty) {
-        container.innerHTML = '<div style="text-align:center;padding:60px;color:#9ca3af;font-size:15px;">📝 첫 번째 글을 작성해보세요!</div>';
-        return;
-      }
-      container.innerHTML = snap.docs.map(d => {
-        const data = d.data();
-        const date = data.createdAt ? new Date(data.createdAt.toDate()).toLocaleDateString('ko-KR') : '';
-        const preview = data.content ? data.content.replace(/<[^>]*>/g, '').substring(0, 100) + '...' : '';
-        return `<div onclick="openBlogPost('${d.id}')" style="background:#fff;border-radius:16px;padding:24px;border:1px solid #f0f0f0;box-shadow:0 2px 12px rgba(0,0,0,.05);cursor:pointer;transition:all .2s;margin-bottom:16px;" onmouseover="this.style.boxShadow='0 8px 24px rgba(77,189,232,.15)';this.style.borderColor='#4DBDE8'" onmouseout="this.style.boxShadow='0 2px 12px rgba(0,0,0,.05)';this.style.borderColor='#f0f0f0'">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
-            <span style="background:#e8f7fd;color:#2899c4;font-size:12px;font-weight:700;padding:3px 10px;border-radius:100px;">${data.category||'일반'}</span>
-            <span style="font-size:13px;color:#9ca3af;">${date}</span>
-          </div>
-          <h3 style="font-size:18px;font-weight:800;color:#1a1a1a;margin-bottom:8px;letter-spacing:-.3px;">${data.title||''}</h3>
-          <p style="font-size:14px;color:#6b7280;line-height:1.6;">${preview}</p>
-        </div>`;
-      }).join('');
+      window._allBlogDocs = snap.docs;
+      renderBlogList(snap.docs);
     } catch(e) {
       container.innerHTML = '<div style="text-align:center;padding:40px;color:#ef4444;">불러오기 실패</div>';
     }
+  };
+
+  window.renderBlogList = function(docs) {
+    const container = document.getElementById('blog-list');
+    if (!container) return;
+    if (!docs || docs.length === 0) {
+      container.innerHTML = '<div style="text-align:center;padding:60px;color:#9ca3af;font-size:15px;">📝 검색 결과가 없습니다.</div>';
+      return;
+    }
+    // 공지 먼저, 나머지는 최신순
+    const notices = docs.filter(d => d.data().isNotice);
+    const normals = docs.filter(d => !d.data().isNotice);
+    const sorted = [...notices, ...normals];
+    container.innerHTML = sorted.map(d => {
+      const data = d.data();
+      const date = data.createdAt ? new Date(data.createdAt.toDate()).toLocaleDateString('ko-KR') : '';
+      const preview = data.content ? data.content.replace(/<[^>]*>/g, '').substring(0, 100) + '...' : '';
+      const isNotice = data.isNotice;
+      return `<div onclick="openBlogPost('${d.id}')" style="background:#fff;border-radius:16px;padding:24px;border:1.5px solid ${isNotice?'#FF6B35':'#f0f0f0'};box-shadow:0 2px 12px rgba(0,0,0,.05);cursor:pointer;transition:all .2s;margin-bottom:16px;${isNotice?'background:linear-gradient(to right,#fff8f6,#fff);':''}" onmouseover="this.style.boxShadow='0 8px 24px rgba(77,189,232,.15)'" onmouseout="this.style.boxShadow='0 2px 12px rgba(0,0,0,.05)'">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+          ${isNotice ? '<span style="background:#FF6B35;color:#fff;font-size:12px;font-weight:800;padding:3px 10px;border-radius:100px;">📌 공지</span>' : '<span style="width:1px;"></span>'}
+          <span style="font-size:13px;color:#9ca3af;">${date}</span>
+        </div>
+        <h3 style="font-size:18px;font-weight:800;color:#1a1a1a;margin-bottom:8px;letter-spacing:-.3px;">${data.title||''}</h3>
+        <p style="font-size:14px;color:#6b7280;line-height:1.6;">${preview}</p>
+      </div>`;
+    }).join('');
+  };
+
+  window.searchBlog = function() {
+    const kw = (document.getElementById('blog-search-input').value || '').trim().toLowerCase();
+    if (!kw) { renderBlogList(window._allBlogDocs); return; }
+    const filtered = window._allBlogDocs.filter(d => {
+      const data = d.data();
+      return (data.title||'').toLowerCase().includes(kw) || (data.content||'').replace(/<[^>]*>/g,'').toLowerCase().includes(kw);
+    });
+    renderBlogList(filtered);
   };
 
   window.openBlogPost = async function(id) {
@@ -922,7 +954,7 @@ footer strong{color:#fff;}
       detail.innerHTML = `
         <div style="max-width:780px;margin:0 auto;padding:32px 24px;">
           <button onclick="closeBlogPost()" style="display:flex;align-items:center;gap:6px;background:none;border:none;color:var(--sky);font-weight:700;font-size:14px;cursor:pointer;margin-bottom:24px;">← 목록으로</button>
-          <span style="background:#e8f7fd;color:#2899c4;font-size:12px;font-weight:700;padding:3px 10px;border-radius:100px;">${data.category||'일반'}</span>
+          ${data.isNotice?'<span style="background:#FF6B35;color:#fff;font-size:12px;font-weight:800;padding:3px 10px;border-radius:100px;">📌 공지</span>':''}
           <h1 style="font-size:clamp(22px,4vw,30px);font-weight:900;color:#1a1a1a;margin:14px 0 8px;letter-spacing:-.5px;">${data.title||''}</h1>
           <div style="font-size:13px;color:#9ca3af;margin-bottom:28px;">${date}</div>
           <div style="font-size:16px;line-height:1.9;color:#374151;">${data.content||''}</div>
@@ -1055,26 +1087,31 @@ footer strong{color:#fff;}
     } catch(e) {}
   };
 
-  window.saveBlogPost = async function() {
+  window.saveBlogPost = async function(type) {
     const editId = document.getElementById('blog-edit-id').value;
     const title = document.getElementById('blog-title').value.trim();
-    const category = document.getElementById('blog-category').value;
+    const category = type || '일반';
+    const isNotice = (category === '공지');
     const content = document.getElementById('blog-content-editor').innerHTML.trim();
     if (!title || !content) { alert('제목과 내용을 입력해주세요!'); return; }
     try {
       if (editId) {
-        await updateDoc(doc(db, 'blog', editId), { title, category, content });
+        await updateDoc(doc(db, 'blog', editId), { title, category, content, isNotice });
         alert('수정 완료!');
       } else {
-        await addDoc(collection(db, 'blog'), { title, category, content, createdAt: serverTimestamp() });
-        alert('발행 완료!');
+        await addDoc(collection(db, 'blog'), { title, category, content, isNotice, createdAt: serverTimestamp() });
+        alert(isNotice ? '📌 공지로 발행됐습니다!' : '발행 완료!');
       }
-      document.getElementById('blog-title').value = '';
-      document.getElementById('blog-content-editor').innerHTML = '';
-      document.getElementById('blog-edit-id').value = '';
-      document.getElementById('blog-form-title').textContent = '새 글 작성';
+      window.resetBlogForm();
       loadAdminBlog();
     } catch(e) { alert('저장 실패'); }
+  };
+
+  window.resetBlogForm = function() {
+    document.getElementById('blog-title').value = '';
+    document.getElementById('blog-content-editor').innerHTML = '';
+    document.getElementById('blog-edit-id').value = '';
+    document.getElementById('blog-form-title').textContent = '새 글 작성';
   };
 
   window.editBlogPost = async function(id) {
@@ -1085,7 +1122,7 @@ footer strong{color:#fff;}
       const data = docData.data();
       document.getElementById('blog-edit-id').value = id;
       document.getElementById('blog-title').value = data.title || '';
-      document.getElementById('blog-category').value = data.category || '알뜰폰';
+      // category는 hidden input이므로 별도 설정 불필요
       document.getElementById('blog-content').value = data.content || '';
       document.getElementById('blog-content-editor').innerHTML = data.content || '';
       document.getElementById('blog-form-title').textContent = '글 수정';
@@ -1462,6 +1499,24 @@ function insertImage() {
 function insertQuote() {
   document.getElementById('blog-content-editor').focus();
   document.execCommand('insertHTML', false, '<blockquote style="border-left:4px solid #4A90D9;margin:12px 0;padding:10px 16px;background:#f0f6ff;border-radius:0 8px 8px 0;color:#374151;font-style:italic;"></blockquote>');
+}
+
+function switchEditorTab(tab) {
+  var isHtml = tab === 'html';
+  document.getElementById('editor-wysiwyg').style.display = isHtml ? 'none' : 'block';
+  document.getElementById('editor-html').style.display = isHtml ? 'block' : 'none';
+  document.getElementById('tab-wysiwyg').style.background = isHtml ? '#f3f4f6' : 'var(--sky)';
+  document.getElementById('tab-wysiwyg').style.color = isHtml ? '#6b7280' : '#fff';
+  document.getElementById('tab-html').style.background = isHtml ? 'var(--sky)' : '#f3f4f6';
+  document.getElementById('tab-html').style.color = isHtml ? '#fff' : '#6b7280';
+}
+
+function applyHtml() {
+  var html = document.getElementById('blog-html-input').value.trim();
+  if (!html) { alert('HTML 코드를 붙여넣어 주세요!'); return; }
+  document.getElementById('blog-content-editor').innerHTML = html;
+  switchEditorTab('wysiwyg');
+  alert('HTML이 적용됐어요! 미리보기를 확인하세요.');
 }
 
 function submitReview(){

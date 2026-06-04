@@ -1447,7 +1447,18 @@ window.addEventListener('popstate',function(e){
     if(idx>=0){var btn=document.querySelectorAll('.nt')[idx];showPage(e.state.page,btn,true);}
   } else {showPage('home',document.querySelectorAll('.nt')[0],true);}
 });
-try{history.replaceState({page:'home'},'',location.pathname+'#home');}catch(e){}
+// URL 해시로 초기 페이지 결정
+(function(){
+  var hash = location.hash.replace('#','');
+  var pages = ['home','self','usim','faq','blog','startup','admin'];
+  if(hash && pages.indexOf(hash) >= 0){
+    var btns = document.querySelectorAll('.nt');
+    var idx = pages.indexOf(hash);
+    showPage(hash, btns[idx] || null, true);
+  } else {
+    try{history.replaceState({page:'home'},'',location.pathname+'#home');}catch(e){}
+  }
+})();
 </script>
 </body>
 </html>

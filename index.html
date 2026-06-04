@@ -818,11 +818,17 @@ footer strong{color:#fff;}
 
           <!-- HTML 붙여넣기 영역 -->
           <div id="editor-html" style="display:none;border:1.5px solid #e5e9f5;border-top:none;border-radius:0 0 11px 11px;overflow:hidden;">
-            <div style="background:#1a1a2e;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;">
-              <span style="color:#4DBDE8;font-size:12px;font-weight:700;font-family:monospace;">&lt;HTML&gt; 코드를 붙여넣으세요</span>
-              <button type="button" onclick="applyHtml()" style="background:#4DBDE8;color:#fff;border:none;border-radius:6px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;">✓ 적용</button>
+            <div style="background:#1a1a2e;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
+              <span style="color:#4DBDE8;font-size:12px;font-weight:700;font-family:monospace;">&lt;HTML&gt; 코드를 붙여넣거나 파일을 업로드하세요</span>
+              <div style="display:flex;gap:6px;">
+                <label style="background:#2899c4;color:#fff;border:none;border-radius:6px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;">
+                  📁 파일 업로드
+                  <input type="file" accept=".html" onchange="uploadHtmlFile(event)" style="display:none;">
+                </label>
+                <button type="button" onclick="applyHtml()" style="background:#4DBDE8;color:#fff;border:none;border-radius:6px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;">✓ 적용</button>
+              </div>
             </div>
-            <textarea id="blog-html-input" placeholder="여기에 HTML 코드를 붙여넣고 [적용] 버튼을 누르세요" style="width:100%;min-height:220px;padding:16px;font-size:13px;font-family:monospace;border:none;outline:none;background:#0f0f1a;color:#e2e8f0;line-height:1.6;resize:vertical;box-sizing:border-box;"></textarea>
+            <textarea id="blog-html-input" placeholder="여기에 HTML 코드를 붙여넣거나 위의 파일 업로드 버튼을 이용하세요" style="width:100%;min-height:220px;padding:16px;font-size:13px;font-family:monospace;border:none;outline:none;background:#0f0f1a;color:#e2e8f0;line-height:1.6;resize:vertical;box-sizing:border-box;"></textarea>
           </div>
           <textarea id="blog-content" style="display:none;"></textarea>
           <div style="display:flex;gap:10px;flex-wrap:wrap;">
@@ -948,6 +954,8 @@ footer strong{color:#fff;}
       if (!docData) return;
       const data = docData.data();
       const date = data.createdAt ? new Date(data.createdAt.toDate()).toLocaleDateString('ko-KR') : '';
+      history.pushState({postId: id}, data.title||'', '/?post=' + id);
+      document.title = (data.title||'가토통신') + ' | 가토통신';
       document.getElementById('blog-list-wrap').style.display = 'none';
       const detail = document.getElementById('blog-detail');
       detail.style.display = 'block';
@@ -963,9 +971,33 @@ footer strong{color:#fff;}
   };
 
   window.closeBlogPost = function() {
+    history.pushState({}, '가토통신', '/');
+    document.title = '가토통신';
     document.getElementById('blog-list-wrap').style.display = 'block';
     document.getElementById('blog-detail').style.display = 'none';
   };
+
+  // 페이지 로드시 URL ?post= 있으면 자동으로 해당 글 열기
+  window.addEventListener('load', function() {
+    const params = new URLSearchParams(window.location.search);
+    const postId = params.get('post');
+    if (postId) {
+      // 블로그 탭 버튼 찾아서 활성화
+      const blogBtn = document.querySelector('button[onclick*="blog"]');
+      showPage('blog', blogBtn, true);
+      setTimeout(() => openBlogPost(postId), 800);
+    }
+  });
+
+  // 브라우저 뒤로가기 처리
+  window.addEventListener('popstate', function(e) {
+    if (e.state && e.state.postId) {
+      openBlogPost(e.state.postId);
+    } else {
+      document.getElementById('blog-list-wrap').style.display = 'block';
+      document.getElementById('blog-detail').style.display = 'none';
+    }
+  });
 
   // ==================== 창업문의 ====================
   window.submitStartupInquiry = async function() {
@@ -1085,6 +1117,26 @@ footer strong{color:#fff;}
         </div>`;
       }).join('');
     } catch(e) {}
+  };
+
+  // HTML 파일 업로드 함수
+  window.uploadHtmlFile = function(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    // 파일명에서 제목 자동 추출 (확장자 제거, 하이픈→공백)
+    const autoTitle = file.name.replace('.html','').replace(/-/g,' ').replace(/_/g,' ');
+    const titleInput = document.getElementById('blog-title');
+    if (!titleInput.value) titleInput.value = autoTitle;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById('blog-html-input').value = e.target.result;
+      // 자동 적용
+      applyHtml();
+      alert('✅ 파일 업로드 완료! 제목을 확인하고 저장·발행을 눌러주세요.');
+    };
+    reader.readAsText(file, 'UTF-8');
+    // input 초기화 (같은 파일 재업로드 가능하게)
+    event.target.value = '';
   };
 
   window.saveBlogPost = async function(type) {

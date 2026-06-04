@@ -723,7 +723,9 @@ footer strong{color:#fff;}
 </div>
 
 <!-- 관리자 페이지 -->
-<div id="page-admin" class="page">
+<div id="page-admin" class="page" style="display:none!important;"></div>
+<!-- 관리자 오버레이 -->
+<div id="admin-overlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#f0f4f8;z-index:9999;overflow-y:auto;">
   <!-- 로그인 -->
   <div id="admin-login" style="max-width:440px;margin:60px auto;padding:0 24px;">
     <div style="background:#fff;border-radius:20px;padding:40px;box-shadow:0 8px 40px rgba(0,0,0,.1);border:1px solid #f0f0f0;text-align:center;">
@@ -740,10 +742,13 @@ footer strong{color:#fff;}
 
   <!-- 대시보드 -->
   <div id="admin-dashboard" style="display:none;">
-    <div style="background:linear-gradient(135deg,#1a3a4a,#2d5a72);padding:28px 32px;display:flex;justify-content:space-between;align-items:center;">
-      <div>
-        <div style="font-size:12px;color:rgba(255,255,255,.6);letter-spacing:2px;margin-bottom:4px;">ADMIN</div>
-        <h2 style="font-size:22px;font-weight:900;color:#fff;">가토통신 관리자</h2>
+    <div style="background:linear-gradient(135deg,#1a3a4a,#2d5a72);padding:20px 32px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;">
+      <div style="display:flex;align-items:center;gap:20px;">
+        <button onclick="closeAdmin()" style="background:rgba(255,255,255,.1);color:#fff;border:1.5px solid rgba(255,255,255,.2);border-radius:9px;padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer;">← 사이트로</button>
+        <div>
+          <div style="font-size:11px;color:rgba(255,255,255,.6);letter-spacing:2px;">ADMIN</div>
+          <h2 style="font-size:20px;font-weight:900;color:#fff;">가토통신 관리자</h2>
+        </div>
       </div>
       <button onclick="adminLogout()" style="background:rgba(255,255,255,.15);color:#fff;border:1.5px solid rgba(255,255,255,.3);border-radius:9px;padding:9px 18px;font-size:14px;font-weight:700;cursor:pointer;">로그아웃</button>
     </div>
@@ -913,7 +918,8 @@ footer strong{color:#fff;}
       dashWrap.style.display = 'block';
       loadAdminData();
     } else {
-      loginWrap.style.display = 'block';
+      loginWrap.style.display = 'flex';
+      loginWrap.style.justifyContent = 'center';
       dashWrap.style.display = 'none';
     }
   });
@@ -1435,11 +1441,21 @@ function showPage(n,btn,noHistory){
   document.querySelectorAll('.nt').forEach(function(b){b.classList.remove('on');});
   document.getElementById('page-'+n).classList.add('active');
   if(n==='blog'){if(typeof loadBlogPosts==='function')loadBlogPosts();}
-  if(n==='admin'){/* admin handled by firebase auth */}
+  if(n==='admin'){
+    document.getElementById('admin-overlay').style.display='block';
+    document.body.style.overflow='hidden';
+    return;
+  }
   if(btn)btn.classList.add('on');
   window.scrollTo({top:0,behavior:'smooth'});
   if(!noHistory){try{history.pushState({page:n},'',location.pathname+'#'+n);}catch(e){}}
 }
+window.closeAdmin = function() {
+  document.getElementById('admin-overlay').style.display='none';
+  document.body.style.overflow='';
+  history.pushState({page:'home'},'',location.pathname+'#home');
+};
+
 window.addEventListener('popstate',function(e){
   if(e.state&&e.state.page){
     var pages=['home','self','usim','faq','blog','startup','admin'];
@@ -1454,7 +1470,12 @@ window.addEventListener('popstate',function(e){
   if(hash && pages.indexOf(hash) >= 0){
     var btns = document.querySelectorAll('.nt');
     var idx = pages.indexOf(hash);
-    showPage(hash, btns[idx] || null, true);
+    if(hash === 'admin'){
+      document.getElementById('admin-overlay').style.display='block';
+      document.body.style.overflow='hidden';
+    } else {
+      showPage(hash, btns[idx] || null, true);
+    }
   } else {
     try{history.replaceState({page:'home'},'',location.pathname+'#home');}catch(e){}
   }

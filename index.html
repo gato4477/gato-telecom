@@ -768,7 +768,48 @@ footer strong{color:#fff;}
             <option>창업정보</option>
             <option>공지사항</option>
           </select>
-          <textarea id="blog-content" placeholder="내용 (HTML 사용 가능)" rows="10" style="border:1.5px solid #e5e9f5;border-radius:11px;padding:13px 16px;font-size:15px;font-family:inherit;resize:vertical;outline:none;"></textarea>
+          <!-- 리치 텍스트 에디터 툴바 -->
+          <div style="border:1.5px solid #e5e9f5;border-radius:11px;overflow:hidden;">
+            <div style="background:#f8faff;border-bottom:1.5px solid #e5e9f5;padding:8px 12px;display:flex;flex-wrap:wrap;gap:4px;align-items:center;">
+              <!-- 텍스트 스타일 -->
+              <button type="button" onclick="execCmd('bold')" title="굵게" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-weight:900;font-size:14px;">B</button>
+              <button type="button" onclick="execCmd('italic')" title="기울게" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-style:italic;font-size:14px;">I</button>
+              <button type="button" onclick="execCmd('underline')" title="밑줄" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;text-decoration:underline;font-size:14px;">U</button>
+              <div style="width:1px;height:22px;background:#e5e9f5;margin:0 2px;"></div>
+              <!-- 글씨 크기 -->
+              <select onchange="execCmd('fontSize', this.value);this.selectedIndex=0;" style="border:1px solid #e5e9f5;border-radius:6px;padding:4px 6px;font-size:13px;background:#fff;cursor:pointer;">
+                <option value="">크기</option>
+                <option value="1">작게</option>
+                <option value="3">보통</option>
+                <option value="5">크게</option>
+                <option value="7">매우 크게</option>
+              </select>
+              <!-- 글씨 색상 -->
+              <label title="글씨 색상" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:4px 8px;cursor:pointer;font-size:13px;display:flex;align-items:center;gap:4px;">
+                🎨<input type="color" onchange="execCmd('foreColor', this.value)" style="width:20px;height:20px;border:none;cursor:pointer;padding:0;background:none;">
+              </label>
+              <div style="width:1px;height:22px;background:#e5e9f5;margin:0 2px;"></div>
+              <!-- 정렬 -->
+              <button type="button" onclick="execCmd('justifyLeft')" title="왼쪽 정렬" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:14px;">≡</button>
+              <button type="button" onclick="execCmd('justifyCenter')" title="가운데 정렬" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:14px;">☰</button>
+              <button type="button" onclick="execCmd('justifyRight')" title="오른쪽 정렬" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:14px;">▤</button>
+              <div style="width:1px;height:22px;background:#e5e9f5;margin:0 2px;"></div>
+              <!-- 목록 -->
+              <button type="button" onclick="execCmd('insertUnorderedList')" title="글머리 목록" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:14px;">• 목록</button>
+              <button type="button" onclick="execCmd('insertOrderedList')" title="번호 목록" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:14px;">1. 목록</button>
+              <div style="width:1px;height:22px;background:#e5e9f5;margin:0 2px;"></div>
+              <!-- 링크/이미지 -->
+              <button type="button" onclick="insertLink()" title="링크 삽입" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:14px;">🔗</button>
+              <button type="button" onclick="insertImage()" title="이미지 URL 삽입" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:14px;">🖼️</button>
+              <div style="width:1px;height:22px;background:#e5e9f5;margin:0 2px;"></div>
+              <!-- 구분선/인용 -->
+              <button type="button" onclick="execCmd('insertHorizontalRule')" title="구분선" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:14px;">— 구분선</button>
+              <button type="button" onclick="insertQuote()" title="인용" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:14px;">❝ 인용</button>
+            </div>
+            <!-- 에디터 본문 -->
+            <div id="blog-content-editor" contenteditable="true" style="min-height:220px;padding:16px;font-size:15px;font-family:inherit;outline:none;line-height:1.7;" placeholder="내용을 입력하세요..."></div>
+          </div>
+          <textarea id="blog-content" style="display:none;"></textarea>
           <div style="display:flex;gap:10px;">
             <button onclick="saveBlogPost()" style="background:var(--sky);color:#fff;font-weight:800;padding:13px 28px;border-radius:11px;border:none;cursor:pointer;font-size:15px;font-family:inherit;flex:1;">저장 · 발행</button>
             <button onclick="document.getElementById('blog-edit-id').value='';document.getElementById('blog-title').value='';document.getElementById('blog-content').value='';document.getElementById('blog-form-title').textContent='새 글 작성';" style="background:#f3f4f6;color:#6b7280;font-weight:700;padding:13px 20px;border-radius:11px;border:none;cursor:pointer;font-size:15px;font-family:inherit;">초기화</button>
@@ -1010,7 +1051,7 @@ footer strong{color:#fff;}
     const editId = document.getElementById('blog-edit-id').value;
     const title = document.getElementById('blog-title').value.trim();
     const category = document.getElementById('blog-category').value;
-    const content = document.getElementById('blog-content').value.trim();
+    const content = document.getElementById('blog-content-editor').innerHTML.trim();
     if (!title || !content) { alert('제목과 내용을 입력해주세요!'); return; }
     try {
       if (editId) {
@@ -1021,7 +1062,7 @@ footer strong{color:#fff;}
         alert('발행 완료!');
       }
       document.getElementById('blog-title').value = '';
-      document.getElementById('blog-content').value = '';
+      document.getElementById('blog-content-editor').innerHTML = '';
       document.getElementById('blog-edit-id').value = '';
       document.getElementById('blog-form-title').textContent = '새 글 작성';
       loadAdminBlog();
@@ -1038,6 +1079,7 @@ footer strong{color:#fff;}
       document.getElementById('blog-title').value = data.title || '';
       document.getElementById('blog-category').value = data.category || '알뜰폰';
       document.getElementById('blog-content').value = data.content || '';
+      document.getElementById('blog-content-editor').innerHTML = data.content || '';
       document.getElementById('blog-form-title').textContent = '글 수정';
       document.getElementById('blog-write-section').scrollIntoView({ behavior: 'smooth' });
     } catch(e) {}
@@ -1387,6 +1429,32 @@ function setStar(n){CS=n;document.querySelectorAll('.sbtn').forEach(function(b,i
 
 function maskName(n){if(n.length<=1)return n;if(n.length===2)return n[0]+'*';return n[0]+'*'.repeat(n.length-2)+n[n.length-1];}
 var GAS_URL='https://script.google.com/macros/s/AKfycbzlB8BAWG2G6MiPMFrMYqBm13IrDJjoQLL1Rlyr_wU5zFya5zhWFgNUwLWZxLuO8IQFFw/exec';
+
+// ==================== 리치 텍스트 에디터 ====================
+function execCmd(cmd, val) {
+  document.getElementById('blog-content-editor').focus();
+  document.execCommand(cmd, false, val || null);
+}
+function insertLink() {
+  var url = prompt('링크 URL을 입력하세요:', 'https://');
+  if (url) {
+    var text = prompt('링크 텍스트를 입력하세요:', url);
+    document.getElementById('blog-content-editor').focus();
+    document.execCommand('insertHTML', false, '<a href="' + url + '" target="_blank">' + (text||url) + '</a>');
+  }
+}
+function insertImage() {
+  var url = prompt('이미지 URL을 입력하세요:', 'https://');
+  if (url) {
+    document.getElementById('blog-content-editor').focus();
+    document.execCommand('insertHTML', false, '<img src="' + url + '" style="max-width:100%;border-radius:8px;margin:8px 0;" alt="이미지">');
+  }
+}
+function insertQuote() {
+  document.getElementById('blog-content-editor').focus();
+  document.execCommand('insertHTML', false, '<blockquote style="border-left:4px solid #4A90D9;margin:12px 0;padding:10px 16px;background:#f0f6ff;border-radius:0 8px 8px 0;color:#374151;font-style:italic;"></blockquote>');
+}
+
 function submitReview(){
   var n=document.getElementById('r-name').value.trim();
   var p=document.getElementById('r-plan').value;

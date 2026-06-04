@@ -933,8 +933,12 @@ footer strong{color:#fff;}
       if (typeof renderRev === 'function') renderRev();
     } catch(e) {}
   };
-  // Firebase 준비되는 즉시 승인 후기 로딩
-  window._loadApprovedReviews();
+  // DOMContentLoaded 후 호출 (SR 변수가 준비된 후 실행)
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function(){ window._loadApprovedReviews(); });
+  } else {
+    window._loadApprovedReviews();
+  }
 
   // ==================== 관리자 ====================
   onAuthStateChanged(auth, (user) => {

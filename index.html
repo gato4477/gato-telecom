@@ -296,7 +296,7 @@ footer strong{color:#fff;}
 
 <nav class="nav">
   <div class="nav-in">
-    <div class="logo" onclick="showPage('home',document.querySelectorAll('.nt')[0])" style="display:flex;flex-direction:column;align-items:flex-end;line-height:1;">가토통신<span style="font-size:9px;font-weight:500;color:#9ca3af;letter-spacing:0.5px;margin-top:1px;">×앤텔레콤</span></div>
+    <div class="logo" id="logo-btn" onclick="logoClick()" style="display:flex;flex-direction:column;align-items:flex-end;line-height:1;cursor:pointer;">가토통신<span style="font-size:9px;font-weight:500;color:#9ca3af;letter-spacing:0.5px;margin-top:1px;">×앤텔레콤</span></div>
     <button class="nt on" onclick="showPage('home',this)">홈</button>
     <button class="nt" onclick="showPage('self',this);sS('main')">셀프개통</button>
     <button class="nt" onclick="showPage('usim',this);uS('main')">유심구매</button>
@@ -1450,6 +1450,19 @@ function showPage(n,btn,noHistory){
   window.scrollTo({top:0,behavior:'smooth'});
   if(!noHistory){try{history.pushState({page:n},'',location.pathname+'#'+n);}catch(e){}}
 }
+var _logoCnt = 0, _logoTimer = null;
+window.logoClick = function() {
+  showPage('home', document.querySelectorAll('.nt')[0]);
+  _logoCnt++;
+  if(_logoTimer) clearTimeout(_logoTimer);
+  _logoTimer = setTimeout(function(){ _logoCnt = 0; }, 2000);
+  if(_logoCnt >= 10){
+    _logoCnt = 0;
+    document.getElementById('admin-overlay').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+};
+
 window.closeAdmin = function() {
   document.getElementById('admin-overlay').style.display='none';
   document.body.style.overflow='';

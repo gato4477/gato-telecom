@@ -67,17 +67,17 @@ body{font-family:"Noto Sans KR",sans-serif;background:#f8fbff;color:var(--t);fon
 /* PLAN LIST */
 .plist{padding:11px 12px 12px;display:flex;flex-direction:column;gap:7px;}
 .pi{background:#fff;border:1px solid #f0f0f0;border-radius:13px;padding:15px 17px;box-shadow:0 2px 8px rgba(0,0,0,.04);}
-.pi-r1{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px;}
-.pi-l{display:flex;align-items:center;gap:8px;flex:1;min-width:0;}
-.pbadge{font-size:11px;font-weight:800;padding:3px 9px;border-radius:100px;white-space:nowrap;flex-shrink:0;color:#fff;}
+.pi-r1{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;gap:8px;}
+.pi-l{display:flex;align-items:center;gap:6px;flex:1;min-width:0;}
+.pbadge{font-size:10px;font-weight:800;padding:2px 7px;border-radius:100px;white-space:nowrap;flex-shrink:0;color:#fff;}
 .pbadge.best{background:var(--sky);}
 .pbadge.rank{background:#f59e0b;}
-.pname{font-size:15px;font-weight:700;}
-.pprice{font-size:17px;font-weight:900;color:var(--org);flex-shrink:0;}
-.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
-.pbox{background:#f8f9fa;border-radius:10px;padding:10px 13px;display:flex;align-items:center;justify-content:space-between;}
-.plabel{font-size:12px;color:var(--m);font-weight:600;}
-.pval{font-size:13px;font-weight:800;}
+.pname{font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pprice{font-size:15px;font-weight:900;color:var(--org);flex-shrink:0;white-space:nowrap;}
+.pgrid{display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
+.pbox{background:#f8f9fa;border-radius:8px;padding:5px 10px;display:flex;align-items:center;gap:5px;flex-shrink:0;}
+.plabel{font-size:11px;color:var(--m);font-weight:600;white-space:nowrap;}
+.pval{font-size:12px;font-weight:800;white-space:nowrap;}
 .pval.g{color:var(--skyd);}
 .bpromo{display:inline-block;background:var(--skyb);color:var(--skyd);font-size:10px;font-weight:800;padding:2px 6px;border-radius:100px;border:1px solid #b8e4f5;margin-left:3px;vertical-align:middle;}
 
@@ -649,15 +649,15 @@ footer strong{color:#fff;}
     <div style="background:#fff;border-radius:20px;padding:32px;box-shadow:0 4px 24px rgba(0,0,0,.07);border:1px solid #f0f0f0;margin-bottom:24px;">
       <h3 style="font-size:20px;font-weight:900;color:#1a1a1a;margin-bottom:20px;">📊 왜 지금 알뜰폰인가요?</h3>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
-        <div style="background:linear-gradient(135deg,#4DBDE8,#2899c4);border-radius:14px;padding:22px;color:#fff;">
-          <div style="font-size:13px;font-weight:600;opacity:.85;margin-bottom:6px;">잠재 고객</div>
-          <div style="font-size:32px;font-weight:900;">400만명</div>
-          <div style="font-size:12px;opacity:.8;margin-top:4px;">선불폰 이용자 약 163만명</div>
+        <div style="background:linear-gradient(135deg,#4DBDE8,#2899c4);border-radius:14px;padding:18px;color:#fff;">
+          <div style="font-size:12px;font-weight:600;opacity:.85;margin-bottom:6px;">잠재 고객</div>
+          <div style="font-size:clamp(26px,7vw,32px);font-weight:900;line-height:1.1;">400만명</div>
+          <div style="font-size:11px;opacity:.8;margin-top:4px;">선불폰 이용자 약 163만명</div>
         </div>
-        <div style="background:linear-gradient(135deg,#10b981,#059669);border-radius:14px;padding:22px;color:#fff;">
-          <div style="font-size:13px;font-weight:600;opacity:.85;margin-bottom:6px;">무선통신 시장규모</div>
-          <div style="font-size:32px;font-weight:900;">55.8조</div>
-          <div style="font-size:12px;opacity:.8;margin-top:4px;">국방예산(52.8조)보다 크다</div>
+        <div style="background:linear-gradient(135deg,#10b981,#059669);border-radius:14px;padding:18px;color:#fff;">
+          <div style="font-size:12px;font-weight:600;opacity:.85;margin-bottom:6px;">무선통신 시장규모</div>
+          <div style="font-size:clamp(26px,7vw,32px);font-weight:900;line-height:1.1;">55.8조</div>
+          <div style="font-size:11px;opacity:.8;margin-top:4px;">국방예산(52.8조)보다 크다</div>
         </div>
       </div>
       <div style="background:#f8fbff;border-radius:12px;padding:16px;border-left:4px solid var(--sky);">
@@ -689,20 +689,20 @@ footer strong{color:#fff;}
     <!-- 특징 -->
     <div style="background:#fff;border-radius:20px;padding:32px;box-shadow:0 4px 24px rgba(0,0,0,.07);border:1px solid #f0f0f0;margin-bottom:24px;">
       <h3 style="font-size:20px;font-weight:900;color:#1a1a1a;margin-bottom:20px;">✅ 온라인 알뜰폰 대리점 특징</h3>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-        <div style="background:#f8fbff;border-radius:12px;padding:16px;display:flex;align-items:flex-start;gap:12px;">
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="background:#f8fbff;border-radius:12px;padding:16px;display:flex;align-items:center;gap:12px;">
           <span style="font-size:24px;flex-shrink:0;">🏠</span>
           <div><div style="font-weight:800;font-size:14px;margin-bottom:4px;">매장 불필요</div><div style="font-size:13px;color:#6b7280;">집에서 온라인으로</div></div>
         </div>
-        <div style="background:#f8fbff;border-radius:12px;padding:16px;display:flex;align-items:flex-start;gap:12px;">
+        <div style="background:#f8fbff;border-radius:12px;padding:16px;display:flex;align-items:center;gap:12px;">
           <span style="font-size:24px;flex-shrink:0;">💻</span>
           <div><div style="font-weight:800;font-size:14px;margin-bottom:4px;">LG·KT 전산 지급</div><div style="font-size:13px;color:#6b7280;">개통 시스템 제공</div></div>
         </div>
-        <div style="background:#f8fbff;border-radius:12px;padding:16px;display:flex;align-items:flex-start;gap:12px;">
+        <div style="background:#f8fbff;border-radius:12px;padding:16px;display:flex;align-items:center;gap:12px;">
           <span style="font-size:24px;flex-shrink:0;">👤</span>
           <div><div style="font-weight:800;font-size:14px;margin-bottom:4px;">1인 운영 가능</div><div style="font-size:13px;color:#6b7280;">직원 없이 혼자 가능</div></div>
         </div>
-        <div style="background:#f8fbff;border-radius:12px;padding:16px;display:flex;align-items:flex-start;gap:12px;">
+        <div style="background:#f8fbff;border-radius:12px;padding:16px;display:flex;align-items:center;gap:12px;">
           <span style="font-size:24px;flex-shrink:0;">🔄</span>
           <div><div style="font-weight:800;font-size:14px;margin-bottom:4px;">평생 수수료(선불)</div><div style="font-size:13px;color:#6b7280;">누적 권리수익</div></div>
         </div>
@@ -1295,9 +1295,10 @@ function toggleB(tab,k){
 }
 function buildPL(tab,k){
   var data=PL[k]; var pl=document.getElementById('pl-'+tab+'-'+k); if(!pl) return;
+  var isPre=tab==='pre';
   pl.innerHTML=data.items.map(function(p){
     var da=p.da.includes('+10GB')?p.da.replace('+10GB','')+'<span class="bpromo">+10GB</span>':p.da;
-    return '<div class="pi"><div class="pi-r1"><div class="pi-l">'+(p.b?'<span class="pbadge '+(p.b==='BEST'?'best':'rank')+'">'+p.b+'</span>':'')+'<span class="pname">'+p.n+'</span></div><span class="pprice">'+p.p+'</span></div><div class="pgrid"><div class="pbox"><span class="plabel">📶 데이터</span><span class="pval g">'+da+'</span></div><div class="pbox"><span class="plabel">📞 음성</span><span class="pval">'+p.v+'</span></div><div class="pbox"><span class="plabel">✉️ 문자</span><span class="pval">'+p.m+'</span></div><div class="pbox"><span class="plabel">🚀 QOS</span><span class="pval">'+p.q+'</span></div></div></div>';
+    return '<div class="pi"><div class="pi-r1"><div class="pi-l">'+(p.b?'<span class="pbadge '+(p.b==='BEST'?'best':'rank')+'">'+p.b+'</span>':'')+'<span class="pname">'+(isPre?'LTE ':'')+p.n+'</span></div><span class="pprice">'+p.p+'</span></div><div class="pgrid"><div class="pbox"><span class="plabel">📶</span><span class="pval g">'+da+'</span></div><div class="pbox"><span class="plabel">📞</span><span class="pval">'+p.v+'</span></div><div class="pbox"><span class="plabel">✉️</span><span class="pval">'+p.m+'</span></div><div class="pbox"><span class="plabel">🚀</span><span class="pval">'+p.q+'</span></div></div></div>';
   }).join('');
 }
 function switchTab(tab,btn){

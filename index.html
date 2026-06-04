@@ -810,7 +810,7 @@ footer strong{color:#fff;}
 <!-- Firebase SDK -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, updateDoc, orderBy, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, updateDoc, orderBy, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
   import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
   const firebaseConfig = {
@@ -825,6 +825,10 @@ footer strong{color:#fff;}
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
   const auth = getAuth(app);
+
+  // 외부 스크립트에서 사용할 수 있도록 window에 노출
+  window._db = db;
+  window._fbModules = { query, collection, where, orderBy, getDocs };
 
   // ==================== 블로그 ====================
   window.loadBlogPosts = async function() {
@@ -907,6 +911,30 @@ footer strong{color:#fff;}
       await addDoc(collection(db, 'reviews'), { ...reviewData, createdAt: serverTimestamp(), approved: false });
     } catch(e) { console.log('후기 저장 실패', e); }
   };
+
+  // ==================== 승인된 후기 메인 페이지 로딩 ====================
+  window._loadApprovedReviews = async function() {
+    try {
+      const q = query(collection(db, 'reviews'), where('approved', '==', true), orderBy('createdAt', 'desc'));
+      const snap = await getDocs(q);
+      snap.docs.forEach(function(d) {
+        const r = d.data();
+        if (SR.some(function(x){ return x._id === d.id; })) return;
+        SR.push({
+          _id: d.id,
+          n: r.name || r.n || '',
+          p: r.plan || r.p || '',
+          c: r.carrier || r.c || 'KT',
+          s: r.stars || r.s || 5,
+          t: r.text || r.t || '',
+          tags: [], img: null
+        });
+      });
+      if (typeof renderRev === 'function') renderRev();
+    } catch(e) {}
+  };
+  // Firebase 준비되는 즉시 승인 후기 로딩
+  window._loadApprovedReviews();
 
   // ==================== 관리자 ====================
   onAuthStateChanged(auth, (user) => {
@@ -1066,15 +1094,20 @@ footer strong{color:#fff;}
       el.innerHTML = snap.docs.map(d => {
         const data = d.data();
         const date = data.createdAt ? new Date(data.createdAt.toDate()).toLocaleDateString('ko-KR') : '';
-        const stars = '★'.repeat(data.s||5) + '☆'.repeat(5-(data.s||5));
+        const starCount = data.stars || data.s || 5;
+        const stars = '★'.repeat(starCount) + '☆'.repeat(5-starCount);
         const statusBg = data.approved ? '#d1fae5' : '#fef3c7';
         const statusColor = data.approved ? '#065f46' : '#92400e';
         const statusText = data.approved ? '승인됨' : '미승인';
+        const displayName = data.name || data.n || '';
+        const displayPlan = data.plan || data.p || '';
+        const displayCarrier = data.carrier || data.c || '';
+        const displayText = data.text || data.t || '';
         return `<div style="background:#f8fbff;border-radius:12px;padding:16px;margin-bottom:10px;border:1px solid #e8f0fe;">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;">
             <div>
-              <span style="font-weight:800;">${data.n||''}</span>
-              <span style="font-size:12px;color:#9ca3af;margin-left:8px;">${data.p||''} · ${data.c||''}</span>
+              <span style="font-weight:800;">${displayName}</span>
+              <span style="font-size:12px;color:#9ca3af;margin-left:8px;">${displayPlan} · ${displayCarrier}</span>
             </div>
             <div style="display:flex;gap:6px;align-items:center;">
               <span style="background:${statusBg};color:${statusColor};font-size:11px;font-weight:700;padding:2px 8px;border-radius:100px;">${statusText}</span>
@@ -1083,7 +1116,7 @@ footer strong{color:#fff;}
             </div>
           </div>
           <div style="font-size:13px;color:#fbbf24;margin-bottom:4px;">${stars}</div>
-          <div style="font-size:14px;color:#374151;">${data.t||''}</div>
+          <div style="font-size:14px;color:#374151;">${displayText}</div>
           <div style="font-size:12px;color:#9ca3af;margin-top:4px;">${date}</div>
         </div>`;
       }).join('');

@@ -301,6 +301,8 @@ footer strong{color:#fff;}
     <button class="nt" onclick="showPage('self',this);sS('main')">셀프개통</button>
     <button class="nt" onclick="showPage('usim',this);uS('main')">유심구매</button>
     <button class="nt" onclick="showPage('faq',this)">FAQ</button>
+    <button class="nt" onclick="showPage('blog',this)">블로그</button>
+    <button class="nt" onclick="showPage('startup',this)">창업문의</button>
 
   </div>
 </nav>
@@ -607,6 +609,497 @@ footer strong{color:#fff;}
     </div>
   </div>
 </div>
+
+<!-- 블로그 페이지 -->
+<div id="page-blog" class="page">
+  <div style="background:linear-gradient(135deg,#e8f7fd 0%,#f0f8ff 100%);padding:40px 24px 32px;border-bottom:1px solid #d8eef8;">
+    <div style="max-width:780px;margin:0 auto;">
+      <div style="font-size:13px;font-weight:600;color:var(--sky);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;">GATO BLOG</div>
+      <h2 style="font-size:clamp(24px,5vw,32px);font-weight:900;color:#1a1a1a;margin-bottom:8px;letter-spacing:-1px;">가토통신 블로그</h2>
+      <p style="font-size:15px;color:#6b7280;">알뜰폰, 선불폰에 관한 유용한 정보를 전해드립니다 📱</p>
+    </div>
+  </div>
+  <div id="blog-list-wrap" style="max-width:780px;margin:0 auto;padding:32px 24px;">
+    <div id="blog-list"><div style="text-align:center;padding:60px;color:#9ca3af;">불러오는 중...</div></div>
+  </div>
+  <div id="blog-detail" style="display:none;"></div>
+</div>
+
+<!-- 창업문의 페이지 -->
+<div id="page-startup" class="page">
+  <div style="background:linear-gradient(135deg,#e8f7fd 0%,#f0f8ff 100%);padding:40px 24px 32px;border-bottom:1px solid #d8eef8;">
+    <div style="max-width:860px;margin:0 auto;">
+      <div style="font-size:13px;font-weight:600;color:var(--sky);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;">FRANCHISE INQUIRY</div>
+      <h2 style="font-size:clamp(24px,5vw,32px);font-weight:900;color:#1a1a1a;margin-bottom:8px;letter-spacing:-1px;">창업문의</h2>
+      <p style="font-size:15px;color:#6b7280;">온라인 알뜰폰 대리점, 지금 시작해보세요!</p>
+    </div>
+  </div>
+
+  <div style="max-width:860px;margin:0 auto;padding:32px 24px;">
+
+    <!-- 시장성 섹션 -->
+    <div style="background:#fff;border-radius:20px;padding:32px;box-shadow:0 4px 24px rgba(0,0,0,.07);border:1px solid #f0f0f0;margin-bottom:24px;">
+      <h3 style="font-size:20px;font-weight:900;color:#1a1a1a;margin-bottom:20px;">📊 왜 지금 알뜰폰인가요?</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
+        <div style="background:linear-gradient(135deg,#4DBDE8,#2899c4);border-radius:14px;padding:22px;color:#fff;">
+          <div style="font-size:13px;font-weight:600;opacity:.85;margin-bottom:6px;">잠재 고객</div>
+          <div style="font-size:32px;font-weight:900;">400만명</div>
+          <div style="font-size:12px;opacity:.8;margin-top:4px;">선불폰 이용자 약 163만명</div>
+        </div>
+        <div style="background:linear-gradient(135deg,#10b981,#059669);border-radius:14px;padding:22px;color:#fff;">
+          <div style="font-size:13px;font-weight:600;opacity:.85;margin-bottom:6px;">무선통신 시장규모</div>
+          <div style="font-size:32px;font-weight:900;">55.8조</div>
+          <div style="font-size:12px;opacity:.8;margin-top:4px;">국방예산(52.8조)보다 크다</div>
+        </div>
+      </div>
+      <div style="background:#f8fbff;border-radius:12px;padding:16px;border-left:4px solid var(--sky);">
+        <p style="font-size:14px;color:#374151;line-height:1.8;">AI 시대에도 <strong>선불폰 시장은 "상황 해결형 서비스"</strong>입니다. 핸드폰 미납·정지, 인증용 번호, 외국인·단기 체류자 등 급하게 해결해야 하는 수요가 꾸준히 발생합니다.</p>
+      </div>
+    </div>
+
+    <!-- 수익구조 -->
+    <div style="background:#fff;border-radius:20px;padding:32px;box-shadow:0 4px 24px rgba(0,0,0,.07);border:1px solid #f0f0f0;margin-bottom:24px;">
+      <h3 style="font-size:20px;font-weight:900;color:#1a1a1a;margin-bottom:6px;">💰 수익구조</h3>
+      <p style="font-size:14px;color:#6b7280;margin-bottom:4px;">매달 요금의 약 10~20% 지속적인 수익 가능</p>
+      <p style="font-size:13px;color:#ef4444;font-weight:700;margin-bottom:20px;">※ 선불 월 4만원 사용 고객 기준 (요금제에 따라 금액은 다를 수 있습니다)</p>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;background:#f8f9fa;border-radius:12px;padding:16px 20px;">
+          <div style="font-size:15px;font-weight:700;color:#1a1a1a;">200회선</div>
+          <div style="font-size:20px;font-weight:900;color:var(--org);">월 150만원</div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,#e8f7fd,#f0f8ff);border-radius:12px;padding:16px 20px;border:1.5px solid #b8e4f5;">
+          <div style="font-size:15px;font-weight:700;color:#1a1a1a;">400회선</div>
+          <div style="font-size:20px;font-weight:900;color:var(--sky);">월 400만원</div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,#1a3a4a,#2d5a72);border-radius:12px;padding:16px 20px;">
+          <div style="font-size:15px;font-weight:700;color:#fff;">800회선</div>
+          <div style="font-size:20px;font-weight:900;color:#4DBDE8;">월 1,000만원</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 특징 -->
+    <div style="background:#fff;border-radius:20px;padding:32px;box-shadow:0 4px 24px rgba(0,0,0,.07);border:1px solid #f0f0f0;margin-bottom:24px;">
+      <h3 style="font-size:20px;font-weight:900;color:#1a1a1a;margin-bottom:20px;">✅ 온라인 알뜰폰 대리점 특징</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div style="background:#f8fbff;border-radius:12px;padding:16px;display:flex;align-items:flex-start;gap:12px;">
+          <span style="font-size:24px;flex-shrink:0;">🏠</span>
+          <div><div style="font-weight:800;font-size:14px;margin-bottom:4px;">매장 불필요</div><div style="font-size:13px;color:#6b7280;">집에서 온라인으로</div></div>
+        </div>
+        <div style="background:#f8fbff;border-radius:12px;padding:16px;display:flex;align-items:flex-start;gap:12px;">
+          <span style="font-size:24px;flex-shrink:0;">💻</span>
+          <div><div style="font-weight:800;font-size:14px;margin-bottom:4px;">LG·KT 전산 지급</div><div style="font-size:13px;color:#6b7280;">개통 시스템 제공</div></div>
+        </div>
+        <div style="background:#f8fbff;border-radius:12px;padding:16px;display:flex;align-items:flex-start;gap:12px;">
+          <span style="font-size:24px;flex-shrink:0;">👤</span>
+          <div><div style="font-weight:800;font-size:14px;margin-bottom:4px;">1인 운영 가능</div><div style="font-size:13px;color:#6b7280;">직원 없이 혼자 가능</div></div>
+        </div>
+        <div style="background:#f8fbff;border-radius:12px;padding:16px;display:flex;align-items:flex-start;gap:12px;">
+          <span style="font-size:24px;flex-shrink:0;">🔄</span>
+          <div><div style="font-weight:800;font-size:14px;margin-bottom:4px;">평생 수수료(선불)</div><div style="font-size:13px;color:#6b7280;">누적 권리수익</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 문의 폼 -->
+    <div style="background:#fff;border-radius:20px;padding:32px;box-shadow:0 4px 24px rgba(0,0,0,.07);border:1.5px solid var(--sky);">
+      <h3 style="font-size:20px;font-weight:900;color:#1a1a1a;margin-bottom:6px;">📬 창업문의 하기</h3>
+      <p style="font-size:14px;color:#6b7280;margin-bottom:24px;">남겨주신 연락처로 담당자가 직접 연락드립니다!</p>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <input id="si-name" type="text" placeholder="이름" style="border:1.5px solid #e5e9f5;border-radius:11px;padding:13px 16px;font-size:15px;font-family:inherit;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='var(--sky)'" onblur="this.style.borderColor='#e5e9f5'">
+        <input id="si-phone" type="tel" placeholder="연락처 (010-0000-0000)" style="border:1.5px solid #e5e9f5;border-radius:11px;padding:13px 16px;font-size:15px;font-family:inherit;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='var(--sky)'" onblur="this.style.borderColor='#e5e9f5'">
+        <select id="si-interest" style="border:1.5px solid #e5e9f5;border-radius:11px;padding:13px 16px;font-size:15px;font-family:inherit;outline:none;background:#fff;transition:border-color .2s;" onfocus="this.style.borderColor='var(--sky)'" onblur="this.style.borderColor='#e5e9f5'">
+          <option value="" disabled selected>관심분야 선택</option>
+          <option>온라인 알뜰폰 대리점</option>
+          <option>선불폰 부업</option>
+          <option>창업 전반 상담</option>
+          <option>기타</option>
+        </select>
+        <textarea id="si-msg" placeholder="궁금한 점이나 현재 상황을 간단히 적어주세요 (선택)" rows="4" style="border:1.5px solid #e5e9f5;border-radius:11px;padding:13px 16px;font-size:15px;font-family:inherit;outline:none;resize:vertical;transition:border-color .2s;" onfocus="this.style.borderColor='var(--sky)'" onblur="this.style.borderColor='#e5e9f5'"></textarea>
+        <button onclick="submitStartupInquiry()" style="background:var(--sky);color:#fff;font-weight:800;padding:15px;border-radius:11px;border:none;cursor:pointer;font-size:16px;font-family:inherit;transition:opacity .2s;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">창업문의 접수하기 🚀</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 관리자 페이지 -->
+<div id="page-admin" class="page">
+  <!-- 로그인 -->
+  <div id="admin-login" style="max-width:440px;margin:60px auto;padding:0 24px;">
+    <div style="background:#fff;border-radius:20px;padding:40px;box-shadow:0 8px 40px rgba(0,0,0,.1);border:1px solid #f0f0f0;text-align:center;">
+      <div style="font-size:40px;margin-bottom:16px;">🔐</div>
+      <h2 style="font-size:22px;font-weight:900;color:#1a1a1a;margin-bottom:6px;">관리자 로그인</h2>
+      <p style="font-size:14px;color:#9ca3af;margin-bottom:28px;">가토통신 관리자 전용</p>
+      <div style="display:flex;flex-direction:column;gap:12px;text-align:left;">
+        <input id="admin-email" type="email" placeholder="이메일" style="border:1.5px solid #e5e9f5;border-radius:11px;padding:13px 16px;font-size:15px;font-family:inherit;outline:none;">
+        <input id="admin-pw" type="password" placeholder="비밀번호" style="border:1.5px solid #e5e9f5;border-radius:11px;padding:13px 16px;font-size:15px;font-family:inherit;outline:none;" onkeydown="if(event.key==='Enter')adminLogin()">
+        <button onclick="adminLogin()" style="background:var(--sky);color:#fff;font-weight:800;padding:14px;border-radius:11px;border:none;cursor:pointer;font-size:15px;font-family:inherit;">로그인</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 대시보드 -->
+  <div id="admin-dashboard" style="display:none;">
+    <div style="background:linear-gradient(135deg,#1a3a4a,#2d5a72);padding:28px 32px;display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <div style="font-size:12px;color:rgba(255,255,255,.6);letter-spacing:2px;margin-bottom:4px;">ADMIN</div>
+        <h2 style="font-size:22px;font-weight:900;color:#fff;">가토통신 관리자</h2>
+      </div>
+      <button onclick="adminLogout()" style="background:rgba(255,255,255,.15);color:#fff;border:1.5px solid rgba(255,255,255,.3);border-radius:9px;padding:9px 18px;font-size:14px;font-weight:700;cursor:pointer;">로그아웃</button>
+    </div>
+
+    <div style="max-width:960px;margin:0 auto;padding:32px 24px;">
+
+      <!-- 블로그 글쓰기 -->
+      <div id="blog-write-section" style="background:#fff;border-radius:20px;padding:28px;box-shadow:0 4px 24px rgba(0,0,0,.07);border:1px solid #f0f0f0;margin-bottom:28px;">
+        <h3 id="blog-form-title" style="font-size:18px;font-weight:900;color:#1a1a1a;margin-bottom:20px;">새 글 작성</h3>
+        <input type="hidden" id="blog-edit-id">
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <input id="blog-title" type="text" placeholder="제목" style="border:1.5px solid #e5e9f5;border-radius:11px;padding:13px 16px;font-size:15px;font-family:inherit;outline:none;">
+          <select id="blog-category" style="border:1.5px solid #e5e9f5;border-radius:11px;padding:13px 16px;font-size:15px;font-family:inherit;background:#fff;outline:none;">
+            <option>알뜰폰</option>
+            <option>선불폰</option>
+            <option>개통후기</option>
+            <option>창업정보</option>
+            <option>공지사항</option>
+          </select>
+          <textarea id="blog-content" placeholder="내용 (HTML 사용 가능)" rows="10" style="border:1.5px solid #e5e9f5;border-radius:11px;padding:13px 16px;font-size:15px;font-family:inherit;resize:vertical;outline:none;"></textarea>
+          <div style="display:flex;gap:10px;">
+            <button onclick="saveBlogPost()" style="background:var(--sky);color:#fff;font-weight:800;padding:13px 28px;border-radius:11px;border:none;cursor:pointer;font-size:15px;font-family:inherit;flex:1;">저장 · 발행</button>
+            <button onclick="document.getElementById('blog-edit-id').value='';document.getElementById('blog-title').value='';document.getElementById('blog-content').value='';document.getElementById('blog-form-title').textContent='새 글 작성';" style="background:#f3f4f6;color:#6b7280;font-weight:700;padding:13px 20px;border-radius:11px;border:none;cursor:pointer;font-size:15px;font-family:inherit;">초기화</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 블로그 글 목록 -->
+      <div style="background:#fff;border-radius:20px;padding:28px;box-shadow:0 4px 24px rgba(0,0,0,.07);border:1px solid #f0f0f0;margin-bottom:28px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+          <h3 style="font-size:18px;font-weight:900;color:#1a1a1a;">📝 블로그 글 목록</h3>
+          <button onclick="loadAdminBlog()" style="background:#f3f4f6;color:#6b7280;border:none;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer;">새로고침</button>
+        </div>
+        <div id="admin-blog-list"></div>
+      </div>
+
+      <!-- 창업문의 목록 -->
+      <div style="background:#fff;border-radius:20px;padding:28px;box-shadow:0 4px 24px rgba(0,0,0,.07);border:1px solid #f0f0f0;margin-bottom:28px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+          <h3 style="font-size:18px;font-weight:900;color:#1a1a1a;">📬 창업문의 목록</h3>
+          <button onclick="loadAdminInquiries()" style="background:#f3f4f6;color:#6b7280;border:none;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer;">새로고침</button>
+        </div>
+        <div id="admin-inquiry-list"></div>
+      </div>
+
+      <!-- 후기 관리 -->
+      <div style="background:#fff;border-radius:20px;padding:28px;box-shadow:0 4px 24px rgba(0,0,0,.07);border:1px solid #f0f0f0;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+          <h3 style="font-size:18px;font-weight:900;color:#1a1a1a;">⭐ 후기 관리</h3>
+          <button onclick="loadAdminReviews()" style="background:#f3f4f6;color:#6b7280;border:none;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer;">새로고침</button>
+        </div>
+        <div id="admin-review-list"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, updateDoc, orderBy, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDXed9i1ju0Nr8DXqGJZ4WMW8dcnIMP4i8",
+    authDomain: "gato-mobile.firebaseapp.com",
+    projectId: "gato-mobile",
+    storageBucket: "gato-mobile.firebasestorage.app",
+    messagingSenderId: "831742761635",
+    appId: "1:831742761635:web:229a96a262b5b3bd9a3d16"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const auth = getAuth(app);
+
+  // ==================== 블로그 ====================
+  window.loadBlogPosts = async function() {
+    const container = document.getElementById('blog-list');
+    if (!container) return;
+    container.innerHTML = '<div style="text-align:center;padding:40px;color:#9ca3af;">불러오는 중...</div>';
+    try {
+      const q = query(collection(db, 'blog'), orderBy('createdAt', 'desc'));
+      const snap = await getDocs(q);
+      if (snap.empty) {
+        container.innerHTML = '<div style="text-align:center;padding:60px;color:#9ca3af;font-size:15px;">📝 첫 번째 글을 작성해보세요!</div>';
+        return;
+      }
+      container.innerHTML = snap.docs.map(d => {
+        const data = d.data();
+        const date = data.createdAt ? new Date(data.createdAt.toDate()).toLocaleDateString('ko-KR') : '';
+        const preview = data.content ? data.content.replace(/<[^>]*>/g, '').substring(0, 100) + '...' : '';
+        return `<div onclick="openBlogPost('${d.id}')" style="background:#fff;border-radius:16px;padding:24px;border:1px solid #f0f0f0;box-shadow:0 2px 12px rgba(0,0,0,.05);cursor:pointer;transition:all .2s;margin-bottom:16px;" onmouseover="this.style.boxShadow='0 8px 24px rgba(77,189,232,.15)';this.style.borderColor='#4DBDE8'" onmouseout="this.style.boxShadow='0 2px 12px rgba(0,0,0,.05)';this.style.borderColor='#f0f0f0'">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+            <span style="background:#e8f7fd;color:#2899c4;font-size:12px;font-weight:700;padding:3px 10px;border-radius:100px;">${data.category||'일반'}</span>
+            <span style="font-size:13px;color:#9ca3af;">${date}</span>
+          </div>
+          <h3 style="font-size:18px;font-weight:800;color:#1a1a1a;margin-bottom:8px;letter-spacing:-.3px;">${data.title||''}</h3>
+          <p style="font-size:14px;color:#6b7280;line-height:1.6;">${preview}</p>
+        </div>`;
+      }).join('');
+    } catch(e) {
+      container.innerHTML = '<div style="text-align:center;padding:40px;color:#ef4444;">불러오기 실패</div>';
+    }
+  };
+
+  window.openBlogPost = async function(id) {
+    try {
+      const snap = await getDocs(collection(db, 'blog'));
+      const docData = snap.docs.find(d => d.id === id);
+      if (!docData) return;
+      const data = docData.data();
+      const date = data.createdAt ? new Date(data.createdAt.toDate()).toLocaleDateString('ko-KR') : '';
+      document.getElementById('blog-list-wrap').style.display = 'none';
+      const detail = document.getElementById('blog-detail');
+      detail.style.display = 'block';
+      detail.innerHTML = `
+        <div style="max-width:780px;margin:0 auto;padding:32px 24px;">
+          <button onclick="closeBlogPost()" style="display:flex;align-items:center;gap:6px;background:none;border:none;color:var(--sky);font-weight:700;font-size:14px;cursor:pointer;margin-bottom:24px;">← 목록으로</button>
+          <span style="background:#e8f7fd;color:#2899c4;font-size:12px;font-weight:700;padding:3px 10px;border-radius:100px;">${data.category||'일반'}</span>
+          <h1 style="font-size:clamp(22px,4vw,30px);font-weight:900;color:#1a1a1a;margin:14px 0 8px;letter-spacing:-.5px;">${data.title||''}</h1>
+          <div style="font-size:13px;color:#9ca3af;margin-bottom:28px;">${date}</div>
+          <div style="font-size:16px;line-height:1.9;color:#374151;">${data.content||''}</div>
+        </div>`;
+    } catch(e) {}
+  };
+
+  window.closeBlogPost = function() {
+    document.getElementById('blog-list-wrap').style.display = 'block';
+    document.getElementById('blog-detail').style.display = 'none';
+  };
+
+  // ==================== 창업문의 ====================
+  window.submitStartupInquiry = async function() {
+    const name = document.getElementById('si-name').value.trim();
+    const phone = document.getElementById('si-phone').value.trim();
+    const interest = document.getElementById('si-interest').value;
+    const msg = document.getElementById('si-msg').value.trim();
+    if (!name || !phone) { alert('이름과 연락처를 입력해주세요!'); return; }
+    try {
+      await addDoc(collection(db, 'startup_inquiries'), {
+        name, phone, interest, msg, createdAt: serverTimestamp(), status: '미확인'
+      });
+      alert('창업문의가 접수되었습니다! 빠르게 연락드리겠습니다 😊');
+      document.getElementById('si-name').value = '';
+      document.getElementById('si-phone').value = '';
+      document.getElementById('si-msg').value = '';
+      document.getElementById('si-interest').selectedIndex = 0;
+    } catch(e) { alert('접수 실패. 다시 시도해주세요.'); }
+  };
+
+  // ==================== 후기 Firebase 저장 ====================
+  window.submitReviewToFirebase = async function(reviewData) {
+    try {
+      await addDoc(collection(db, 'reviews'), { ...reviewData, createdAt: serverTimestamp(), approved: false });
+    } catch(e) { console.log('후기 저장 실패', e); }
+  };
+
+  // ==================== 관리자 ====================
+  onAuthStateChanged(auth, (user) => {
+    const loginWrap = document.getElementById('admin-login');
+    const dashWrap = document.getElementById('admin-dashboard');
+    if (!loginWrap || !dashWrap) return;
+    if (user) {
+      loginWrap.style.display = 'none';
+      dashWrap.style.display = 'block';
+      loadAdminData();
+    } else {
+      loginWrap.style.display = 'block';
+      dashWrap.style.display = 'none';
+    }
+  });
+
+  window.adminLogin = async function() {
+    const email = document.getElementById('admin-email').value;
+    const pw = document.getElementById('admin-pw').value;
+    try {
+      await signInWithEmailAndPassword(auth, email, pw);
+    } catch(e) { alert('로그인 실패. 이메일/비밀번호를 확인해주세요.'); }
+  };
+
+  window.adminLogout = async function() {
+    await signOut(auth);
+  };
+
+  window.loadAdminData = async function() {
+    loadAdminBlog();
+    loadAdminInquiries();
+    loadAdminReviews();
+  };
+
+  // 관리자 블로그 목록
+  window.loadAdminBlog = async function() {
+    const el = document.getElementById('admin-blog-list');
+    if (!el) return;
+    try {
+      const q = query(collection(db, 'blog'), orderBy('createdAt', 'desc'));
+      const snap = await getDocs(q);
+      if (snap.empty) { el.innerHTML = '<p style="color:#9ca3af;text-align:center;padding:20px;">글이 없습니다.</p>'; return; }
+      el.innerHTML = snap.docs.map(d => {
+        const data = d.data();
+        const date = data.createdAt ? new Date(data.createdAt.toDate()).toLocaleDateString('ko-KR') : '';
+        return `<div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid #f0f0f0;">
+          <div>
+            <div style="font-weight:700;font-size:15px;color:#1a1a1a;">${data.title||''}</div>
+            <div style="font-size:12px;color:#9ca3af;margin-top:3px;">${data.category||''} · ${date}</div>
+          </div>
+          <div style="display:flex;gap:8px;flex-shrink:0;">
+            <button onclick="editBlogPost('${d.id}')" style="background:#e8f7fd;color:#2899c4;border:none;border-radius:8px;padding:6px 14px;font-size:13px;font-weight:700;cursor:pointer;">수정</button>
+            <button onclick="deleteBlogPost('${d.id}')" style="background:#fef2f2;color:#ef4444;border:none;border-radius:8px;padding:6px 14px;font-size:13px;font-weight:700;cursor:pointer;">삭제</button>
+          </div>
+        </div>`;
+      }).join('');
+    } catch(e) {}
+  };
+
+  window.saveBlogPost = async function() {
+    const editId = document.getElementById('blog-edit-id').value;
+    const title = document.getElementById('blog-title').value.trim();
+    const category = document.getElementById('blog-category').value;
+    const content = document.getElementById('blog-content').value.trim();
+    if (!title || !content) { alert('제목과 내용을 입력해주세요!'); return; }
+    try {
+      if (editId) {
+        await updateDoc(doc(db, 'blog', editId), { title, category, content });
+        alert('수정 완료!');
+      } else {
+        await addDoc(collection(db, 'blog'), { title, category, content, createdAt: serverTimestamp() });
+        alert('발행 완료!');
+      }
+      document.getElementById('blog-title').value = '';
+      document.getElementById('blog-content').value = '';
+      document.getElementById('blog-edit-id').value = '';
+      document.getElementById('blog-form-title').textContent = '새 글 작성';
+      loadAdminBlog();
+    } catch(e) { alert('저장 실패'); }
+  };
+
+  window.editBlogPost = async function(id) {
+    try {
+      const snap = await getDocs(collection(db, 'blog'));
+      const docData = snap.docs.find(d => d.id === id);
+      if (!docData) return;
+      const data = docData.data();
+      document.getElementById('blog-edit-id').value = id;
+      document.getElementById('blog-title').value = data.title || '';
+      document.getElementById('blog-category').value = data.category || '알뜰폰';
+      document.getElementById('blog-content').value = data.content || '';
+      document.getElementById('blog-form-title').textContent = '글 수정';
+      document.getElementById('blog-write-section').scrollIntoView({ behavior: 'smooth' });
+    } catch(e) {}
+  };
+
+  window.deleteBlogPost = async function(id) {
+    if (!confirm('정말 삭제할까요?')) return;
+    try {
+      await deleteDoc(doc(db, 'blog', id));
+      loadAdminBlog();
+    } catch(e) { alert('삭제 실패'); }
+  };
+
+  // 관리자 창업문의 목록
+  window.loadAdminInquiries = async function() {
+    const el = document.getElementById('admin-inquiry-list');
+    if (!el) return;
+    try {
+      const q = query(collection(db, 'startup_inquiries'), orderBy('createdAt', 'desc'));
+      const snap = await getDocs(q);
+      if (snap.empty) { el.innerHTML = '<p style="color:#9ca3af;text-align:center;padding:20px;">문의가 없습니다.</p>'; return; }
+      el.innerHTML = snap.docs.map(d => {
+        const data = d.data();
+        const date = data.createdAt ? new Date(data.createdAt.toDate()).toLocaleDateString('ko-KR') : '';
+        const statusColor = data.status === '확인완료' ? '#10b981' : '#f59e0b';
+        return `<div style="background:#f8fbff;border-radius:12px;padding:16px;margin-bottom:10px;border:1px solid #e8f0fe;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+            <div style="font-weight:800;font-size:15px;">${data.name} · ${data.phone}</div>
+            <div style="display:flex;gap:6px;align-items:center;">
+              <span style="font-size:12px;font-weight:700;color:${statusColor};">${data.status||'미확인'}</span>
+              <button onclick="markInquiryDone('${d.id}')" style="background:#e8f7fd;color:#2899c4;border:none;border-radius:6px;padding:4px 10px;font-size:12px;font-weight:700;cursor:pointer;">확인완료</button>
+              <button onclick="deleteInquiry('${d.id}')" style="background:#fef2f2;color:#ef4444;border:none;border-radius:6px;padding:4px 10px;font-size:12px;font-weight:700;cursor:pointer;">삭제</button>
+            </div>
+          </div>
+          <div style="font-size:13px;color:#6b7280;margin-bottom:4px;">관심분야: ${data.interest||'-'} · ${date}</div>
+          <div style="font-size:14px;color:#374151;">${data.msg||''}</div>
+        </div>`;
+      }).join('');
+    } catch(e) {}
+  };
+
+  window.markInquiryDone = async function(id) {
+    try {
+      await updateDoc(doc(db, 'startup_inquiries', id), { status: '확인완료' });
+      loadAdminInquiries();
+    } catch(e) {}
+  };
+
+  window.deleteInquiry = async function(id) {
+    if (!confirm('삭제할까요?')) return;
+    try {
+      await deleteDoc(doc(db, 'startup_inquiries', id));
+      loadAdminInquiries();
+    } catch(e) {}
+  };
+
+  // 관리자 후기 목록
+  window.loadAdminReviews = async function() {
+    const el = document.getElementById('admin-review-list');
+    if (!el) return;
+    try {
+      const q = query(collection(db, 'reviews'), orderBy('createdAt', 'desc'));
+      const snap = await getDocs(q);
+      if (snap.empty) { el.innerHTML = '<p style="color:#9ca3af;text-align:center;padding:20px;">후기가 없습니다.</p>'; return; }
+      el.innerHTML = snap.docs.map(d => {
+        const data = d.data();
+        const date = data.createdAt ? new Date(data.createdAt.toDate()).toLocaleDateString('ko-KR') : '';
+        const stars = '★'.repeat(data.s||5) + '☆'.repeat(5-(data.s||5));
+        const statusBg = data.approved ? '#d1fae5' : '#fef3c7';
+        const statusColor = data.approved ? '#065f46' : '#92400e';
+        const statusText = data.approved ? '승인됨' : '미승인';
+        return `<div style="background:#f8fbff;border-radius:12px;padding:16px;margin-bottom:10px;border:1px solid #e8f0fe;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;">
+            <div>
+              <span style="font-weight:800;">${data.n||''}</span>
+              <span style="font-size:12px;color:#9ca3af;margin-left:8px;">${data.p||''} · ${data.c||''}</span>
+            </div>
+            <div style="display:flex;gap:6px;align-items:center;">
+              <span style="background:${statusBg};color:${statusColor};font-size:11px;font-weight:700;padding:2px 8px;border-radius:100px;">${statusText}</span>
+              <button onclick="approveReview('${d.id}')" style="background:#d1fae5;color:#065f46;border:none;border-radius:6px;padding:4px 10px;font-size:12px;font-weight:700;cursor:pointer;">승인</button>
+              <button onclick="deleteReview('${d.id}')" style="background:#fef2f2;color:#ef4444;border:none;border-radius:6px;padding:4px 10px;font-size:12px;font-weight:700;cursor:pointer;">삭제</button>
+            </div>
+          </div>
+          <div style="font-size:13px;color:#fbbf24;margin-bottom:4px;">${stars}</div>
+          <div style="font-size:14px;color:#374151;">${data.t||''}</div>
+          <div style="font-size:12px;color:#9ca3af;margin-top:4px;">${date}</div>
+        </div>`;
+      }).join('');
+    } catch(e) {}
+  };
+
+  window.approveReview = async function(id) {
+    try {
+      await updateDoc(doc(db, 'reviews', id), { approved: true });
+      loadAdminReviews();
+    } catch(e) {}
+  };
+
+  window.deleteReview = async function(id) {
+    if (!confirm('삭제할까요?')) return;
+    try {
+      await deleteDoc(doc(db, 'reviews', id));
+      loadAdminReviews();
+    } catch(e) {}
+  };
+
+</script>
 
 <div class="sns-float">
   <a href="https://www.youtube.com/@gato4477" target="_blank" class="sns-btn youtube" title="유튜브">
@@ -941,13 +1434,15 @@ function showPage(n,btn,noHistory){
   document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
   document.querySelectorAll('.nt').forEach(function(b){b.classList.remove('on');});
   document.getElementById('page-'+n).classList.add('active');
+  if(n==='blog'){if(typeof loadBlogPosts==='function')loadBlogPosts();}
+  if(n==='admin'){/* admin handled by firebase auth */}
   if(btn)btn.classList.add('on');
   window.scrollTo({top:0,behavior:'smooth'});
   if(!noHistory){try{history.pushState({page:n},'',location.pathname+'#'+n);}catch(e){}}
 }
 window.addEventListener('popstate',function(e){
   if(e.state&&e.state.page){
-    var pages=['home','self','usim','faq'];
+    var pages=['home','self','usim','faq','blog','startup','admin'];
     var idx=pages.indexOf(e.state.page);
     if(idx>=0){var btn=document.querySelectorAll('.nt')[idx];showPage(e.state.page,btn,true);}
   } else {showPage('home',document.querySelectorAll('.nt')[0],true);}

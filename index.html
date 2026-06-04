@@ -915,11 +915,17 @@ footer strong{color:#fff;}
   // ==================== 승인된 후기 메인 페이지 로딩 ====================
   window._loadApprovedReviews = async function() {
     try {
+      console.log('[가토] Firebase 승인 후기 로딩 시작');
       const q = query(collection(db, 'reviews'), where('approved', '==', true), orderBy('createdAt', 'desc'));
       const snap = await getDocs(q);
+      console.log('[가토] 가져온 후기 수:', snap.docs.length);
       snap.docs.forEach(function(d) {
         const r = d.data();
-        if (SR.some(function(x){ return x._id === d.id; })) return;
+        console.log('[가토] 후기 데이터:', r);
+        if (SR.some(function(x){ return x._id === d.id; })) {
+          console.log('[가토] 중복 스킵:', d.id);
+          return;
+        }
         SR.push({
           _id: d.id,
           n: r.name || r.n || '',
@@ -930,8 +936,9 @@ footer strong{color:#fff;}
           tags: [], img: null
         });
       });
+      console.log('[가토] SR 총 개수:', SR.length);
       if (typeof renderRev === 'function') renderRev();
-    } catch(e) {}
+    } catch(e) { console.error('[가토] Firebase 오류:', e); }
   };
   // DOMContentLoaded 후 호출 (SR 변수가 준비된 후 실행)
   if (document.readyState === 'loading') {

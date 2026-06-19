@@ -966,25 +966,47 @@ footer strong{color:#fff;}
       document.getElementById('blog-list-wrap').style.display = 'none';
       const detail = document.getElementById('blog-detail');
       detail.style.display = 'block';
-      // iframe으로 렌더링 - 글 CSS가 부모 레이아웃에 영향 주지 않게 격리
-      const backBtn = `<div style="padding:20px 24px 0;max-width:780px;margin:0 auto;">
-        <button onclick="closeBlogPost()" style="display:flex;align-items:center;gap:6px;background:none;border:none;color:#4DBDE8;font-weight:700;font-size:14px;cursor:pointer;">← 목록으로</button>
-      </div>`;
-      const iframeContent = data.content || '';
-      const isHtmlDoc = iframeContent.trim().toLowerCase().startsWith('<!doctype') || iframeContent.trim().toLowerCase().startsWith('<html');
-      const fullHtml = isHtmlDoc ? iframeContent : `<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><style>body{font-family:"Noto Sans KR",sans-serif;padding:24px;max-width:780px;margin:0 auto;font-size:16px;line-height:1.9;color:#374151;}h1{font-size:clamp(22px,4vw,30px);font-weight:900;color:#1a1a1a;}</style></head><body>${iframeContent}</body></html>`;
-      detail.innerHTML = backBtn + `<iframe id="blog-iframe" style="width:100%;border:none;min-height:80vh;display:block;" srcdoc="" frameborder="0"></iframe>`;
-      const iframe = document.getElementById('blog-iframe');
-      iframe.srcdoc = fullHtml;
-      // iframe 높이 자동 조절
-      iframe.onload = function() {
-        try { iframe.style.height = iframe.contentDocument.body.scrollHeight + 40 + 'px'; } catch(e) {}
-      };
+
+      // 블로그 글 div 렌더링 (SEO 크롤링 가능, Shadow DOM으로 CSS 완전 격리)
+      let rawContent = data.content || '';
+      let bodyContent = rawContent;
+      let extractedStyles = '';
+
+      const isFullDoc = rawContent.trim().toLowerCase().startsWith('<!doctype') || rawContent.trim().toLowerCase().startsWith('<html');
+      if (isFullDoc) {
+        // style 태그 내용 추출
+        const styleMatches = rawContent.match(/<style[^>]*>([\s\S]*?)<\/style>/gi) || [];
+        extractedStyles = styleMatches.map(s => s.replace(/<\/?style[^>]*>/gi, '')).join('\n');
+        // body 내용 추출
+        const bodyMatch = rawContent.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+        bodyContent = bodyMatch ? bodyMatch[1] : rawContent;
+        // script 제거
+        bodyContent = bodyContent.replace(/<script[\s\S]*?<\/script>/gi, '');
+      }
+
+      // head에 주입된 style 제거
+      const oldStyle = document.getElementById('blog-injected-style');
+      if (oldStyle) oldStyle.remove();
+
+      // 뒤로가기 버튼 삽입
+      detail.innerHTML = `
+        <div style="padding:20px 24px 0;max-width:780px;margin:0 auto;">
+          <button onclick="closeBlogPost()" style="display:flex;align-items:center;gap:6px;background:none;border:none;color:#4DBDE8;font-weight:700;font-size:14px;cursor:pointer;">← 목록으로</button>
+        </div>
+        <div id="blog-shadow-host" style="width:100%;display:block;"></div>`;
+
+      // Shadow DOM으로 CSS 완전 격리
+      const shadowHost = document.getElementById('blog-shadow-host');
+      const shadowRoot = shadowHost.attachShadow({ mode: 'open' });
+      shadowRoot.innerHTML = `<style>${extractedStyles}</style><div style="padding-bottom:60px;">${bodyContent}</div>`;
     } catch(e) {}
   };
 
   window.closeBlogPost = function() {
     try { history.replaceState({}, '', '/'); } catch(e) {}
+    // 블로그 주입된 style 태그 제거 (부모 페이지 복원)
+    const injectedStyle = document.getElementById('blog-injected-style');
+    if (injectedStyle) injectedStyle.remove();
     document.getElementById('blog-list-wrap').style.display = 'block';
     document.getElementById('blog-detail').style.display = 'none';
   };
@@ -1006,6 +1028,8 @@ footer strong{color:#fff;}
     if (e.state && e.state.postId) {
       openBlogPost(e.state.postId);
     } else {
+      const injectedStyle = document.getElementById('blog-injected-style');
+      if (injectedStyle) injectedStyle.remove();
       document.getElementById('blog-list-wrap').style.display = 'block';
       document.getElementById('blog-detail').style.display = 'none';
     }

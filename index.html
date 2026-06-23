@@ -309,7 +309,7 @@ footer strong{color:#fff;}
 
 <nav class="nav">
   <div class="nav-in">
-    <a href="/" class="logo">가토통신<span>×앤텔레콤</span></a>
+    <a href="/" class="logo" onclick="logoClick();return false;">가토통신<span>×앤텔레콤</span></a>
     <a href="/" class="nt on">홈</a>
     <a href="/self" class="nt">셀프개통</a>
     <a href="/usim" class="nt">유심구매</a>
@@ -453,6 +453,594 @@ footer strong{color:#fff;}
     <div style="text-align:center;opacity:.5;font-size:12px;">© 2025 가토통신. All rights reserved.</div>
   </div>
 </footer>
+
+<!-- 관리자 오버레이 -->
+<div id="admin-overlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#f0f4f8;z-index:9999;overflow-y:auto;">
+  <!-- 로그인 -->
+  <div id="admin-login" style="max-width:440px;margin:60px auto;padding:0 24px;">
+    <div style="background:#fff;border-radius:20px;padding:40px;box-shadow:0 8px 40px rgba(0,0,0,.1);border:1px solid #f0f0f0;text-align:center;">
+      <div style="font-size:40px;margin-bottom:16px;">🔐</div>
+      <h2 style="font-size:22px;font-weight:900;color:#1a1a1a;margin-bottom:6px;">관리자 로그인</h2>
+      <p style="font-size:14px;color:#9ca3af;margin-bottom:28px;">가토통신 관리자 전용</p>
+      <div style="display:flex;flex-direction:column;gap:12px;text-align:left;">
+        <input id="admin-email" type="email" placeholder="이메일" style="border:1.5px solid #e5e9f5;border-radius:11px;padding:13px 16px;font-size:15px;font-family:inherit;outline:none;">
+        <input id="admin-pw" type="password" placeholder="비밀번호" style="border:1.5px solid #e5e9f5;border-radius:11px;padding:13px 16px;font-size:15px;font-family:inherit;outline:none;" onkeydown="if(event.key==='Enter')adminLogin()">
+        <button onclick="adminLogin()" style="background:var(--sky);color:#fff;font-weight:800;padding:14px;border-radius:11px;border:none;cursor:pointer;font-size:15px;font-family:inherit;">로그인</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 대시보드 -->
+  <div id="admin-dashboard" style="display:none;">
+    <div style="background:linear-gradient(135deg,#1a3a4a,#2d5a72);padding:20px 32px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;">
+      <div style="display:flex;align-items:center;gap:20px;">
+        <button onclick="closeAdmin()" style="background:rgba(255,255,255,.1);color:#fff;border:1.5px solid rgba(255,255,255,.2);border-radius:9px;padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer;">← 사이트로</button>
+        <div>
+          <div style="font-size:11px;color:rgba(255,255,255,.6);letter-spacing:2px;">ADMIN</div>
+          <h2 style="font-size:20px;font-weight:900;color:#fff;">가토통신 관리자</h2>
+        </div>
+      </div>
+      <button onclick="adminLogout()" style="background:rgba(255,255,255,.15);color:#fff;border:1.5px solid rgba(255,255,255,.3);border-radius:9px;padding:9px 18px;font-size:14px;font-weight:700;cursor:pointer;">로그아웃</button>
+    </div>
+
+    <div style="max-width:960px;margin:0 auto;padding:32px 24px;">
+
+      <!-- 블로그 글쓰기 -->
+      <div id="blog-write-section" style="background:#fff;border-radius:20px;padding:28px;box-shadow:0 4px 24px rgba(0,0,0,.07);border:1px solid #f0f0f0;margin-bottom:28px;">
+        <h3 id="blog-form-title" style="font-size:18px;font-weight:900;color:#1a1a1a;margin-bottom:20px;">새 글 작성</h3>
+        <input type="hidden" id="blog-edit-id">
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <input id="blog-title" type="text" placeholder="제목" style="border:1.5px solid #e5e9f5;border-radius:11px;padding:13px 16px;font-size:15px;font-family:inherit;outline:none;">
+          <input type="hidden" id="blog-category" value="일반">
+          <!-- 에디터 탭 -->
+          <div style="display:flex;gap:0;border:1.5px solid #e5e9f5;border-radius:11px 11px 0 0;overflow:hidden;">
+            <button id="tab-wysiwyg" type="button" onclick="switchEditorTab('wysiwyg')" style="flex:1;padding:10px;font-size:13px;font-weight:700;background:var(--sky);color:#fff;border:none;cursor:pointer;">✏️ 일반 편집</button>
+            <button id="tab-html" type="button" onclick="switchEditorTab('html')" style="flex:1;padding:10px;font-size:13px;font-weight:700;background:#f3f4f6;color:#6b7280;border:none;cursor:pointer;">&lt;/&gt; HTML 붙여넣기</button>
+          </div>
+
+          <!-- 일반 편집 영역 -->
+          <div id="editor-wysiwyg" style="border:1.5px solid #e5e9f5;border-top:none;border-radius:0 0 11px 11px;overflow:hidden;">
+            <div style="background:#f8faff;border-bottom:1.5px solid #e5e9f5;padding:8px 12px;display:flex;flex-wrap:wrap;gap:4px;align-items:center;">
+              <button type="button" onclick="execCmd('bold')" title="굵게" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-weight:900;font-size:14px;">B</button>
+              <button type="button" onclick="execCmd('italic')" title="기울게" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-style:italic;font-size:14px;">I</button>
+              <button type="button" onclick="execCmd('underline')" title="밑줄" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;text-decoration:underline;font-size:14px;">U</button>
+              <div style="width:1px;height:22px;background:#e5e9f5;margin:0 2px;"></div>
+              <select onchange="execCmd('fontSize', this.value);this.selectedIndex=0;" style="border:1px solid #e5e9f5;border-radius:6px;padding:4px 6px;font-size:13px;background:#fff;cursor:pointer;">
+                <option value="">크기</option>
+                <option value="1">작게</option>
+                <option value="3">보통</option>
+                <option value="5">크게</option>
+                <option value="7">매우 크게</option>
+              </select>
+              <label title="글씨 색상" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:4px 8px;cursor:pointer;font-size:13px;display:flex;align-items:center;gap:4px;">
+                🎨<input type="color" onchange="execCmd('foreColor', this.value)" style="width:20px;height:20px;border:none;cursor:pointer;padding:0;background:none;">
+              </label>
+              <div style="width:1px;height:22px;background:#e5e9f5;margin:0 2px;"></div>
+              <button type="button" onclick="execCmd('justifyLeft')" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:14px;">≡</button>
+              <button type="button" onclick="execCmd('justifyCenter')" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:14px;">☰</button>
+              <button type="button" onclick="execCmd('justifyRight')" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:14px;">▤</button>
+              <div style="width:1px;height:22px;background:#e5e9f5;margin:0 2px;"></div>
+              <button type="button" onclick="execCmd('insertUnorderedList')" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:14px;">• 목록</button>
+              <button type="button" onclick="execCmd('insertOrderedList')" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:14px;">1. 목록</button>
+              <div style="width:1px;height:22px;background:#e5e9f5;margin:0 2px;"></div>
+              <button type="button" onclick="insertLink()" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:14px;">🔗</button>
+              <button type="button" onclick="insertImage()" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:14px;">🖼️</button>
+              <div style="width:1px;height:22px;background:#e5e9f5;margin:0 2px;"></div>
+              <button type="button" onclick="execCmd('insertHorizontalRule')" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:14px;">— 구분선</button>
+              <button type="button" onclick="insertQuote()" style="background:#fff;border:1px solid #e5e9f5;border-radius:6px;padding:5px 9px;cursor:pointer;font-size:14px;">❝ 인용</button>
+            </div>
+            <div id="blog-content-editor" contenteditable="true" style="min-height:220px;padding:16px;font-size:15px;font-family:inherit;outline:none;line-height:1.7;" placeholder="내용을 입력하세요..."></div>
+          </div>
+
+          <!-- HTML 붙여넣기 영역 -->
+          <div id="editor-html" style="display:none;border:1.5px solid #e5e9f5;border-top:none;border-radius:0 0 11px 11px;overflow:hidden;">
+            <div style="background:#1a1a2e;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
+              <span style="color:#4DBDE8;font-size:12px;font-weight:700;font-family:monospace;">&lt;HTML&gt; 코드를 붙여넣거나 파일을 업로드하세요</span>
+              <div style="display:flex;gap:6px;">
+                <label style="background:#2899c4;color:#fff;border:none;border-radius:6px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;">
+                  📁 파일 업로드
+                  <input type="file" accept=".html" onchange="uploadHtmlFile(event)" style="display:none;">
+                </label>
+                <button type="button" onclick="applyHtml()" style="background:#4DBDE8;color:#fff;border:none;border-radius:6px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;">✓ 적용</button>
+              </div>
+            </div>
+            <textarea id="blog-html-input" placeholder="여기에 HTML 코드를 붙여넣거나 위의 파일 업로드 버튼을 이용하세요" style="width:100%;min-height:220px;padding:16px;font-size:13px;font-family:monospace;border:none;outline:none;background:#0f0f1a;color:#e2e8f0;line-height:1.6;resize:vertical;box-sizing:border-box;"></textarea>
+          </div>
+          <textarea id="blog-content" style="display:none;"></textarea>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button onclick="saveBlogPost('일반')" style="background:var(--sky);color:#fff;font-weight:800;padding:13px 0;border-radius:11px;border:none;cursor:pointer;font-size:15px;font-family:inherit;flex:1;min-width:120px;">저장 · 발행</button>
+            <button onclick="saveBlogPost('공지')" style="background:#FF6B35;color:#fff;font-weight:800;padding:13px 0;border-radius:11px;border:none;cursor:pointer;font-size:15px;font-family:inherit;flex:1;min-width:120px;">📌 공지로 올리기</button>
+            <button onclick="resetBlogForm()" style="background:#f3f4f6;color:#6b7280;font-weight:700;padding:13px 16px;border-radius:11px;border:none;cursor:pointer;font-size:15px;font-family:inherit;">초기화</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 블로그 글 목록 -->
+      <div style="background:#fff;border-radius:20px;padding:28px;box-shadow:0 4px 24px rgba(0,0,0,.07);border:1px solid #f0f0f0;margin-bottom:28px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+          <h3 style="font-size:18px;font-weight:900;color:#1a1a1a;">📝 블로그 글 목록</h3>
+          <button onclick="loadAdminBlog()" style="background:#f3f4f6;color:#6b7280;border:none;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer;">새로고침</button>
+        </div>
+        <div id="admin-blog-list"></div>
+      </div>
+
+      <!-- 창업문의 목록 -->
+      <div style="background:#fff;border-radius:20px;padding:28px;box-shadow:0 4px 24px rgba(0,0,0,.07);border:1px solid #f0f0f0;margin-bottom:28px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+          <h3 style="font-size:18px;font-weight:900;color:#1a1a1a;">📬 창업문의 목록</h3>
+          <button onclick="loadAdminInquiries()" style="background:#f3f4f6;color:#6b7280;border:none;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer;">새로고침</button>
+        </div>
+        <div id="admin-inquiry-list"></div>
+      </div>
+
+      <!-- 후기 관리 -->
+      <div style="background:#fff;border-radius:20px;padding:28px;box-shadow:0 4px 24px rgba(0,0,0,.07);border:1px solid #f0f0f0;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+          <h3 style="font-size:18px;font-weight:900;color:#1a1a1a;">⭐ 후기 관리</h3>
+          <button onclick="loadAdminReviews()" style="background:#f3f4f6;color:#6b7280;border:none;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer;">새로고침</button>
+        </div>
+        <div id="admin-review-list"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, updateDoc, orderBy, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDXed9i1ju0Nr8DXqGJZ4WMW8dcnIMP4i8",
+    authDomain: "gato-mobile.firebaseapp.com",
+    projectId: "gato-mobile",
+    storageBucket: "gato-mobile.firebasestorage.app",
+    messagingSenderId: "831742761635",
+    appId: "1:831742761635:web:229a96a262b5b3bd9a3d16"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const auth = getAuth(app);
+
+  // 외부 스크립트에서 사용할 수 있도록 window에 노출
+  window._db = db;
+  window._fbModules = { query, collection, where, orderBy, getDocs };
+
+  // ==================== 블로그 ====================
+  window._allBlogDocs = [];
+
+  window.loadBlogPosts = async function() {
+    const container = document.getElementById('blog-list');
+    if (!container) return;
+    container.innerHTML = '<div style="text-align:center;padding:40px;color:#9ca3af;">불러오는 중...</div>';
+    try {
+      const q = query(collection(db, 'blog'), orderBy('createdAt', 'desc'));
+      const snap = await getDocs(q);
+      window._allBlogDocs = snap.docs;
+      renderBlogList(snap.docs);
+    } catch(e) {
+      container.innerHTML = '<div style="text-align:center;padding:40px;color:#ef4444;">불러오기 실패</div>';
+    }
+  };
+
+  window.renderBlogList = function(docs) {
+    const container = document.getElementById('blog-list');
+    if (!container) return;
+    if (!docs || docs.length === 0) {
+      container.innerHTML = '<div style="text-align:center;padding:60px;color:#9ca3af;font-size:15px;">📝 검색 결과가 없습니다.</div>';
+      return;
+    }
+    // 공지 먼저, 나머지는 최신순
+    const notices = docs.filter(d => d.data().isNotice);
+    const normals = docs.filter(d => !d.data().isNotice);
+    const sorted = [...notices, ...normals];
+    container.innerHTML = sorted.map(d => {
+      const data = d.data();
+      const date = data.createdAt ? new Date(data.createdAt.toDate()).toLocaleDateString('ko-KR') : '';
+      // CSS/script 제거 후 미리보기 생성
+      const cleanContent = (data.content || '')
+        .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
+        .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
+        .replace(/<[^>]*>/g, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+      const preview = cleanContent ? cleanContent.substring(0, 100) + '...' : '';
+      const isNotice = data.isNotice;
+      return `<div onclick="openBlogPost('${d.id}')" style="background:#fff;border-radius:16px;padding:24px;border:1.5px solid ${isNotice?'#FF6B35':'#f0f0f0'};box-shadow:0 2px 12px rgba(0,0,0,.05);cursor:pointer;transition:all .2s;margin-bottom:16px;${isNotice?'background:linear-gradient(to right,#fff8f6,#fff);':''}" onmouseover="this.style.boxShadow='0 8px 24px rgba(77,189,232,.15)'" onmouseout="this.style.boxShadow='0 2px 12px rgba(0,0,0,.05)'">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+          ${isNotice ? '<span style="background:#FF6B35;color:#fff;font-size:12px;font-weight:800;padding:3px 10px;border-radius:100px;">📌 공지</span>' : '<span style="width:1px;"></span>'}
+          <span style="font-size:13px;color:#9ca3af;">${date}</span>
+        </div>
+        <h3 style="font-size:18px;font-weight:800;color:#1a1a1a;margin-bottom:8px;letter-spacing:-.3px;">${data.title||''}</h3>
+        <p style="font-size:14px;color:#6b7280;line-height:1.6;">${preview}</p>
+      </div>`;
+    }).join('');
+  };
+
+  window.searchBlog = function() {
+    const kw = (document.getElementById('blog-search-input').value || '').trim().toLowerCase();
+    if (!kw) { renderBlogList(window._allBlogDocs); return; }
+    const filtered = window._allBlogDocs.filter(d => {
+      const data = d.data();
+      return (data.title||'').toLowerCase().includes(kw) || (data.content||'').replace(/<[^>]*>/g,'').toLowerCase().includes(kw);
+    });
+    renderBlogList(filtered);
+  };
+
+  window.openBlogPost = async function(id) {
+    try {
+      const snap = await getDocs(collection(db, 'blog'));
+      const docData = snap.docs.find(d => d.id === id);
+      if (!docData) return;
+      const data = docData.data();
+      const date = data.createdAt ? new Date(data.createdAt.toDate()).toLocaleDateString('ko-KR') : '';
+      // URL만 조용히 변경 (레이아웃 영향 없이)
+      try { history.replaceState({postId: id}, '', '/?post=' + id); } catch(e) {}
+      document.getElementById('blog-list-wrap').style.display = 'none';
+      const detail = document.getElementById('blog-detail');
+      detail.style.display = 'block';
+
+      // 블로그 글 div 렌더링 (SEO 크롤링 가능, Shadow DOM으로 CSS 완전 격리)
+      let rawContent = data.content || '';
+      let bodyContent = rawContent;
+      let extractedStyles = '';
+
+      const isFullDoc = rawContent.trim().toLowerCase().startsWith('<!doctype') || rawContent.trim().toLowerCase().startsWith('<html');
+      if (isFullDoc) {
+        // style 태그 내용 추출
+        const styleMatches = rawContent.match(/<style[^>]*>([\s\S]*?)<\/style>/gi) || [];
+        extractedStyles = styleMatches.map(s => s.replace(/<\/?style[^>]*>/gi, '')).join('\n');
+        // body 내용 추출
+        const bodyMatch = rawContent.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+        bodyContent = bodyMatch ? bodyMatch[1] : rawContent;
+        // script 제거
+        bodyContent = bodyContent.replace(/<script[\s\S]*?<\/script>/gi, '');
+      }
+
+      // head에 주입된 style 제거
+      const oldStyle = document.getElementById('blog-injected-style');
+      if (oldStyle) oldStyle.remove();
+
+      // 뒤로가기 버튼 삽입
+      detail.innerHTML = `
+        <div style="padding:20px 24px 0;max-width:780px;margin:0 auto;">
+          <button onclick="closeBlogPost()" style="display:flex;align-items:center;gap:6px;background:none;border:none;color:#4DBDE8;font-weight:700;font-size:14px;cursor:pointer;">← 목록으로</button>
+        </div>
+        <div id="blog-shadow-host" style="width:100%;display:block;"></div>`;
+
+      // Shadow DOM으로 CSS 완전 격리
+      const shadowHost = document.getElementById('blog-shadow-host');
+      const shadowRoot = shadowHost.attachShadow({ mode: 'open' });
+      shadowRoot.innerHTML = `<style>${extractedStyles}</style><div style="padding-bottom:60px;">${bodyContent}</div>`;
+    } catch(e) {}
+  };
+
+  window.closeBlogPost = function() {
+    try { history.replaceState({}, '', '/'); } catch(e) {}
+    // 블로그 주입된 style 태그 제거 (부모 페이지 복원)
+    const injectedStyle = document.getElementById('blog-injected-style');
+    if (injectedStyle) injectedStyle.remove();
+    document.getElementById('blog-list-wrap').style.display = 'block';
+    document.getElementById('blog-detail').style.display = 'none';
+  };
+
+  // 페이지 로드시 URL ?post= 있으면 자동으로 해당 글 열기
+  window.addEventListener('load', function() {
+    const params = new URLSearchParams(window.location.search);
+    const postId = params.get('post');
+    if (postId) {
+      // 블로그 탭 버튼 찾아서 활성화
+      const blogBtn = document.querySelector('button[onclick*="blog"]');
+      showPage('blog', blogBtn, true);
+      setTimeout(() => openBlogPost(postId), 800);
+    }
+  });
+
+  // 브라우저 뒤로가기 처리
+  window.addEventListener('popstate', function(e) {
+    if (e.state && e.state.postId) {
+      openBlogPost(e.state.postId);
+    } else {
+      const injectedStyle = document.getElementById('blog-injected-style');
+      if (injectedStyle) injectedStyle.remove();
+      document.getElementById('blog-list-wrap').style.display = 'block';
+      document.getElementById('blog-detail').style.display = 'none';
+    }
+  });
+
+  // ==================== 창업문의 ====================
+  window.submitStartupInquiry = async function() {
+    const name = document.getElementById('si-name').value.trim();
+    const phone = document.getElementById('si-phone').value.trim();
+    const interest = document.getElementById('si-interest').value;
+    const msg = document.getElementById('si-msg').value.trim();
+    if (!name || !phone) { alert('이름과 연락처를 입력해주세요!'); return; }
+    try {
+      await addDoc(collection(db, 'startup_inquiries'), {
+        name, phone, interest, msg, createdAt: serverTimestamp(), status: '미확인'
+      });
+      alert('창업문의가 접수되었습니다! 빠르게 연락드리겠습니다 😊');
+      document.getElementById('si-name').value = '';
+      document.getElementById('si-phone').value = '';
+      document.getElementById('si-msg').value = '';
+      document.getElementById('si-interest').selectedIndex = 0;
+    } catch(e) { alert('접수 실패. 다시 시도해주세요.'); }
+  };
+
+  // ==================== 후기 Firebase 저장 ====================
+  window.submitReviewToFirebase = async function(reviewData) {
+    try {
+      await addDoc(collection(db, 'reviews'), { ...reviewData, createdAt: serverTimestamp(), approved: false });
+    } catch(e) { console.log('후기 저장 실패', e); }
+  };
+
+  // ==================== 승인된 후기 메인 페이지 로딩 ====================
+  window._loadApprovedReviews = async function() {
+    try {
+      console.log('[가토] Firebase 승인 후기 로딩 시작');
+      const q = query(collection(db, 'reviews'), where('approved', '==', true), orderBy('createdAt', 'desc'));
+      const snap = await getDocs(q);
+      console.log('[가토] 가져온 후기 수:', snap.docs.length);
+      snap.docs.forEach(function(d) {
+        const r = d.data();
+        console.log('[가토] 후기 데이터:', r);
+        if (SR.some(function(x){ return x._id === d.id; })) {
+          console.log('[가토] 중복 스킵:', d.id);
+          return;
+        }
+        SR.push({
+          _id: d.id,
+          n: r.name || r.n || '',
+          p: r.plan || r.p || '',
+          c: r.carrier || r.c || 'KT',
+          s: r.stars || r.s || 5,
+          t: r.text || r.t || '',
+          tags: [], img: null
+        });
+      });
+      console.log('[가토] SR 총 개수:', SR.length);
+      if (typeof renderRev === 'function') renderRev();
+    } catch(e) { console.error('[가토] Firebase 오류:', e); }
+  };
+  // DOMContentLoaded 후 호출 (SR 변수가 준비된 후 실행)
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function(){ window._loadApprovedReviews(); });
+  } else {
+    window._loadApprovedReviews();
+  }
+
+  // ==================== 관리자 ====================
+  onAuthStateChanged(auth, (user) => {
+    const loginWrap = document.getElementById('admin-login');
+    const dashWrap = document.getElementById('admin-dashboard');
+    if (!loginWrap || !dashWrap) return;
+    if (user) {
+      loginWrap.style.display = 'none';
+      dashWrap.style.display = 'block';
+      loadAdminData();
+    } else {
+      loginWrap.style.display = 'flex';
+      loginWrap.style.justifyContent = 'center';
+      dashWrap.style.display = 'none';
+    }
+  });
+
+  window.adminLogin = async function() {
+    const email = document.getElementById('admin-email').value;
+    const pw = document.getElementById('admin-pw').value;
+    try {
+      await signInWithEmailAndPassword(auth, email, pw);
+    } catch(e) { alert('로그인 실패. 이메일/비밀번호를 확인해주세요.'); }
+  };
+
+  window.adminLogout = async function() {
+    await signOut(auth);
+  };
+
+  window.loadAdminData = async function() {
+    loadAdminBlog();
+    loadAdminInquiries();
+    loadAdminReviews();
+  };
+
+  // 관리자 블로그 목록
+  window.loadAdminBlog = async function() {
+    const el = document.getElementById('admin-blog-list');
+    if (!el) return;
+    try {
+      const q = query(collection(db, 'blog'), orderBy('createdAt', 'desc'));
+      const snap = await getDocs(q);
+      if (snap.empty) { el.innerHTML = '<p style="color:#9ca3af;text-align:center;padding:20px;">글이 없습니다.</p>'; return; }
+      el.innerHTML = snap.docs.map(d => {
+        const data = d.data();
+        const date = data.createdAt ? new Date(data.createdAt.toDate()).toLocaleDateString('ko-KR') : '';
+        return `<div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid #f0f0f0;">
+          <div>
+            <div style="font-weight:700;font-size:15px;color:#1a1a1a;">${data.title||''}</div>
+            <div style="font-size:12px;color:#9ca3af;margin-top:3px;">${data.category||''} · ${date}</div>
+          </div>
+          <div style="display:flex;gap:8px;flex-shrink:0;">
+            <button onclick="editBlogPost('${d.id}')" style="background:#e8f7fd;color:#2899c4;border:none;border-radius:8px;padding:6px 14px;font-size:13px;font-weight:700;cursor:pointer;">수정</button>
+            <button onclick="deleteBlogPost('${d.id}')" style="background:#fef2f2;color:#ef4444;border:none;border-radius:8px;padding:6px 14px;font-size:13px;font-weight:700;cursor:pointer;">삭제</button>
+          </div>
+        </div>`;
+      }).join('');
+    } catch(e) {}
+  };
+
+  // HTML 파일 업로드 함수
+  window.uploadHtmlFile = function(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    // 파일명에서 제목 자동 추출 (확장자 제거, 하이픈→공백)
+    const autoTitle = file.name.replace('.html','').replace(/-/g,' ').replace(/_/g,' ');
+    const titleInput = document.getElementById('blog-title');
+    if (!titleInput.value) titleInput.value = autoTitle;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById('blog-html-input').value = e.target.result;
+      // 자동 적용
+      applyHtml();
+      alert('✅ 파일 업로드 완료! 제목을 확인하고 저장·발행을 눌러주세요.');
+    };
+    reader.readAsText(file, 'UTF-8');
+    // input 초기화 (같은 파일 재업로드 가능하게)
+    event.target.value = '';
+  };
+
+  window.saveBlogPost = async function(type) {
+    const editId = document.getElementById('blog-edit-id').value;
+    const title = document.getElementById('blog-title').value.trim();
+    const category = type || '일반';
+    const isNotice = (category === '공지');
+    const content = document.getElementById('blog-content-editor').innerHTML.trim();
+    if (!title || !content) { alert('제목과 내용을 입력해주세요!'); return; }
+    try {
+      if (editId) {
+        await updateDoc(doc(db, 'blog', editId), { title, category, content, isNotice });
+        alert('수정 완료!');
+      } else {
+        await addDoc(collection(db, 'blog'), { title, category, content, isNotice, createdAt: serverTimestamp() });
+        alert(isNotice ? '📌 공지로 발행됐습니다!' : '발행 완료!');
+      }
+      window.resetBlogForm();
+      loadAdminBlog();
+    } catch(e) { alert('저장 실패'); }
+  };
+
+  window.resetBlogForm = function() {
+    document.getElementById('blog-title').value = '';
+    document.getElementById('blog-content-editor').innerHTML = '';
+    document.getElementById('blog-edit-id').value = '';
+    document.getElementById('blog-form-title').textContent = '새 글 작성';
+  };
+
+  window.editBlogPost = async function(id) {
+    try {
+      const snap = await getDocs(collection(db, 'blog'));
+      const docData = snap.docs.find(d => d.id === id);
+      if (!docData) return;
+      const data = docData.data();
+      document.getElementById('blog-edit-id').value = id;
+      document.getElementById('blog-title').value = data.title || '';
+      // category는 hidden input이므로 별도 설정 불필요
+      document.getElementById('blog-content').value = data.content || '';
+      document.getElementById('blog-content-editor').innerHTML = data.content || '';
+      document.getElementById('blog-form-title').textContent = '글 수정';
+      document.getElementById('blog-write-section').scrollIntoView({ behavior: 'smooth' });
+    } catch(e) {}
+  };
+
+  window.deleteBlogPost = async function(id) {
+    if (!confirm('정말 삭제할까요?')) return;
+    try {
+      await deleteDoc(doc(db, 'blog', id));
+      loadAdminBlog();
+    } catch(e) { alert('삭제 실패'); }
+  };
+
+  // 관리자 창업문의 목록
+  window.loadAdminInquiries = async function() {
+    const el = document.getElementById('admin-inquiry-list');
+    if (!el) return;
+    try {
+      const q = query(collection(db, 'startup_inquiries'), orderBy('createdAt', 'desc'));
+      const snap = await getDocs(q);
+      if (snap.empty) { el.innerHTML = '<p style="color:#9ca3af;text-align:center;padding:20px;">문의가 없습니다.</p>'; return; }
+      el.innerHTML = snap.docs.map(d => {
+        const data = d.data();
+        const date = data.createdAt ? new Date(data.createdAt.toDate()).toLocaleDateString('ko-KR') : '';
+        const statusColor = data.status === '확인완료' ? '#10b981' : '#f59e0b';
+        return `<div style="background:#f8fbff;border-radius:12px;padding:16px;margin-bottom:10px;border:1px solid #e8f0fe;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+            <div style="font-weight:800;font-size:15px;">${data.name} · ${data.phone}</div>
+            <div style="display:flex;gap:6px;align-items:center;">
+              <span style="font-size:12px;font-weight:700;color:${statusColor};">${data.status||'미확인'}</span>
+              <button onclick="markInquiryDone('${d.id}')" style="background:#e8f7fd;color:#2899c4;border:none;border-radius:6px;padding:4px 10px;font-size:12px;font-weight:700;cursor:pointer;">확인완료</button>
+              <button onclick="deleteInquiry('${d.id}')" style="background:#fef2f2;color:#ef4444;border:none;border-radius:6px;padding:4px 10px;font-size:12px;font-weight:700;cursor:pointer;">삭제</button>
+            </div>
+          </div>
+          <div style="font-size:13px;color:#6b7280;margin-bottom:4px;">관심분야: ${data.interest||'-'} · ${date}</div>
+          <div style="font-size:14px;color:#374151;">${data.msg||''}</div>
+        </div>`;
+      }).join('');
+    } catch(e) {}
+  };
+
+  window.markInquiryDone = async function(id) {
+    try {
+      await updateDoc(doc(db, 'startup_inquiries', id), { status: '확인완료' });
+      loadAdminInquiries();
+    } catch(e) {}
+  };
+
+  window.deleteInquiry = async function(id) {
+    if (!confirm('삭제할까요?')) return;
+    try {
+      await deleteDoc(doc(db, 'startup_inquiries', id));
+      loadAdminInquiries();
+    } catch(e) {}
+  };
+
+  // 관리자 후기 목록
+  window.loadAdminReviews = async function() {
+    const el = document.getElementById('admin-review-list');
+    if (!el) return;
+    try {
+      const q = query(collection(db, 'reviews'), orderBy('createdAt', 'desc'));
+      const snap = await getDocs(q);
+      if (snap.empty) { el.innerHTML = '<p style="color:#9ca3af;text-align:center;padding:20px;">후기가 없습니다.</p>'; return; }
+      el.innerHTML = snap.docs.map(d => {
+        const data = d.data();
+        const date = data.createdAt ? new Date(data.createdAt.toDate()).toLocaleDateString('ko-KR') : '';
+        const starCount = data.stars || data.s || 5;
+        const stars = '★'.repeat(starCount) + '☆'.repeat(5-starCount);
+        const statusBg = data.approved ? '#d1fae5' : '#fef3c7';
+        const statusColor = data.approved ? '#065f46' : '#92400e';
+        const statusText = data.approved ? '승인됨' : '미승인';
+        const displayName = data.name || data.n || '';
+        const displayPlan = data.plan || data.p || '';
+        const displayCarrier = data.carrier || data.c || '';
+        const displayText = data.text || data.t || '';
+        return `<div style="background:#f8fbff;border-radius:12px;padding:16px;margin-bottom:10px;border:1px solid #e8f0fe;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;">
+            <div>
+              <span style="font-weight:800;">${displayName}</span>
+              <span style="font-size:12px;color:#9ca3af;margin-left:8px;">${displayPlan} · ${displayCarrier}</span>
+            </div>
+            <div style="display:flex;gap:6px;align-items:center;">
+              <span style="background:${statusBg};color:${statusColor};font-size:11px;font-weight:700;padding:2px 8px;border-radius:100px;">${statusText}</span>
+              <button onclick="approveReview('${d.id}')" style="background:#d1fae5;color:#065f46;border:none;border-radius:6px;padding:4px 10px;font-size:12px;font-weight:700;cursor:pointer;">승인</button>
+              <button onclick="deleteReview('${d.id}')" style="background:#fef2f2;color:#ef4444;border:none;border-radius:6px;padding:4px 10px;font-size:12px;font-weight:700;cursor:pointer;">삭제</button>
+            </div>
+          </div>
+          <div style="font-size:13px;color:#fbbf24;margin-bottom:4px;">${stars}</div>
+          <div style="font-size:14px;color:#374151;">${displayText}</div>
+          <div style="font-size:12px;color:#9ca3af;margin-top:4px;">${date}</div>
+        </div>`;
+      }).join('');
+    } catch(e) {}
+  };
+
+  window.approveReview = async function(id) {
+    try {
+      await updateDoc(doc(db, 'reviews', id), { approved: true });
+      loadAdminReviews();
+    } catch(e) {}
+  };
+
+  window.deleteReview = async function(id) {
+    if (!confirm('삭제할까요?')) return;
+    try {
+      await deleteDoc(doc(db, 'reviews', id));
+      loadAdminReviews();
+    } catch(e) {}
+  };
+
+</script>
 
 <script>
 
@@ -662,6 +1250,9 @@ function maskName(n){if(n.length<=1)return n;if(n.length===2)return n[0]+'*';ret
 var GAS_URL='https://script.google.com/macros/s/AKfycbzlB8BAWG2G6MiPMFrMYqBm13IrDJjoQLL1Rlyr_wU5zFya5zhWFgNUwLWZxLuO8IQFFw/exec';
 
 // ==================== 리치 텍스트 에디터 ====================
+var GAS_URL='https://script.google.com/macros/s/AKfycbzlB8BAWG2G6MiPMFrMYqBm13IrDJjoQLL1Rlyr_wU5zFya5zhWFgNUwLWZxLuO8IQFFw/exec';
+
+// ==================== 리치 텍스트 에디터 ====================
 function submitReview(){
   var n=document.getElementById('r-name').value.trim();
   var p=document.getElementById('r-plan').value;
@@ -706,6 +1297,55 @@ function submitReview(){
 
 var currentCat='전체';
 var FAQS=[{"cat": "가입", "q": "KT, LG 대리점에서도 개통이 가능한가요?", "a": "안타깝게도 앤텔레콤은 KT·LG의 통신망을 사용하여 서비스를 제공하지만, KT·LG와는 다른 각각의 통신사로 KT·LG 대리점에서의 가입이 어렵습니다."}, {"cat": "가입", "q": "가입정보는 어디서 확인할 수 있나요?", "a": "앤텔레콤 멤버십 앱 또는 고객센터(114 무료, 1899-7700 유료)를 통해 확인 가능합니다."}, {"cat": "가입", "q": "유심은 어디서 구매하나요?", "a": "KT망: 바로유심(이마트24, CU, GS25) / LG망: 모두의 원칩(이마트24, B마트)에서 구매 가능합니다."}, {"cat": "가입", "q": "타 통신사 단말기도 사용할 수 있나요?", "a": "단말기에 문제가 없을 경우 전원을 2~3회 껐다 켜면 사용 가능합니다."}, {"cat": "가입", "q": "USIM만 다른 단말기에 장착해서 번호를 그대로 쓸 수 있나요?", "a": "네, 다른 단말기에 유심 장착 후 재부팅 2~3회 하면 사용 가능합니다."}, {"cat": "가입", "q": "유심만 있으면 단말기 없이 개통 가능한가요?", "a": "네, 단말기 없이 유심 단독 개통이 가능합니다."}, {"cat": "정지", "q": "일시정지 가능한가요?", "a": "연간 1회 최대 90일, 년 2회 가능합니다. 후불은 고객센터, 선불은 LG 불가 / KT는 앤텔레콤 멤버십 K망 앱으로 가능합니다."}, {"cat": "기타", "q": "MVNO가 무엇인가요?", "a": "MVNO는 SKT·KT·LGU+ 통신망을 임대하여 동일한 통화품질을 제공하는 알뜰폰 서비스입니다."}, {"cat": "기타", "q": "해지는 어떻게 신청하나요?", "a": "고객센터(앤텔레콤 114 무료 / 타통신사 1899-7700 유료, 평일 09:30~18:00)로 문의해주세요."}, {"cat": "기타", "q": "본인인증할 통신사는 어디를 선택해야 하나요?", "a": "KT망이면 알뜰폰-KT, LG망이면 알뜰폰-LG를 선택하시면 됩니다."}, {"cat": "기타", "q": "테더링(핫스팟)이 가능한가요?", "a": "단말기에서 테더링 활성화 시 사용 가능합니다. 초과 시 추가요금이 발생합니다."}, {"cat": "기타", "q": "고객센터 주말이나 야간에도 상담 가능한가요?", "a": "일반 고객센터는 평일 09:30~18:00만 운영합니다. 가토통신 담당자 상담은 365일 가능합니다! 카카오톡: gato4477 / 연락처: 010-4316-4477"}, {"cat": "기타", "q": "무제한 요금제에서 별도 제한이 없나요?", "a": "부가/영상통화는 별도 제공량 내에서 무료이며, 초과 시 추가요금이 발생합니다."}, {"cat": "기타", "q": "분실폰 위치 찾기가 가능한가요?", "a": "분실폰 위치 찾기 서비스는 제공하지 않습니다. 구글 내 기기 찾기 / 삼성 findmymobile.samsung.com / 경찰청 lost112.go.kr 이용해보세요."}, {"cat": "기타", "q": "부가통화가 뭔가요?", "a": "요금제 기본 통화에 포함되지 않는 영상통화, 대표번호(1588, 1577 등), 060/700 등에 거는 전화입니다."}, {"cat": "기타", "q": "LGU+ 공용 와이파이 이용 가능한가요?", "a": "후불은 LGU+ 공용 와이파이 사용 가능합니다. 선불은 사용 불가합니다."}, {"cat": "기타", "q": "휴대폰 소액결제가 가능한가요?", "a": "후불요금제는 소액결제 가능합니다. 선불요금제는 소액결제 사용이 불가합니다."}, {"cat": "로밍", "q": "해외출국 시 자동로밍이 이용 가능한가요?", "a": "선불 LG: 로밍 불가 / 선불 KT: 고객센터 또는 앤텔레콤 멤버십 K망에서 접수 가능 / 후불: KT·LG와 동일한 제휴국가에서 이용 가능"}, {"cat": "로밍", "q": "선불 국제전화 이용이 가능한가요?", "a": "선불의 경우 002만 사용 가능합니다. 방법: 002 + 국가번호 + 상대방 번호(앞 0 제외)"}, {"cat": "변경", "q": "기기변경을 하고 싶어요.", "a": "유심 장착 후 재부팅 2~3회 진행하시면 됩니다. 그래도 안될 경우 IMEI 확인(*#06# 입력) 후 고객센터로 문의해주세요."}, {"cat": "변경", "q": "명의변경은 어떻게 하나요?", "a": "가까운 앤텔레콤 센터에서만 가능합니다. 개통 3개월 경과 후 구비서류 지참하여 방문해주세요."}, {"cat": "변경", "q": "요금제 변경은 어떻게 하나요?", "a": "고객센터 또는 앤텔레콤 멤버십 앱에서 셀프케어로 요금제 변경 접수가 가능합니다."}, {"cat": "변경", "q": "번호변경은 어떻게 하나요?", "a": "멤버십 앱을 이용하거나 가까운 앤텔레콤 센터에 신분증 지참하여 방문 접수해주세요."}, {"cat": "변경", "q": "기기변경 시 가입비와 유심비용이 청구되나요?", "a": "가입비는 청구되지 않습니다. 단, 규격이 맞지 않아 유심을 새로 구매해야 하는 경우 유심비는 청구될 수 있습니다."}, {"cat": "부가서비스", "q": "KT Wi-Fi에 접속이 안 됩니다.", "a": "타 통신사 단말기, 해외구매 단말기의 경우 MAC 주소를 확인하여 고객센터로 문의해주세요. 확인방법: 설정 → 휴대폰 정보 → 상태 정보 → Wi-Fi MAC 주소"}, {"cat": "부가서비스", "q": "통화 중 다른 전화를 받을 수 있는 서비스가 있나요?", "a": "KT: 통화중대기 서비스 / LG 선불: 앤텔레콤 멤버십 L망 앱에서 설정 / LG 후불: U+모바일매니저 앱에서 설정"}, {"cat": "부가서비스", "q": "통화연결음 설정은 어떻게 하나요?", "a": "선불은 음원 사용 불가입니다. 후불은 필링 서비스(www.musicbellring.com) 가입 후 설정 가능합니다."}, {"cat": "부가서비스", "q": "선불 부가서비스 비용은 어떻게 결제하나요?", "a": "선불의 경우 기본 사용료 외 추가충전이 필요합니다. 최소 5천원 이상(백원 단위) 충전 후 일차감 방식으로 사용됩니다."}, {"cat": "셀프개통", "q": "타 통신사 유심카드를 그대로 사용할 수 있나요?", "a": "타 통신사 유심은 재사용 불가합니다. 앤텔레콤 전용 유심을 새로 구매하셔야 합니다."}, {"cat": "셀프개통", "q": "유심단독 개통이 무엇인가요?", "a": "단말기 구매 없이 유심칩만 구매하여 기존 단말기에 장착하여 이용하는 방식입니다."}, {"cat": "셀프개통", "q": "신규가입과 번호이동의 차이가 무엇인가요?", "a": "신규가입: 새로운 번호를 부여받아 개통 / 번호이동: 기존 사용 번호 그대로 앤텔레콤으로 통신사 이동"}, {"cat": "셀프개통", "q": "기존 번호 그대로 사용할 수 있나요?", "a": "네, 가능합니다. 타 통신사 이용 중인 경우 번호이동을 통해 기존 번호 그대로 가입 가능합니다."}, {"cat": "셀프개통", "q": "개통 완료 후 유심 인식이 안 돼요.", "a": "전원을 2~3회 껐다 켜주세요. 그래도 안될 경우 KT 수동나밍: *147359*682* / LG 수동나밍: #5487587#682# 입력 후에도 안될 경우 고객센터로 문의해주세요."}, {"cat": "셀프개통", "q": "셀프개통이 불가한 경우가 있나요?", "a": "셀프개통 불가: 외국인(여권), 미성년자, 법인, 타사 번호이동/신규/명의변경 3개월 이내, 30일 이내 앤텔레콤 번호 해지한 경우"}, {"cat": "셀프개통", "q": "야간이나 휴일에도 셀프개통이 가능한가요?", "a": "번호이동: 10:00~19:50 (일요일·신정·설·추석 당일 불가) / 신규가입: 08:00~21:50"}, {"cat": "셀프개통", "q": "번호이동 후 이전 통신사 해지는 어떻게 하나요?", "a": "번호이동 완료 직전에 이전 통신사는 자동 해지됩니다."}, {"cat": "셀프개통", "q": "미성년자도 가입이 가능한가요?", "a": "셀프개통은 불가하며, 가까운 앤텔레콤 센터에 보호자가 구비서류 지참하여 방문하시면 가능합니다."}, {"cat": "셀프개통", "q": "타 통신사에 요금 체납이 있어도 후불 가입이 가능한가요?", "a": "타 통신사 체납이 있는 경우 후불 개통이 불가합니다."}, {"cat": "셀프개통", "q": "신용불량자도 개통 가능한가요?", "a": "선불요금제는 타 통신사 미납이 있어도 개통 가능합니다. 단, 앤텔레콤 자사 미납의 경우 개통이 불가합니다."}, {"cat": "셀프개통", "q": "번호이동 인증 실패 시 개통이 불가능한가요?", "a": "번호이동 인증은 하루 7회까지만 가능합니다. 7회 초과 시 당일 번호이동은 불가능합니다."}, {"cat": "셀프개통", "q": "태블릿 소유자 회원번호가 뭔가요?", "a": "앤텔레콤 멤버십 앱으로 신청할 경우 반드시 입력해야 하는 번호로 [2919174]를 입력해 주시면 됩니다."}, {"cat": "셀프개통", "q": "간편인증수단이 없을 때는 어떻게 해야 하나요?", "a": "카카오, 패스, 토스 등의 인증서가 없을 경우에는 방문으로 진행해야 하며, 자세한 안내는 담당자에게 안내받으시면 됩니다."}, {"cat": "요금", "q": "데이터를 사용하지 않았는데 요금이 발생했어요.", "a": "앱 업데이트, 푸시 알림, 메일, 위치기반서비스 등으로 백그라운드 데이터가 사용될 수 있습니다."}, {"cat": "요금", "q": "월 중 요금제를 변경하면 요금이 어떻게 청구되나요?", "a": "변경 전일까지 기본료·제공량이 일할계산되고, 변경 시점부터 말일까지도 일할계산되어 청구됩니다."}, {"cat": "요금", "q": "명세서가 안 왔어요.", "a": "선불은 명세서 발행이 없습니다. 후불은 개통 시 선택한 수령 방법으로 발송됩니다."}, {"cat": "요금", "q": "잔액 소진 후 미충전 시 어떻게 되나요?", "a": "잔액 소진일로부터 15일간 수신만 가능하며, 15일 이후 30일 경과 시 직권해지됩니다."}, {"cat": "요금", "q": "개통 시 요금 충전은 꼭 해야 하나요?", "a": "개통 당일까지 요금 충전이 필요합니다. 미충전 시 익일 번호 정지 및 해지될 수 있습니다."}, {"cat": "요금", "q": "선불 기본료 충전과 차감은 어떻게 되나요?", "a": "KT(일차감): 충전 금액에서 매일 하루치 요금 차감 / LG(월차감): 한 달치 요금을 미리 납부하고 사용"}];
+
+function showPage(n,btn,noHistory){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.nt').forEach(function(b){b.classList.remove('on');});
+  document.getElementById('page-'+n).classList.add('active');
+  if(n==='blog'){
+    // 블로그 탭 클릭시 항상 목록으로 초기화
+    var listWrap = document.getElementById('blog-list-wrap');
+    var detail = document.getElementById('blog-detail');
+    if(listWrap) listWrap.style.display='block';
+    if(detail) detail.style.display='none';
+    if(typeof loadBlogPosts==='function')loadBlogPosts();
+  }
+  if(n==='admin'){
+    document.getElementById('admin-overlay').style.display='block';
+    document.body.style.overflow='hidden';
+    return;
+  }
+  if(btn)btn.classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(!noHistory){try{history.pushState({page:n},'',location.pathname+'#'+n);}catch(e){}}
+}
+var _logoCnt = 0, _logoTimer = null;
+window.logoClick = function() {
+  showPage('home', document.querySelectorAll('.nt')[0]);
+  _logoCnt++;
+  if(_logoTimer) clearTimeout(_logoTimer);
+  _logoTimer = setTimeout(function(){ _logoCnt = 0; }, 2000);
+  if(_logoCnt >= 10){
+    _logoCnt = 0;
+    document.getElementById('admin-overlay').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+};
+
+window.closeAdmin = function() {
+  document.getElementById('admin-overlay').style.display='none';
+  document.body.style.overflow='';
+  history.pushState({page:'home'},'',location.pathname+'#home');
+};
+
+window.addEventListener('popstate',function(e){
+  if(e.state&&e.state.page){
+    var pages=['home','self','usim','faq','blog','startup','admin'];
+    var idx=pages.indexOf(e.state.page);
+    if(idx>=0){var btn=document.querySelectorAll('.nt')[idx];showPage(e.state.page,btn,true);}
+  } else {showPage('home',document.querySelectorAll('.nt')[0],true);}
+});
+// URL 해시로 초기 페이지 결정
 </script>
 </body>
 </html>

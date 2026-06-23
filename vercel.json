@@ -1,6 +1,0 @@
-{
-  "rewrites": [
-    { "source": "/faq", "destination": "/faq.html" },
-    { "source": "/blog", "destination": "/blog.html" }
-  ]
-}

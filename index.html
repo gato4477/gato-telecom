@@ -328,7 +328,7 @@ footer strong{color:#fff;}
 <body>
 <nav class="nav">
   <div class="nav-in">
-    <a href="/" class="logo">가토통신<span>×앤텔레콤</span></a>
+    <a href="/" class="logo" onclick="logoClick();return false;">가토통신<span>×앤텔레콤</span></a>
     <a href="/" class="nt on">홈</a>
     <a href="/self" class="nt">셀프개통</a>
     <a href="/usim" class="nt">유심구매</a>
@@ -346,7 +346,7 @@ footer strong{color:#fff;}
       <h2 style="font-size:clamp(24px,6vw,32px);font-weight:900;color:#1a1a1a;line-height:1.25;margin-bottom:10px;letter-spacing:-1px;word-break:keep-all;">가토통신에서 쉽고 빠르게</h2>
       <h2 style="font-size:clamp(24px,6vw,32px);font-weight:900;color:var(--sky);line-height:1.25;margin-bottom:28px;letter-spacing:-1px;word-break:keep-all;">온라인 개통하기 📱</h2>
       <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:24px;">
-        <a href="#" onclick="showPage('self',this);sS('main');return false;" style="display:inline-flex;align-items:center;gap:10px;background:var(--sky);color:#fff;font-size:17px;font-weight:700;padding:16px 36px;border-radius:50px;text-decoration:none;box-shadow:0 4px 20px rgba(77,189,232,.35);">
+        <a href="/self" style="display:inline-flex;align-items:center;gap:10px;background:var(--sky);color:#fff;font-size:17px;font-weight:700;padding:16px 36px;border-radius:50px;text-decoration:none;box-shadow:0 4px 20px rgba(77,189,232,.35);">
           <span style="font-size:22px;">🚀</span> 개통하기
         </a>
         <a href="http://pf.kakao.com/_espRn/chat" target="_blank" style="display:inline-flex;align-items:center;gap:10px;background:#fff;color:var(--sky);font-size:17px;font-weight:700;padding:16px 36px;border-radius:50px;text-decoration:none;border:2px solid var(--sky);box-shadow:0 4px 16px rgba(0,0,0,.08);">

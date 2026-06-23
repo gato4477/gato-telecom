@@ -1,12 +1,6 @@
 {
   "rewrites": [
     { "source": "/faq", "destination": "/faq.html" },
-    { "source": "/blog", "destination": "/blog.html" },
-    { "source": "/startup", "destination": "/startup.html" },
-    { "source": "/franchise", "destination": "/startup.html" }
-  ],
-  "redirects": [
-    { "source": "/self", "destination": "/#self", "permanent": false },
-    { "source": "/usim", "destination": "/#usim", "permanent": false }
+    { "source": "/blog", "destination": "/blog.html" }
   ]
 }

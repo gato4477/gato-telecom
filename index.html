@@ -308,9 +308,9 @@ footer strong{color:#fff;}
     <button class="nt on" onclick="showPage('home',this)">홈</button>
     <button class="nt" onclick="showPage('self',this);sS('main')">셀프개통</button>
     <button class="nt" onclick="showPage('usim',this);uS('main')">유심구매</button>
-    <a href="/faq" class="nt" style="text-decoration:none;">FAQ</a>
-    <a href="/blog" class="nt" style="text-decoration:none;">블로그</a>
-    <a href="/startup" class="nt" style="text-decoration:none;">창업문의</a>
+    <a href="/faq" class="nt" style="text-decoration:none;color:inherit;">FAQ</a>
+    <a href="/blog" class="nt" style="text-decoration:none;color:inherit;">블로그</a>
+    <button class="nt" onclick="showPage('startup',this)">창업문의</button>
 
   </div>
 </nav>
@@ -1741,6 +1741,28 @@ window.closeAdmin = function() {
   document.body.style.overflow='';
 };
 
+window.addEventListener('popstate',function(e){
+  if(e.state&&e.state.page){
+    var pages=['home','self','usim','faq','blog','startup','admin'];
+    var idx=pages.indexOf(e.state.page);
+    if(idx>=0){var btn=document.querySelectorAll('.nt')[idx];showPage(e.state.page,btn,true);}
+  } else {showPage('home',document.querySelectorAll('.nt')[0],true);}
+});
+// URL 해시로 초기 페이지 결정
+(function(){
+  var hash = location.hash.replace('#','');
+  var pages = ['home','self','usim','faq','blog','startup','admin'];
+  if(hash && pages.indexOf(hash) >= 0){
+    var btns = document.querySelectorAll('.nt');
+    var idx = pages.indexOf(hash);
+    if(hash === 'admin'){
+      document.getElementById('admin-overlay').style.display='block';
+      document.body.style.overflow='hidden';
+    } else {
+      showPage(hash, btns[idx] || null, true);
+    }
+  }
+})();
 </script>
 </body>
 </html>

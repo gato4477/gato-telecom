@@ -1321,7 +1321,6 @@ function showPage(n,btn,noHistory){
 }
 var _logoCnt = 0, _logoTimer = null;
 window.logoClick = function() {
-  showPage('home', document.querySelectorAll('.nt')[0]);
   _logoCnt++;
   if(_logoTimer) clearTimeout(_logoTimer);
   _logoTimer = setTimeout(function(){ _logoCnt = 0; }, 2000);

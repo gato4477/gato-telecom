@@ -1,9 +1,6 @@
 {
   "rewrites": [
     { "source": "/faq", "destination": "/faq.html" },
-    { "source": "/blog", "destination": "/blog.html" },
-    { "source": "/self", "destination": "/self.html" },
-    { "source": "/usim", "destination": "/usim.html" },
-    { "source": "/franchise", "destination": "/franchise.html" }
+    { "source": "/blog", "destination": "/blog.html" }
   ]
 }

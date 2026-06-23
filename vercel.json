@@ -2,7 +2,8 @@
   "rewrites": [
     { "source": "/faq", "destination": "/faq.html" },
     { "source": "/blog", "destination": "/blog.html" },
-    { "source": "/franchise", "destination": "/franchise.html" }
+    { "source": "/startup", "destination": "/startup.html" },
+    { "source": "/franchise", "destination": "/startup.html" }
   ],
   "redirects": [
     { "source": "/self", "destination": "/#self", "permanent": false },

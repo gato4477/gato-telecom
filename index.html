@@ -326,6 +326,29 @@ footer strong{color:#fff;}
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"가토통신 | 앤텔레콤 알뜰폰 대리점","description":"KT·LG U+ 알뜰폰 선불폰 전문 가토통신. 비대면 셀프개통, 유심 퀵배송.","url":"https://gatomobile.kr"}</script>
 </head>
 <body>
+
+<script>
+// SPA showPage 무력화 - 실제 페이지 이동으로 교체
+function showPage(name, btn, noHistory) {
+  var urlMap = {
+    'home': '/',
+    'self': '/self',
+    'usim': '/usim',
+    'faq': '/faq',
+    'blog': '/blog',
+    'startup': '/franchise',
+    'franchise': '/franchise'
+  };
+  var url = urlMap[name];
+  if (url) {
+    // blog 포스트 직접 열기는 예외 처리
+    if (name === 'blog' && noHistory) {
+      return; // openBlogPost에서 호출한 경우 무시
+    }
+    window.location.href = url;
+  }
+}
+</script>
 <nav class="nav">
   <div class="nav-in">
     <a href="/" class="logo" onclick="logoClick();return false;">가토통신<span>×앤텔레콤</span></a>

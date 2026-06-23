@@ -1353,27 +1353,6 @@ window.closeAdmin = function() {
 
 </script>
 
-<script>
-window.addEventListener('pageshow', function(e) {
-  if (e.persisted) {
-    window.location.reload();
-  }
-});
-</script>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  document.querySelectorAll('.nt').forEach(function(a) {
-    a.addEventListener('click', function(e) {
-      var href = this.getAttribute('href');
-      if (href && href !== '/' && href.indexOf('#') === -1) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        window.location.href = href;
-      }
-    }, true);
-  });
-});
-</script>
 </body>
 </html>

@@ -351,13 +351,13 @@ function showPage(name, btn, noHistory) {
 </script>
 <nav class="nav">
   <div class="nav-in">
-    <a href="/" class="logo" onclick="logoClick();return false;">가토통신<span>×앤텔레콤</span></a>
-    <a href="/" class="nt on">홈</a>
-    <a href="/self" class="nt">셀프개통</a>
-    <a href="/usim" class="nt">유심구매</a>
-    <a href="/faq" class="nt">FAQ</a>
-    <a href="/blog" class="nt">블로그</a>
-    <a href="/franchise" class="nt">창업문의</a>
+    <span class="logo" onclick="logoClick();" style="cursor:pointer;">가토통신<span>×앤텔레콤</span></span>
+    <span class="nt on" onclick="location.href='/'">홈</span>
+    <span class="nt" onclick="location.href='/self'">셀프개통</span>
+    <span class="nt" onclick="location.href='/usim'">유심구매</span>
+    <span class="nt" onclick="location.href='/faq'">FAQ</span>
+    <span class="nt" onclick="location.href='/blog'">블로그</span>
+    <span class="nt" onclick="location.href='/franchise'">창업문의</span>
   </div>
 </nav>
 <div id="page-home" class="page active">
@@ -1353,6 +1353,27 @@ window.closeAdmin = function() {
 
 </script>
 
+<script>
+window.addEventListener('pageshow', function(e) {
+  if (e.persisted) {
+    window.location.reload();
+  }
+});
+</script>
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.nt').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      var href = this.getAttribute('href');
+      if (href && href !== '/' && href.indexOf('#') === -1) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        window.location.href = href;
+      }
+    }, true);
+  });
+});
+</script>
 </body>
 </html>

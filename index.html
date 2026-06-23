@@ -1329,5 +1329,13 @@ window.closeAdmin = function() {
 
 
 </script>
+
+<script>
+window.addEventListener('pageshow', function(e) {
+  if (e.persisted) {
+    window.location.reload();
+  }
+});
+</script>
 </body>
 </html>

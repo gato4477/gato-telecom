@@ -63,14 +63,26 @@ function scopeStyles(css) {
 }
 
 function splitContent(raw) {
-  const s = (raw || '').trim();
-  const isFullDoc = /^<!doctype/i.test(s) || /^<html/i.test(s);
-  if (!isFullDoc) return { styles: '', body: s };
+  let s = (raw || '').trim();
+
+  // 통째 HTML 문서면 body 안쪽만 사용
+  if (/^<!doctype/i.test(s) || /^<html/i.test(s)) {
+    const m = s.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+    if (m) {
+      const head = s.match(/<head[^>]*>([\s\S]*?)<\/head>/i);
+      s = (head ? head[1] : '') + m[1];
+    }
+  }
+
+  // 문서 형태와 무관하게 style 태그를 모두 뽑아냅니다
   const styles = (s.match(/<style[^>]*>([\s\S]*?)<\/style>/gi) || [])
     .map(x => x.replace(/<\/?style[^>]*>/gi, '')).join('\n');
-  const m = s.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
-  let body = m ? m[1] : s;
-  body = body.replace(/<script[\s\S]*?<\/script>/gi, '');
+
+  let body = s
+    .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
+    .replace(/<script[\s\S]*?<\/script>/gi, '')
+    .replace(/<\/?(html|head|body|meta|title|link)[^>]*>/gi, '');
+
   return { styles: scopeStyles(styles), body };
 }
 
@@ -202,6 +214,12 @@ footer strong{color:#fff;}
 
 /* 아래는 글마다 들어있는 스타일 (본문 안으로 한정됨) */
 ${styles}
+
+/* 안전장치 - 글 스타일이 새더라도 메뉴/푸터 폭은 지킵니다 */
+html,body{max-width:none !important;width:auto !important;margin:0 !important;padding:0 !important;}
+.nav{max-width:none !important;width:auto !important;display:block !important;}
+.nav-in{max-width:1200px !important;}
+footer{max-width:none !important;width:auto !important;}
 </style>
 </head>
 <body>

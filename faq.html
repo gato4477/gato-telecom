@@ -18,11 +18,390 @@
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
-    {"@type":"Question","name":"KT, LG 대리점에서도 개통이 가능한가요?","acceptedAnswer":{"@type":"Answer","text":"안타깝게도 일반 KT, LG 대리점에서는 개통이 어렵습니다. 다만 전국에 앤텔레콤 대리점이 운영되고 있기 때문에, 담당자를 통해 가까운 지점을 안내받은 뒤 방문 개통으로 진행할 수 있습니다."}},
-    {"@type":"Question","name":"유심은 어디서 구매하나요?","acceptedAnswer":{"@type":"Answer","text":"KT망: 바로유심(이마트24, CU, GS25) / LG망: 모두의 원칩(이마트24, B마트)에서 구매 가능합니다."}},
-    {"@type":"Question","name":"야간이나 휴일에도 셀프개통이 가능한가요?","acceptedAnswer":{"@type":"Answer","text":"번호이동: 10:00~19:50 (일요일·신정·설·추석 당일 불가) / 신규가입: 08:00~21:50"}},
-    {"@type":"Question","name":"신용불량자도 개통 가능한가요?","acceptedAnswer":{"@type":"Answer","text":"선불요금제는 타 통신사 미납이 있어도 개통 가능합니다. 단, 앤텔레콤 자사 미납의 경우 개통이 불가합니다."}},
-    {"@type":"Question","name":"셀프개통이 불가한 경우가 있나요?","acceptedAnswer":{"@type":"Answer","text":"외국인(여권), 미성년자, 법인, 타사 번호이동/신규/명의변경 3개월 이내, 30일 이내 앤텔레콤 번호 해지한 경우 셀프개통이 불가합니다."}}
+    {
+      "@type": "Question",
+      "name": "KT, LG 대리점에서도 개통이 가능한가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "안타깝게도 일반 KT, LG 대리점에서는 개통이 어렵습니다. 다만 전국에 앤텔레콤 대리점이 운영되고 있기 때문에, 담당자를 통해 가까운 지점을 안내받은 뒤 방문 개통으로 진행할 수 있습니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "가입정보는 어디서 확인할 수 있나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "앤텔레콤 멤버십 앱 또는 고객센터(114 무료, 1899-7700 유료)를 통해 확인 가능합니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "유심은 어디서 구매하나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "KT망: 바로유심(이마트24, CU, GS25) / LG망: 모두의 원칩(이마트24, B마트)에서 구매 가능합니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "타 통신사 단말기도 사용할 수 있나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "단말기에 문제가 없을 경우 전원을 2~3회 껐다 켜면 사용 가능합니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "USIM만 다른 단말기에 장착해서 번호를 그대로 쓸 수 있나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "네, 다른 단말기에 유심 장착 후 재부팅 2~3회 하면 사용 가능합니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "유심만 있으면 단말기 없이 개통 가능한가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "네, 단말기 없이 유심 단독 개통이 가능합니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "일시정지 가능한가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "연간 1회 최대 90일, 년 2회 가능합니다. 후불은 고객센터, 선불은 LG 불가 / KT는 앤텔레콤 멤버십 K망 앱으로 가능합니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "MVNO가 무엇인가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "MVNO는 SKT·KT·LGU+ 통신망을 임대하여 동일한 통화품질을 제공하는 알뜰폰 서비스입니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "해지는 어떻게 신청하나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "고객센터(앤텔레콤 114 무료 / 타통신사 1899-7700 유료, 평일 09:30~18:00)로 문의해주세요."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "본인인증할 통신사는 어디를 선택해야 하나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "KT망이면 알뜰폰-KT, LG망이면 알뜰폰-LG를 선택하시면 됩니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "테더링(핫스팟)이 가능한가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "단말기에서 테더링 활성화 시 사용 가능합니다. 초과 시 추가요금이 발생합니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "고객센터 주말이나 야간에도 상담 가능한가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "일반 고객센터는 평일 09:30~18:00만 운영합니다. 가토통신 담당자 상담은 365일 가능합니다! 카카오톡: gato4477 / 연락처: 010-4316-4477"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "무제한 요금제에서 별도 제한이 없나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "부가/영상통화는 별도 제공량 내에서 무료이며, 초과 시 추가요금이 발생합니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "분실폰 위치 찾기가 가능한가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "분실폰 위치 찾기 서비스는 제공하지 않습니다. 구글 내 기기 찾기 / 삼성 findmymobile.samsung.com / 경찰청 lost112.go.kr 이용해보세요."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "부가통화가 뭔가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "요금제 기본 통화에 포함되지 않는 영상통화, 대표번호(1588, 1577 등), 060/700 등에 거는 전화입니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "LGU+ 공용 와이파이 이용 가능한가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "후불은 LGU+ 공용 와이파이 사용 가능합니다. 선불은 사용 불가합니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "휴대폰 소액결제가 가능한가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "후불요금제는 소액결제 가능합니다. 선불요금제는 소액결제 사용이 불가합니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "해외출국 시 자동로밍이 이용 가능한가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "선불 LG: 로밍 불가 / 선불 KT: 고객센터 또는 앤텔레콤 멤버십 K망에서 접수 가능 / 후불: KT·LG와 동일한 제휴국가에서 이용 가능"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "선불 국제전화 이용이 가능한가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "선불의 경우 002만 사용 가능합니다. 방법: 002 + 국가번호 + 상대방 번호(앞 0 제외)"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "기기변경을 하고 싶어요.",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "유심 장착 후 재부팅 2~3회 진행하시면 됩니다. 그래도 안될 경우 IMEI 확인(*#06# 입력) 후 고객센터로 문의해주세요."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "명의변경은 어떻게 하나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "가까운 앤텔레콤 센터에서만 가능합니다. 개통 3개월 경과 후 구비서류 지참하여 방문해주세요."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "요금제 변경은 어떻게 하나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "고객센터 또는 앤텔레콤 멤버십 앱에서 셀프케어로 요금제 변경 접수가 가능합니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "번호변경은 어떻게 하나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "멤버십 앱을 이용하거나 가까운 앤텔레콤 센터에 신분증 지참하여 방문 접수해주세요."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "기기변경 시 가입비와 유심비용이 청구되나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "가입비는 청구되지 않습니다. 단, 규격이 맞지 않아 유심을 새로 구매해야 하는 경우 유심비는 청구될 수 있습니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "KT Wi-Fi에 접속이 안 됩니다.",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "타 통신사 단말기, 해외구매 단말기의 경우 MAC 주소를 확인하여 고객센터로 문의해주세요. 확인방법: 설정 → 휴대폰 정보 → 상태 정보 → Wi-Fi MAC 주소"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "통화 중 다른 전화를 받을 수 있는 서비스가 있나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "KT: 통화중대기 서비스 / LG 선불: 앤텔레콤 멤버십 L망 앱에서 설정 / LG 후불: U+모바일매니저 앱에서 설정"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "통화연결음 설정은 어떻게 하나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "선불은 음원 사용 불가입니다. 후불은 필링 서비스(www.musicbellring.com) 가입 후 설정 가능합니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "선불 부가서비스 비용은 어떻게 결제하나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "선불의 경우 기본 사용료 외 추가충전이 필요합니다. 최소 5천원 이상(백원 단위) 충전 후 일차감 방식으로 사용됩니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "타 통신사 유심카드를 그대로 사용할 수 있나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "타 통신사 유심은 재사용 불가합니다. 앤텔레콤 전용 유심을 새로 구매하셔야 합니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "유심단독 개통이 무엇인가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "단말기 구매 없이 유심칩만 구매하여 기존 단말기에 장착하여 이용하는 방식입니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "신규가입과 번호이동의 차이가 무엇인가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "신규가입: 새로운 번호를 부여받아 개통 / 번호이동: 기존 사용 번호 그대로 앤텔레콤으로 통신사 이동"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "기존 번호 그대로 사용할 수 있나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "네, 가능합니다. 타 통신사 이용 중인 경우 번호이동을 통해 기존 번호 그대로 가입 가능합니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "개통 완료 후 유심 인식이 안 돼요.",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "전원을 2~3회 껐다 켜주세요. 그래도 안될 경우 KT 수동나밍: *147359*682* / LG 수동나밍: #5487587#682# 입력 후에도 안될 경우 고객센터로 문의해주세요."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "셀프개통이 불가한 경우가 있나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "셀프개통 불가: 외국인(여권), 미성년자, 법인, 타사 번호이동/신규/명의변경 3개월 이내, 30일 이내 앤텔레콤 번호 해지한 경우"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "야간이나 휴일에도 셀프개통이 가능한가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "번호이동: 10:00~19:50 (일요일·신정·설·추석 당일 불가) / 신규가입: 08:00~21:50"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "번호이동 후 이전 통신사 해지는 어떻게 하나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "번호이동 완료 직전에 이전 통신사는 자동 해지됩니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "미성년자도 가입이 가능한가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "셀프개통은 불가하며, 가까운 앤텔레콤 센터에 보호자가 구비서류 지참하여 방문하시면 가능합니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "타 통신사에 요금 체납이 있어도 후불 가입이 가능한가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "타 통신사 체납이 있는 경우 후불 개통이 불가합니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "신용불량자도 개통 가능한가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "선불요금제는 타 통신사 미납이 있어도 개통 가능합니다. 단, 앤텔레콤 자사 미납의 경우 개통이 불가합니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "번호이동 인증 실패 시 개통이 불가능한가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "번호이동 인증은 하루 7회까지만 가능합니다. 7회 초과 시 당일 번호이동은 불가능합니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "태블릿 소유자 회원번호가 뭔가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "앤텔레콤 멤버십 앱으로 신청할 경우 반드시 입력해야 하는 번호로 [2919174]를 입력해 주시면 됩니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "간편인증수단이 없을 때는 어떻게 해야 하나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "카카오, 패스, 토스 등의 인증서가 없을 경우에는 방문으로 진행해야 하며, 자세한 안내는 담당자에게 안내받으시면 됩니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "데이터를 사용하지 않았는데 요금이 발생했어요.",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "앱 업데이트, 푸시 알림, 메일, 위치기반서비스 등으로 백그라운드 데이터가 사용될 수 있습니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "월 중 요금제를 변경하면 요금이 어떻게 청구되나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "변경 전일까지 기본료·제공량이 일할계산되고, 변경 시점부터 말일까지도 일할계산되어 청구됩니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "명세서가 안 왔어요.",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "선불은 명세서 발행이 없습니다. 후불은 개통 시 선택한 수령 방법으로 발송됩니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "잔액 소진 후 미충전 시 어떻게 되나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "잔액 소진일로부터 15일간 수신만 가능하며, 15일 이후 30일 경과 시 직권해지됩니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "개통 시 요금 충전은 꼭 해야 하나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "개통 당일까지 요금 충전이 필요합니다. 미충전 시 익일 번호 정지 및 해지될 수 있습니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "선불 기본료 충전과 차감은 어떻게 되나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "KT(일차감): 충전 금액에서 매일 하루치 요금 차감 / LG(월차감): 한 달치 요금을 미리 납부하고 사용"
+      }
+    }
   ]
 }
 </script>
@@ -115,8 +494,57 @@ footer strong{color:#fff;}
       <button class="fcat" onclick="setCat('부가서비스',this)">부가서비스</button>
       <button class="fcat" onclick="setCat('기타',this)">기타</button>
     </div>
-    <div id="faq-count" style="font-size:13px;color:var(--m);margin-bottom:12px"></div>
-    <div id="faq-list" class="faq-card"></div>
+    <div id="faq-count" style="font-size:13px;color:var(--m);margin-bottom:12px">총 48개의 답변이 있어요</div>
+    <div id="faq-list" class="faq-card">
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">가입</span><strong style="font-size:15px;color:var(--t)">Q. KT, LG 대리점에서도 개통이 가능한가요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">안타깝게도 일반 KT, LG 대리점에서는 개통이 어렵습니다. 다만 전국에 앤텔레콤 대리점이 운영되고 있기 때문에, 담당자를 통해 가까운 지점을 안내받은 뒤 방문 개통으로 진행할 수 있습니다.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">가입</span><strong style="font-size:15px;color:var(--t)">Q. 가입정보는 어디서 확인할 수 있나요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">앤텔레콤 멤버십 앱 또는 고객센터(114 무료, 1899-7700 유료)를 통해 확인 가능합니다.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">가입</span><strong style="font-size:15px;color:var(--t)">Q. 유심은 어디서 구매하나요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">KT망: 바로유심(이마트24, CU, GS25) / LG망: 모두의 원칩(이마트24, B마트)에서 구매 가능합니다.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">가입</span><strong style="font-size:15px;color:var(--t)">Q. 타 통신사 단말기도 사용할 수 있나요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">단말기에 문제가 없을 경우 전원을 2~3회 껐다 켜면 사용 가능합니다.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">가입</span><strong style="font-size:15px;color:var(--t)">Q. USIM만 다른 단말기에 장착해서 번호를 그대로 쓸 수 있나요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">네, 다른 단말기에 유심 장착 후 재부팅 2~3회 하면 사용 가능합니다.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">가입</span><strong style="font-size:15px;color:var(--t)">Q. 유심만 있으면 단말기 없이 개통 가능한가요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">네, 단말기 없이 유심 단독 개통이 가능합니다.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">정지</span><strong style="font-size:15px;color:var(--t)">Q. 일시정지 가능한가요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">연간 1회 최대 90일, 년 2회 가능합니다. 후불은 고객센터, 선불은 LG 불가 / KT는 앤텔레콤 멤버십 K망 앱으로 가능합니다.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">기타</span><strong style="font-size:15px;color:var(--t)">Q. MVNO가 무엇인가요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">MVNO는 SKT·KT·LGU+ 통신망을 임대하여 동일한 통화품질을 제공하는 알뜰폰 서비스입니다.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">기타</span><strong style="font-size:15px;color:var(--t)">Q. 해지는 어떻게 신청하나요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">고객센터(앤텔레콤 114 무료 / 타통신사 1899-7700 유료, 평일 09:30~18:00)로 문의해주세요.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">기타</span><strong style="font-size:15px;color:var(--t)">Q. 본인인증할 통신사는 어디를 선택해야 하나요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">KT망이면 알뜰폰-KT, LG망이면 알뜰폰-LG를 선택하시면 됩니다.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">기타</span><strong style="font-size:15px;color:var(--t)">Q. 테더링(핫스팟)이 가능한가요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">단말기에서 테더링 활성화 시 사용 가능합니다. 초과 시 추가요금이 발생합니다.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">기타</span><strong style="font-size:15px;color:var(--t)">Q. 고객센터 주말이나 야간에도 상담 가능한가요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">일반 고객센터는 평일 09:30~18:00만 운영합니다. 가토통신 담당자 상담은 365일 가능합니다! 카카오톡: gato4477 / 연락처: 010-4316-4477</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">기타</span><strong style="font-size:15px;color:var(--t)">Q. 무제한 요금제에서 별도 제한이 없나요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">부가/영상통화는 별도 제공량 내에서 무료이며, 초과 시 추가요금이 발생합니다.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">기타</span><strong style="font-size:15px;color:var(--t)">Q. 분실폰 위치 찾기가 가능한가요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">분실폰 위치 찾기 서비스는 제공하지 않습니다. 구글 내 기기 찾기 / 삼성 findmymobile.samsung.com / 경찰청 lost112.go.kr 이용해보세요.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">기타</span><strong style="font-size:15px;color:var(--t)">Q. 부가통화가 뭔가요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">요금제 기본 통화에 포함되지 않는 영상통화, 대표번호(1588, 1577 등), 060/700 등에 거는 전화입니다.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">기타</span><strong style="font-size:15px;color:var(--t)">Q. LGU+ 공용 와이파이 이용 가능한가요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">후불은 LGU+ 공용 와이파이 사용 가능합니다. 선불은 사용 불가합니다.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">기타</span><strong style="font-size:15px;color:var(--t)">Q. 휴대폰 소액결제가 가능한가요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">후불요금제는 소액결제 가능합니다. 선불요금제는 소액결제 사용이 불가합니다.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">로밍</span><strong style="font-size:15px;color:var(--t)">Q. 해외출국 시 자동로밍이 이용 가능한가요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">선불 LG: 로밍 불가 / 선불 KT: 고객센터 또는 앤텔레콤 멤버십 K망에서 접수 가능 / 후불: KT·LG와 동일한 제휴국가에서 이용 가능</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">로밍</span><strong style="font-size:15px;color:var(--t)">Q. 선불 국제전화 이용이 가능한가요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">선불의 경우 002만 사용 가능합니다. 방법: 002 + 국가번호 + 상대방 번호(앞 0 제외)</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">변경</span><strong style="font-size:15px;color:var(--t)">Q. 기기변경을 하고 싶어요.</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">유심 장착 후 재부팅 2~3회 진행하시면 됩니다. 그래도 안될 경우 IMEI 확인(*#06# 입력) 후 고객센터로 문의해주세요.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">변경</span><strong style="font-size:15px;color:var(--t)">Q. 명의변경은 어떻게 하나요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">가까운 앤텔레콤 센터에서만 가능합니다. 개통 3개월 경과 후 구비서류 지참하여 방문해주세요.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">변경</span><strong style="font-size:15px;color:var(--t)">Q. 요금제 변경은 어떻게 하나요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">고객센터 또는 앤텔레콤 멤버십 앱에서 셀프케어로 요금제 변경 접수가 가능합니다.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">변경</span><strong style="font-size:15px;color:var(--t)">Q. 번호변경은 어떻게 하나요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">멤버십 앱을 이용하거나 가까운 앤텔레콤 센터에 신분증 지참하여 방문 접수해주세요.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">변경</span><strong style="font-size:15px;color:var(--t)">Q. 기기변경 시 가입비와 유심비용이 청구되나요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">가입비는 청구되지 않습니다. 단, 규격이 맞지 않아 유심을 새로 구매해야 하는 경우 유심비는 청구될 수 있습니다.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">부가서비스</span><strong style="font-size:15px;color:var(--t)">Q. KT Wi-Fi에 접속이 안 됩니다.</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">타 통신사 단말기, 해외구매 단말기의 경우 MAC 주소를 확인하여 고객센터로 문의해주세요. 확인방법: 설정 → 휴대폰 정보 → 상태 정보 → Wi-Fi MAC 주소</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">부가서비스</span><strong style="font-size:15px;color:var(--t)">Q. 통화 중 다른 전화를 받을 수 있는 서비스가 있나요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">KT: 통화중대기 서비스 / LG 선불: 앤텔레콤 멤버십 L망 앱에서 설정 / LG 후불: U+모바일매니저 앱에서 설정</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">부가서비스</span><strong style="font-size:15px;color:var(--t)">Q. 통화연결음 설정은 어떻게 하나요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">선불은 음원 사용 불가입니다. 후불은 필링 서비스(www.musicbellring.com) 가입 후 설정 가능합니다.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">부가서비스</span><strong style="font-size:15px;color:var(--t)">Q. 선불 부가서비스 비용은 어떻게 결제하나요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">선불의 경우 기본 사용료 외 추가충전이 필요합니다. 최소 5천원 이상(백원 단위) 충전 후 일차감 방식으로 사용됩니다.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">셀프개통</span><strong style="font-size:15px;color:var(--t)">Q. 타 통신사 유심카드를 그대로 사용할 수 있나요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">타 통신사 유심은 재사용 불가합니다. 앤텔레콤 전용 유심을 새로 구매하셔야 합니다.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">셀프개통</span><strong style="font-size:15px;color:var(--t)">Q. 유심단독 개통이 무엇인가요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">단말기 구매 없이 유심칩만 구매하여 기존 단말기에 장착하여 이용하는 방식입니다.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">셀프개통</span><strong style="font-size:15px;color:var(--t)">Q. 신규가입과 번호이동의 차이가 무엇인가요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">신규가입: 새로운 번호를 부여받아 개통 / 번호이동: 기존 사용 번호 그대로 앤텔레콤으로 통신사 이동</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">셀프개통</span><strong style="font-size:15px;color:var(--t)">Q. 기존 번호 그대로 사용할 수 있나요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">네, 가능합니다. 타 통신사 이용 중인 경우 번호이동을 통해 기존 번호 그대로 가입 가능합니다.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">셀프개통</span><strong style="font-size:15px;color:var(--t)">Q. 개통 완료 후 유심 인식이 안 돼요.</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">전원을 2~3회 껐다 켜주세요. 그래도 안될 경우 KT 수동나밍: *147359*682* / LG 수동나밍: #5487587#682# 입력 후에도 안될 경우 고객센터로 문의해주세요.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">셀프개통</span><strong style="font-size:15px;color:var(--t)">Q. 셀프개통이 불가한 경우가 있나요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">셀프개통 불가: 외국인(여권), 미성년자, 법인, 타사 번호이동/신규/명의변경 3개월 이내, 30일 이내 앤텔레콤 번호 해지한 경우</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">셀프개통</span><strong style="font-size:15px;color:var(--t)">Q. 야간이나 휴일에도 셀프개통이 가능한가요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">번호이동: 10:00~19:50 (일요일·신정·설·추석 당일 불가) / 신규가입: 08:00~21:50</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">셀프개통</span><strong style="font-size:15px;color:var(--t)">Q. 번호이동 후 이전 통신사 해지는 어떻게 하나요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">번호이동 완료 직전에 이전 통신사는 자동 해지됩니다.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">셀프개통</span><strong style="font-size:15px;color:var(--t)">Q. 미성년자도 가입이 가능한가요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">셀프개통은 불가하며, 가까운 앤텔레콤 센터에 보호자가 구비서류 지참하여 방문하시면 가능합니다.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">셀프개통</span><strong style="font-size:15px;color:var(--t)">Q. 타 통신사에 요금 체납이 있어도 후불 가입이 가능한가요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">타 통신사 체납이 있는 경우 후불 개통이 불가합니다.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">셀프개통</span><strong style="font-size:15px;color:var(--t)">Q. 신용불량자도 개통 가능한가요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">선불요금제는 타 통신사 미납이 있어도 개통 가능합니다. 단, 앤텔레콤 자사 미납의 경우 개통이 불가합니다.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">셀프개통</span><strong style="font-size:15px;color:var(--t)">Q. 번호이동 인증 실패 시 개통이 불가능한가요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">번호이동 인증은 하루 7회까지만 가능합니다. 7회 초과 시 당일 번호이동은 불가능합니다.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">셀프개통</span><strong style="font-size:15px;color:var(--t)">Q. 태블릿 소유자 회원번호가 뭔가요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">앤텔레콤 멤버십 앱으로 신청할 경우 반드시 입력해야 하는 번호로 <strong style="color:#FF6B35;font-size:16px">2919174</strong>를 입력해 주시면 됩니다.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">셀프개통</span><strong style="font-size:15px;color:var(--t)">Q. 간편인증수단이 없을 때는 어떻게 해야 하나요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">카카오, 패스, 토스 등의 인증서가 없을 경우에는 방문으로 진행해야 하며, 자세한 안내는 담당자에게 안내받으시면 됩니다.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">요금</span><strong style="font-size:15px;color:var(--t)">Q. 데이터를 사용하지 않았는데 요금이 발생했어요.</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">앱 업데이트, 푸시 알림, 메일, 위치기반서비스 등으로 백그라운드 데이터가 사용될 수 있습니다.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">요금</span><strong style="font-size:15px;color:var(--t)">Q. 월 중 요금제를 변경하면 요금이 어떻게 청구되나요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">변경 전일까지 기본료·제공량이 일할계산되고, 변경 시점부터 말일까지도 일할계산되어 청구됩니다.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">요금</span><strong style="font-size:15px;color:var(--t)">Q. 명세서가 안 왔어요.</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">선불은 명세서 발행이 없습니다. 후불은 개통 시 선택한 수령 방법으로 발송됩니다.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">요금</span><strong style="font-size:15px;color:var(--t)">Q. 잔액 소진 후 미충전 시 어떻게 되나요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">잔액 소진일로부터 15일간 수신만 가능하며, 15일 이후 30일 경과 시 직권해지됩니다.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">요금</span><strong style="font-size:15px;color:var(--t)">Q. 개통 시 요금 충전은 꼭 해야 하나요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">개통 당일까지 요금 충전이 필요합니다. 미충전 시 익일 번호 정지 및 해지될 수 있습니다.</span></div></div></div>
+<div style="border-bottom:1px solid #f0f0f0;padding:16px 0;cursor:pointer" onclick="toggleFaq(this)"><div style="display:flex;justify-content:space-between;align-items:center;gap:13px"><div><span style="display:inline-block;background:#fff3eb;color:var(--org);font-size:11px;font-weight:800;padding:2px 8px;border-radius:100px;margin-right:7px">요금</span><strong style="font-size:15px;color:var(--t)">Q. 선불 기본료 충전과 차감은 어떻게 되나요?</strong></div><span class="arr" style="color:var(--sky);flex-shrink:0;transition:transform .3s;font-size:14px">▼</span></div><div class="fa" style="display:none;margin-top:11px;font-size:14px;color:#374151;line-height:1.85;padding:11px 15px;background:#f8fbff;border-radius:10px"><div style="display:flex;gap:7px;align-items:flex-start"><span style="font-weight:800;color:var(--sky);flex-shrink:0">A.</span><span style="white-space:pre-line">KT(일차감): 충전 금액에서 매일 하루치 요금 차감 / LG(월차감): 한 달치 요금을 미리 납부하고 사용</span></div></div></div>
+</div>
     <div id="faq-empty" style="display:none;text-align:center;padding:52px 20px;color:var(--m)">
       <div style="font-size:44px;margin-bottom:14px">🔍</div>
       <div style="font-size:16px;font-weight:700;margin-bottom:8px">검색 결과가 없어요</div>

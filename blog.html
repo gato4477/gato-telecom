@@ -158,6 +158,13 @@ footer strong{color:#fff;}
 
   window._allBlogDocs = [];
 
+  window.slugify = function(t) {
+    return (t || '').trim()
+      .replace(/[^\uAC00-\uD7A3a-zA-Z0-9\s-]/g, '')
+      .replace(/\s+/g, '-').replace(/-+/g, '-')
+      .toLowerCase().slice(0, 80);
+  };
+
   window.loadBlogPosts = async function() {
     const container = document.getElementById('blog-list');
     if (!container) return;
@@ -167,6 +174,19 @@ footer strong{color:#fff;}
       const snap = await getDocs(q);
       window._allBlogDocs = snap.docs;
       renderBlogList(snap.docs);
+      try {
+        const items = snap.docs.map((d, i) => ({
+          '@type': 'ListItem', position: i + 1,
+          url: 'https://gatomobile.kr/blog/' + encodeURIComponent(slugify(d.data().title || '')),
+          name: d.data().title || ''
+        }));
+        const ld = document.createElement('script');
+        ld.type = 'application/ld+json';
+        ld.textContent = JSON.stringify({
+          '@context': 'https://schema.org', '@type': 'ItemList', itemListElement: items
+        });
+        document.head.appendChild(ld);
+      } catch(e) {}
     } catch(e) {
       container.innerHTML = '<div style="text-align:center;padding:40px;color:#ef4444;">불러오기 실패</div>';
     }
@@ -193,14 +213,15 @@ footer strong{color:#fff;}
         .trim();
       const preview = cleanContent ? cleanContent.substring(0, 100) + '...' : '';
       const isNotice = data.isNotice;
-      return `<div onclick="openBlogPost('${d.id}')" style="background:#fff;border-radius:16px;padding:24px;border:1.5px solid ${isNotice?'#FF6B35':'#f0f0f0'};box-shadow:0 2px 12px rgba(0,0,0,.05);cursor:pointer;transition:all .2s;margin-bottom:16px;${isNotice?'background:linear-gradient(to right,#fff8f6,#fff);':''}" onmouseover="this.style.boxShadow='0 8px 24px rgba(77,189,232,.15)'" onmouseout="this.style.boxShadow='0 2px 12px rgba(0,0,0,.05)'">
+      const href = '/blog/' + encodeURIComponent(slugify(data.title));
+      return `<a href="${href}" style="text-decoration:none;color:inherit;display:block;"><div style="background:#fff;border-radius:16px;padding:24px;border:1.5px solid ${isNotice?'#FF6B35':'#f0f0f0'};box-shadow:0 2px 12px rgba(0,0,0,.05);cursor:pointer;transition:all .2s;margin-bottom:16px;${isNotice?'background:linear-gradient(to right,#fff8f6,#fff);':''}" onmouseover="this.style.boxShadow='0 8px 24px rgba(77,189,232,.15)'" onmouseout="this.style.boxShadow='0 2px 12px rgba(0,0,0,.05)'">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
           ${isNotice ? '<span style="background:#FF6B35;color:#fff;font-size:12px;font-weight:800;padding:3px 10px;border-radius:100px;">📌 공지</span>' : '<span style="width:1px;"></span>'}
           <span style="font-size:13px;color:#9ca3af;">${date}</span>
         </div>
         <h2 style="font-size:18px;font-weight:800;color:#1a1a1a;margin-bottom:8px;letter-spacing:-.3px;">${data.title||''}</h2>
         <p style="font-size:14px;color:#6b7280;line-height:1.6;">${preview}</p>
-      </div>`;
+      </div></a>`;
     }).join('');
   };
 

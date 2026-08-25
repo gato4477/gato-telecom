@@ -69,7 +69,7 @@ function makeSummary(body) {
   return text.slice(0, 155);
 }
 
-export default async function handler(req, res) {
+module.exports = async (req, res) => {
   const slug = decodeURIComponent(req.query.slug || '');
 
   let posts;
@@ -209,4 +209,4 @@ ${body}
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
   res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate=600');
   return res.status(200).send(html);
-}
+};

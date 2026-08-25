@@ -45,6 +45,23 @@ async function fetchPosts() {
 }
 
 // 본문에서 스타일과 body만 뽑아냅니다 (관리자가 통째 HTML을 붙여넣는 경우 대응)
+// 글에 들어있는 스타일이 페이지 전체(메뉴/푸터)로 새지 않게 본문 안에만 가둡니다.
+function scopeStyles(css) {
+  if (!css) return '';
+  return css.replace(/(^|\}|\{)\s*([^@{}]+)\{/g, (m, brace, sel) => {
+    const scoped = sel.split(',').map(one => {
+      const t = one.trim();
+      if (!t) return t;
+      if (/^(html|body)$/i.test(t)) return '.post-body';
+      if (/^(html|body)\b/i.test(t)) return '.post-body ' + t.replace(/^(html|body)\s*/i, '');
+      if (/^(from|to|\d+%)$/i.test(t)) return t;
+      if (t.startsWith('.post-body')) return t;
+      return '.post-body ' + t;
+    }).join(', ');
+    return brace + '\n' + scoped + '{';
+  });
+}
+
 function splitContent(raw) {
   const s = (raw || '').trim();
   const isFullDoc = /^<!doctype/i.test(s) || /^<html/i.test(s);
@@ -54,7 +71,7 @@ function splitContent(raw) {
   const m = s.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
   let body = m ? m[1] : s;
   body = body.replace(/<script[\s\S]*?<\/script>/gi, '');
-  return { styles, body };
+  return { styles: scopeStyles(styles), body };
 }
 
 // 첫 문단을 요약으로 (meta description + 스키마용)
@@ -141,39 +158,64 @@ ${JSON.stringify(schema, null, 2)}
   gtag('config', 'G-LEJJMRTQBC');
 </script>
 <style>
-:root{--sky:#4DBDE8;--org:#FF6B35;--t:#1a1a1a;--m:#6b7280;}
+:root{--sky:#4DBDE8;--skyd:#2899c4;--skyb:#e8f7fd;--org:#FF6B35;--t:#1a1a1a;--m:#6b7280;}
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:"Noto Sans KR",sans-serif;background:#f8fbff;color:var(--t);font-size:16px;line-height:1.8;}
+body{font-family:"Noto Sans KR",sans-serif;background:#f8fbff;color:var(--t);font-size:16px;}
+
+/* NAV - blog.html 과 동일 */
 .nav{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid #f0f0f0;box-shadow:0 2px 16px rgba(0,0,0,.06);}
 .nav-in{max-width:1200px;margin:0 auto;display:flex;align-items:center;padding:0 32px;gap:4px;}
-.logo{font-size:24px;font-weight:900;color:var(--sky);padding:15px 0;margin-right:20px;text-decoration:none;}
-.nt{padding:17px;font-size:16px;font-weight:600;color:var(--m);text-decoration:none;}
+.logo{font-size:24px;font-weight:900;color:var(--sky);letter-spacing:-1px;padding:15px 0;margin-right:20px;text-decoration:none;display:flex;flex-direction:column;align-items:flex-end;line-height:1;white-space:nowrap;}
+.logo span{font-size:9px;font-weight:500;color:#9ca3af;letter-spacing:0.5px;margin-top:1px;}
+.nt{padding:17px 17px;font-size:16px;font-weight:600;color:var(--m);text-decoration:none;border-bottom:3px solid transparent;white-space:nowrap;transition:color .2s;display:inline-block;}
 .nt:hover{color:var(--sky);}
-.wrap{max-width:780px;margin:0 auto;padding:40px 24px 80px;}
-.post-head{margin-bottom:28px;padding-bottom:22px;border-bottom:1.5px solid #e5e9f5;}
+.nt.on{color:var(--sky);border-bottom-color:var(--sky);}
+
+/* 본문 - 목록 페이지와 동일한 폭 */
+.wrap{width:100%;max-width:780px;margin:0 auto;padding:32px 24px 80px;}
+.back{display:inline-block;margin-bottom:20px;color:var(--sky);font-weight:700;font-size:14px;text-decoration:none;}
+.post-head{margin-bottom:26px;padding-bottom:20px;border-bottom:1.5px solid #e5e9f5;}
 .post-head h1{font-size:27px;font-weight:900;letter-spacing:-.5px;line-height:1.4;margin-bottom:10px;}
 .post-date{font-size:13px;color:var(--m);}
+.post-body{line-height:1.8;}
 .post-body img{max-width:100%;height:auto;}
 .post-body h2{font-size:21px;font-weight:800;margin:34px 0 12px;letter-spacing:-.3px;}
 .post-body h3{font-size:18px;font-weight:700;margin:26px 0 10px;}
 .post-body p{margin-bottom:16px;}
+.post-body ul,.post-body ol{margin:0 0 16px 20px;}
 .post-body table{width:100%;border-collapse:collapse;margin:18px 0;font-size:15px;}
 .post-body th,.post-body td{border:1px solid #e5e9f5;padding:10px 12px;text-align:left;}
 .post-body th{background:#f0f8fd;font-weight:700;}
-.back{display:inline-block;margin-bottom:22px;color:var(--sky);font-weight:700;font-size:14px;text-decoration:none;}
+
 .cta{margin-top:44px;padding:26px;background:#fff;border-radius:16px;border:1.5px solid #f0f0f0;text-align:center;}
 .cta a{display:inline-block;margin-top:12px;background:var(--org);color:#fff;font-weight:800;padding:13px 28px;border-radius:9px;text-decoration:none;}
-footer{background:#1a1a1a;color:#fff;padding:34px 0;font-size:13px;}
+
+footer{background:#1a3a4a;color:#8bb8c8;text-align:center;padding:30px 20px;font-size:14px;line-height:2.3;}
+footer strong{color:#fff;}
+
+@media(max-width:768px){
+  .nav-in{padding:0 12px;gap:0;flex-wrap:wrap;}
+  .logo{font-size:18px;padding:12px 0;margin-right:8px;}
+  .nt{padding:12px 8px;font-size:13px;}
+  .post-head h1{font-size:22px;}
+}
+
+/* 아래는 글마다 들어있는 스타일 (본문 안으로 한정됨) */
 ${styles}
 </style>
 </head>
 <body>
-<nav class="nav"><div class="nav-in">
-  <a href="/" class="logo">가토통신</a>
-  <a href="/" class="nt">홈</a>
-  <a href="/faq" class="nt">FAQ</a>
-  <a href="/blog" class="nt">블로그</a>
-</div></nav>
+<nav class="nav">
+  <div class="nav-in">
+    <a href="/" class="logo">가토통신<span>\u00d7앤텔레콤</span></a>
+    <a href="/" class="nt">홈</a>
+    <a href="/#self" class="nt">셀프개통</a>
+    <a href="/#usim" class="nt">유심구매</a>
+    <a href="/faq" class="nt">FAQ</a>
+    <a href="/blog" class="nt on">블로그</a>
+    <a href="/#startup" class="nt">창업문의</a>
+  </div>
+</nav>
 
 <main class="wrap">
   <a href="/blog" class="back">← 목록으로</a>
@@ -194,15 +236,13 @@ ${body}
   </div>
 </main>
 
-<footer><div style="max-width:1200px;margin:0 auto;padding:0 32px;">
-  <strong style="font-size:15px">GATO MOBILE</strong><br>
-  <span style="opacity:.75;line-height:2">
-    상호명: 가토통신 | 대표자: 하주연 | 사업자번호: 702-73-00624<br>
-    주소: 경기도 부천시 원미구 원미로 57번길46-1<br>
-    연락처: 010-4316-4477 | Email: greeny89@naver.com
-  </span>
-  <div style="opacity:.5;font-size:12px;margin-top:16px">© 2025 가토통신. All rights reserved.</div>
-</div></footer>
+<footer>
+  <strong>GATO MOBILE</strong><br>
+  상호명: 가토통신 | 대표자: 하주연 | 사업자번호: 702-73-00624<br>
+  주소: 경기도 부천시 원미구 원미로 57번길46-1<br>
+  연락처: 010-4316-4477 | Email: greeny89@naver.com<br>
+  <span style="font-size:12px;opacity:.6">\u00a9 2025 가토통신. All rights reserved.</span>
+</footer>
 </body>
 </html>`;
 

@@ -29,11 +29,11 @@ a.nt{text-decoration:none;display:flex;align-items:center;}
 /* HERO */
 /* ===== 메인 배너 + CTA (관리자 등록형) ===== */
 .gt-top{max-width:1200px;margin:0 auto;padding:22px 24px 30px}
-.gt-hero{position:relative;width:100%;aspect-ratio:1200/460;border-radius:16px;overflow:hidden;background:#dde5f0}
+.gt-hero{position:relative;width:100%;aspect-ratio:1200/460;border-radius:16px;overflow:hidden;background:#fff}
 .gt-slide{position:absolute;inset:0;opacity:0;transition:opacity .5s ease;pointer-events:none}
 .gt-slide.is-on{opacity:1;pointer-events:auto}
 .gt-slide a,.gt-slide span.gt-nolink{display:block;width:100%;height:100%}
-.gt-slide img{width:100%;height:100%;object-fit:cover;display:block}
+.gt-slide img{width:100%;height:100%;object-fit:contain;display:block}
 .gt-hero.is-loading::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,#dde5f0 30%,#eaf0f8 50%,#dde5f0 70%);background-size:200% 100%;animation:gtShim 1.4s linear infinite}
 @keyframes gtShim{to{background-position:-200% 0}}
 .gt-hero-ctrl{position:absolute;left:18px;bottom:18px;z-index:3;display:flex;align-items:center;gap:2px;background:rgba(18,26,40,.5);backdrop-filter:blur(6px);border-radius:100px;padding:4px}
@@ -53,10 +53,9 @@ a.nt{text-decoration:none;display:flex;align-items:center;}
 .gt-cta .ask{background:linear-gradient(135deg,#2f3d84,#1a2452);box-shadow:0 6px 18px rgba(36,48,107,.26)}
 
 
-@media(max-width:900px){.gt-hero{aspect-ratio:16/9}}
 @media(max-width:640px){
   .gt-top{padding:16px 16px 24px}
-  .gt-hero{aspect-ratio:4/3;border-radius:13px}
+  .gt-hero{border-radius:13px}
   .gt-cta{grid-template-columns:1fr;gap:10px}
   .gt-cta a{padding:16px 20px}
   .gt-cta .main{font-size:18px}
@@ -1316,6 +1315,17 @@ footer strong{color:#fff;}
         : '<span class="gt-nolink">' + img + '</span>';
       hero.insertBefore(wrap, ctrl);
     });
+
+    // 첫 배너의 실제 비율에 맞춰 배너 칸 높이를 맞춤
+    var firstImg = hero.querySelector('.gt-slide img');
+    if (firstImg) {
+      var applyRatio = function(){
+        if (firstImg.naturalWidth && firstImg.naturalHeight) {
+          hero.style.aspectRatio = firstImg.naturalWidth + ' / ' + firstImg.naturalHeight;
+        }
+      };
+      if (firstImg.complete) applyRatio(); else firstImg.onload = applyRatio;
+    }
 
     gtSlides = Array.from(hero.querySelectorAll('.gt-slide'));
     gtIdx = 0;

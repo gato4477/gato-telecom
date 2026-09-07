@@ -52,10 +52,6 @@ a.nt{text-decoration:none;display:flex;align-items:center;}
 .gt-cta .self{background:linear-gradient(135deg,#3b6ff6,#2b56cc);box-shadow:0 6px 18px rgba(59,111,246,.28)}
 .gt-cta .ask{background:linear-gradient(135deg,#2f3d84,#1a2452);box-shadow:0 6px 18px rgba(36,48,107,.26)}
 
-.gt-tagline{text-align:center;font-size:17px;font-weight:800;color:var(--t);letter-spacing:-.6px;margin:26px 0 10px}
-.gt-trust{display:flex;gap:22px;justify-content:center;flex-wrap:wrap}
-.gt-trust span{font-size:13px;color:#6b7280;display:flex;align-items:center;gap:6px}
-.gt-trust span::before{content:"\2713";color:var(--sky);font-weight:800}
 
 @media(max-width:900px){.gt-hero{aspect-ratio:16/9}}
 @media(max-width:640px){
@@ -64,8 +60,6 @@ a.nt{text-decoration:none;display:flex;align-items:center;}
   .gt-cta{grid-template-columns:1fr;gap:10px}
   .gt-cta a{padding:16px 20px}
   .gt-cta .main{font-size:18px}
-  .gt-tagline{font-size:15.5px;margin:22px 0 9px}
-  .gt-trust{gap:8px 16px}
 }
 @media(prefers-reduced-motion:reduce){
   .gt-slide{transition:none}
@@ -108,7 +102,7 @@ a.nt{text-decoration:none;display:flex;align-items:center;}
 .ptabs{background:#fff;border-radius:20px;box-shadow:0 4px 28px rgba(0,0,0,.09);overflow:hidden;}
 .th{display:flex;}
 .tb{flex:1;padding:19px 0;font-size:16px;font-weight:700;border:none;background:#f8f9fa;cursor:pointer;color:var(--m);transition:all .2s;}
-.tb.on{background:var(--org);color:#fff;}
+.tb.on{background:var(--sky);color:#fff;}
 .pinfo{margin:14px 14px 0;background:var(--skyb);border-radius:13px;padding:15px 19px;border:1.5px solid #b8e4f5;}
 .pr{display:flex;align-items:flex-start;gap:11px;}
 .pi-t{font-size:15px;font-weight:800;color:var(--skyd);margin-bottom:5px;}
@@ -150,6 +144,28 @@ a.nt{text-decoration:none;display:flex;align-items:center;}
 .bpromo{display:inline-block;background:var(--skyb);color:var(--skyd);font-size:10px;font-weight:800;padding:2px 6px;border-radius:100px;border:1px solid #b8e4f5;margin-left:3px;vertical-align:middle;}
 
 /* REVIEWS */
+.shop-tabs{display:flex;flex-wrap:wrap;gap:8px;}
+.shop-tb{font-family:inherit;font-size:14.5px;font-weight:700;color:var(--m);background:#fff;border:1.5px solid #e5e9f5;border-radius:100px;padding:11px 24px;cursor:pointer;transition:all .18s;white-space:nowrap;}
+.shop-tb:hover{border-color:var(--sky);color:var(--skyd);}
+.shop-tb.on{background:var(--sky);border-color:var(--sky);color:#fff;box-shadow:0 4px 12px rgba(77,189,232,.32);}
+.shop-tb:focus-visible{outline:3px solid var(--skyd);outline-offset:2px;}
+.shop-wrap{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1);}
+.shop-inner{padding:2px;margin-top:18px;}
+.shop-dongs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px 16px;}
+.shop-pill{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px;padding:9px 4px;border-bottom:1px solid #f2f5fa;}
+.shop-pill b{font-size:13.5px;font-weight:700;color:var(--t);letter-spacing:-.5px;line-height:1.35;word-break:keep-all;}
+.shop-pill i{font-style:normal;font-size:12px;font-weight:700;color:var(--skyd);background:var(--skyb);border-radius:100px;padding:5px 12px;white-space:nowrap;}
+@media(max-width:640px){
+  .shop-tabs{gap:6px;}
+  .shop-tb{font-size:13px;padding:9px 17px;}
+  .shop-inner{padding:15px 16px;margin-top:11px;}
+  .shop-dongs{grid-template-columns:repeat(2,1fr);gap:4px 14px;}
+  .shop-pill{padding:8px 2px;gap:6px;}
+  .shop-pill b{font-size:12.5px;}
+  .shop-pill i{font-size:11px;padding:4px 10px;}
+}
+@media(max-width:1000px){.shop-dongs{grid-template-columns:repeat(3,1fr);}}
+@media(prefers-reduced-motion:reduce){.shop-wrap{transition:none;}}
 .revsec{background:#f0f8ff;padding:56px 0;}
 .rev-inner{max-width:1200px;margin:0 auto;padding:0 32px;}
 .rev-slider-wrap{position:relative;}
@@ -179,7 +195,10 @@ a.nt{text-decoration:none;display:flex;align-items:center;}
 .sbtn.lit{color:#fbbf24;}
 .imgwrap{border:1.5px dashed #b8e4f5;border-radius:11px;padding:13px 15px;background:#f8fbff;cursor:pointer;}
 .imglabel{font-size:14px;font-weight:700;color:var(--skyd);}
-.wsub{background:var(--org);color:#fff;font-weight:800;padding:13px 28px;border-radius:11px;border:none;cursor:pointer;font-size:15px;font-family:inherit;align-self:flex-start;transition:opacity .2s;}
+.rev-go{background:#fff;color:var(--skyd);font-weight:800;font-size:15px;font-family:inherit;padding:13px 30px;border:2px solid var(--sky);border-radius:100px;cursor:pointer;transition:background .2s,color .2s;}
+.rev-go:hover{background:var(--sky);color:#fff;}
+.rev-go:focus-visible{outline:3px solid var(--skyd);outline-offset:3px;}
+.wsub{background:var(--sky);color:#fff;font-weight:800;padding:13px 28px;border-radius:11px;border:none;cursor:pointer;font-size:15px;font-family:inherit;align-self:flex-start;transition:opacity .2s;}
 .wsub:hover{opacity:.85;}
 
 /* SELF/USIM - 깔끔한 배경 없이 */
@@ -426,11 +445,6 @@ footer strong{color:#fff;}
         <span class="main">카카오톡으로 물어보기</span>
       </a>
     </nav>
-
-    <h2 class="gt-tagline">가토통신에서 쉽고 빠르게 온라인 개통하기</h2>
-    <div class="gt-trust">
-      <span>약정 없음</span><span>미납·정지 OK</span><span>KT·LG 품질 그대로</span><span>당일 개통 가능</span>
-    </div>
   </div>
 
   <div id="ps" class="sec">
@@ -459,6 +473,16 @@ footer strong{color:#fff;}
       </div>
     </div>
   </div>
+  <div id="shops" class="sec">
+    <div class="sec-hd"><div class="sec-t">방문 개통 가능한 지역</div></div>
+    <div class="shop-tabs" id="shop-tabs"></div>
+    <div class="shop-wrap" id="shop-wrap">
+      <div class="shop-inner">
+        <div class="shop-dongs" id="shop-dongs"></div>
+      </div>
+    </div>
+  </div>
+
   <div class="revsec">
     <div class="rev-inner">
       <div class="sec-hd"><div class="sec-t">고객님의 솔직후기</div></div>
@@ -469,7 +493,10 @@ footer strong{color:#fff;}
         <button class="rev-arr rev-arr-r" onclick="slideRev(1)">›</button>
       </div>
       <div class="rev-dots" id="rev-dots"></div>
-      <div class="wbox">
+      <div style="text-align:center;margin-top:22px;">
+        <button class="rev-go" id="rev-go-btn" onclick="toggleWriteReview()" aria-expanded="false" aria-controls="rev-write">후기 남기고 쿠폰 받기</button>
+      </div>
+      <div class="wbox" id="rev-write" style="display:none;">
         <div class="cbanner"><strong>후기 작성 시 아메리카노 쿠폰 증정!</strong> 후기 등록 후 카카오톡으로 연락주세요</div>
         <h3>후기 직접 남기기</h3>
         <div class="wform">
@@ -1874,6 +1901,7 @@ function renderRev(){
   var cc={'KT':'#e8002d','LGU+':'#e50695','SKT':'#0057a8','가토통신':'#4DBDE8'};
   var all=UR.concat(SR);
   var filtered=revFilter==='전체'?all:all.filter(function(r){return r.c===revFilter;});
+  filtered=filtered.slice(0,6);   // 최신 6개만 노출
   var track=document.getElementById('rev-track'); if(!track) return;
   if(filtered.length===0){
     track.innerHTML='<div style="padding:40px;text-align:center;color:#9ca3af;font-size:15px;width:100%;">해당 통신사 후기가 아직 없어요</div>';
@@ -1938,6 +1966,86 @@ function updateSlider(){
   var pages=Math.ceil(all.length/CARDS_PER);
   if(revIdx>=pages)revIdx=0;
   document.querySelectorAll('[id^="rdot-"]').forEach(function(d,i){d.style.background=i===revIdx?'var(--sky)':'#d1d5db';});
+}
+
+/* ===== 방문 개통 가능한 지역 ===== */
+var SHOPS=[
+ {r:'서울',d:[['스마트마포BP','서교동'],['송파CGI BP','방이동'],['군자BP','중곡동'],['구로 신도림테크노BP','구로동'],['성북비전BP','장위동'],['을지로BP','을지로3가'],['동서울BP','자양동'],['구로디지털BP','구로동'],['가산역BP','가산동'],['건대친구통신BP','자양동'],['신세계 영등포BP','영등포동3가'],['상봉 크라운BP','상봉동'],['강동그린BP','성내동'],['구로센트럴BP','구로동'],['대림모아BP','구로동']]},
+ {r:'경기',d:[['부천역BP','심곡동'],['안산BP','고잔동'],['가온 오산역BP','원동'],['의정부나눔BP','의정부동'],['의정부역BP','의정부동'],['용인미르BP','마평동'],['에이스양평BP','양평읍'],['이천BP','갈산동'],['광명빅BP','광명동'],['시흥 정왕역BP','정왕동'],['수원성공BP','교동'],['수원나눔BP','인계동'],['가온 평택역BP','평택동'],['평택BP','평택동'],['고양일산BP','마두동'],['가온파주BP','금촌동']]},
+ {r:'인천',d:[['뉴부평BP','부개동'],['인천나눔BP','주안동']]},
+ {r:'강원',d:[['춘천우리BP','온의동'],['원주BP','관설동'],['동해BP','발한동'],['홍천BP','홍천읍']]},
+ {r:'대전',d:[['대전GOBP','자양동'],['대전역BP','대흥동'],['가자대전BP','중동']]},
+ {r:'충남',d:[['나눔천안BP','신방동'],['당진BP','읍내동'],['충남스마트BP','운천동']]},
+ {r:'충북',d:[['청주BP','산남동'],['청주오션BP','내덕동'],['충부BP','성내동']]},
+ {r:'광주',d:[['광주BP','차평동']]},
+ {r:'전남',d:[['순천우정BP','조례동'],['목포BP','명륜동']]},
+ {r:'전북',d:[['군산BP','신풍동'],['군산웅비BP',''],['전주BP','금암동']]},
+ {r:'대구',d:[['대구BP','장기동'],['동대구BP','효목동'],['대구팔공BP','신천동'],['대구글로벌BP','신당동'],['대구역BP','죽전동']]},
+ {r:'경북',d:[['구미BP','신평동'],['포항BP','해도동'],['경산BP','서상동'],['안동BP','옥동']]},
+ {r:'울산',d:[['울산BP','달동']]},
+ {r:'부산',d:[['부산연제BP','양정동'],['부산동래BP','안락동'],['부산역BP','초량동'],['부산우정BP','부전동'],['가자부산BP','연산동'],['부산광명BP','연산동'],['부산미래BP','범천동']]},
+ {r:'경남',d:[['창원BP','산호동'],['창원글로벌BP','팔용동'],['김해BP','부원동'],['김해이래BP','부원동'],['거제BP','장평동'],['양산홍익으뜸BP','북부동']]},
+ {r:'제주',d:[['올레BP','용담1동'],['제주우정BP','도련일동']]}
+];
+
+var shopOpen=-1;
+
+function renderShops(){
+  var tabs=document.getElementById('shop-tabs'); if(!tabs) return;
+  tabs.innerHTML=SHOPS.map(function(g,i){
+    return '<button type="button" class="shop-tb" onclick="pickShop('+i+',this)" aria-expanded="false">'+g.r+'</button>';
+  }).join('');
+}
+
+function pickShop(i,btn){
+  var wrap=document.getElementById('shop-wrap');
+  var dongs=document.getElementById('shop-dongs');
+  if(!wrap||!dongs) return;
+
+  document.querySelectorAll('.shop-tb').forEach(function(b){
+    b.classList.remove('on'); b.setAttribute('aria-expanded','false');
+  });
+
+  if(shopOpen===i){                    // 같은 지역 다시 누르면 닫기
+    wrap.style.maxHeight='0px';
+    shopOpen=-1;
+    return;
+  }
+
+  if(btn){ btn.classList.add('on'); btn.setAttribute('aria-expanded','true'); }
+  dongs.innerHTML=SHOPS[i].d.map(function(p){
+    return '<span class="shop-pill"><b>'+p[0]+'</b>'+(p[1]?'<i>'+p[1]+'</i>':'')+'</span>';
+  }).join('');
+  wrap.style.maxHeight=(wrap.scrollHeight+20)+'px';
+  shopOpen=i;
+}
+
+window.addEventListener('resize',function(){
+  var wrap=document.getElementById('shop-wrap');
+  if(wrap&&shopOpen>=0) wrap.style.maxHeight=(wrap.scrollHeight+20)+'px';
+});
+
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded',renderShops);
+}else{ renderShops(); }
+
+function toggleWriteReview(){
+  var box=document.getElementById('rev-write');
+  var btn=document.getElementById('rev-go-btn');
+  if(!box||!btn) return;
+  var open=box.style.display!=='none';
+  if(open){
+    box.style.display='none';
+    btn.textContent='후기 남기고 쿠폰 받기';
+    btn.setAttribute('aria-expanded','false');
+  }else{
+    box.style.display='block';
+    btn.textContent='닫기';
+    btn.setAttribute('aria-expanded','true');
+    box.scrollIntoView({behavior:'smooth',block:'start'});
+    var name=document.getElementById('r-name');
+    if(name) setTimeout(function(){name.focus({preventScroll:true});},600);
+  }
 }
 function slideRev(dir){
   CARDS_PER=getCardsPerPage();

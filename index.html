@@ -36,11 +36,12 @@ a.nt{text-decoration:none;display:flex;align-items:center;}
 .gt-slide img{width:100%;height:100%;object-fit:contain;display:block}
 .gt-hero.is-loading::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,#dde5f0 30%,#eaf0f8 50%,#dde5f0 70%);background-size:200% 100%;animation:gtShim 1.4s linear infinite}
 @keyframes gtShim{to{background-position:-200% 0}}
-.gt-hero-ctrl{position:absolute;left:18px;bottom:18px;z-index:3;display:flex;align-items:center;gap:2px;background:rgba(18,26,40,.5);backdrop-filter:blur(6px);border-radius:100px;padding:4px}
-.gt-hero-ctrl button{width:28px;height:28px;border:0;background:transparent;color:#fff;font-size:13px;line-height:1;cursor:pointer;border-radius:100px;font-family:inherit}
-.gt-hero-ctrl button:hover{background:rgba(255,255,255,.2)}
+.gt-hero-ctrl{position:absolute;right:14px;bottom:14px;z-index:3;display:flex;align-items:center;gap:2px;background:rgba(18,26,40,.45);backdrop-filter:blur(6px);border-radius:100px;padding:3px}
+.gt-hero-ctrl[hidden]{display:none;}
+.gt-hero-ctrl button{width:28px;height:28px;border:0;background:transparent;color:#fff;font-size:12px;line-height:1;cursor:pointer;border-radius:100px;font-family:inherit}
+.gt-hero-ctrl button:hover{background:rgba(255,255,255,.22)}
 .gt-hero-ctrl button:focus-visible{outline:2px solid #fff;outline-offset:1px}
-.gt-hero-count{color:#fff;font-size:12.5px;padding:0 7px;font-variant-numeric:tabular-nums}
+.gt-hero-count{color:#fff;font-size:12.5px;font-weight:700;padding:0 8px;font-variant-numeric:tabular-nums}
 .gt-hero-empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--m);font-size:15px;background:#eef3f9}
 
 .gt-cta{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
@@ -56,6 +57,7 @@ a.nt{text-decoration:none;display:flex;align-items:center;}
 @media(max-width:640px){
   .gt-top{padding:16px 16px 24px}
   .gt-hero{border-radius:13px}
+  .gt-hero-ctrl{display:none;}
   .gt-cta{grid-template-columns:1fr;gap:10px}
   .gt-cta a{padding:16px 20px}
   .gt-cta .main{font-size:18px}
@@ -1358,6 +1360,22 @@ footer strong{color:#fff;}
       if (gtPlaying) { gtStop(); gtPlaying = false; play.innerHTML = '&#9654;'; play.setAttribute('aria-label','자동 넘김 시작'); }
       else gtStart();
     };
+    // 모바일: 좌우로 밀어서 넘기기
+    var tx = 0, ty = 0;
+    hero.addEventListener('touchstart', function(e){
+      if (!e.touches[0]) return;
+      tx = e.touches[0].clientX; ty = e.touches[0].clientY;
+    }, { passive: true });
+    hero.addEventListener('touchend', function(e){
+      if (!e.changedTouches[0] || gtSlides.length < 2) return;
+      var dx = e.changedTouches[0].clientX - tx;
+      var dy = e.changedTouches[0].clientY - ty;
+      if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) {
+        gtGo(dx < 0 ? 1 : -1);
+        if (gtPlaying) gtStart();
+      }
+    }, { passive: true });
+
     hero.addEventListener('mouseenter', () => { if (gtPlaying) gtStop(); });
     hero.addEventListener('mouseleave', () => { if (gtPlaying) gtStart(); });
     window.loadHeroBanners();

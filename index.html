@@ -863,10 +863,9 @@ footer strong{color:#fff;}
           <h3 style="font-size:18px;font-weight:900;color:#1a1a1a;">메인 배너 관리</h3>
           <button onclick="loadAdminBanners()" style="background:#f3f4f6;color:#6b7280;border:none;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;">새로고침</button>
         </div>
-        <p style="font-size:13px;color:#9ca3af;margin-bottom:20px;">순서가 작은 배너부터 먼저 보여요. 이미지는 가로 1200 &times; 세로 460 권장.</p>
+        <p style="font-size:13px;color:#9ca3af;margin-bottom:20px;">순서가 작은 배너부터 먼저 보여요. 이미지는 올릴 때 자동으로 줄여서 저장돼요.</p>
 
         <input type="hidden" id="banner-edit-id">
-        <input type="hidden" id="banner-edit-path">
         <input type="hidden" id="banner-edit-url">
 
         <div style="display:flex;flex-direction:column;gap:14px;">
@@ -898,9 +897,10 @@ footer strong{color:#fff;}
           </div>
 
           <div>
-            <label class="ab-lb" for="banner-file">배너 이미지 (5MB 이하)</label>
+            <label class="ab-lb" for="banner-file">배너 이미지 (1200 &times; 460 권장 · 올리면 자동으로 줄여줘요)</label>
             <input id="banner-file" class="ab-in" type="file" accept="image/png,image/jpeg,image/webp" onchange="previewBanner(event)" style="padding:10px 12px;">
             <div class="ab-bar" id="banner-bar"><i></i></div>
+            <div id="banner-size" style="font-size:12.5px;color:#1a9c6b;font-weight:700;margin-top:6px;"></div>
             <div id="banner-preview" style="display:none;margin-top:10px;border:1.5px dashed #e5e9f5;border-radius:11px;padding:10px;background:#fafbfe;">
               <img id="banner-preview-img" alt="" style="max-width:100%;max-height:190px;border-radius:7px;display:block;">
             </div>
@@ -1021,7 +1021,6 @@ footer strong{color:#fff;}
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getFirestore, collection, addDoc, getDocs, doc, deleteDoc, updateDoc, orderBy, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
   import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { getStorage, ref as stRef, uploadBytesResumable, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyDXed9i1ju0Nr8DXqGJZ4WMW8dcnIMP4i8",
@@ -1034,7 +1033,6 @@ footer strong{color:#fff;}
 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
-  const storage = getStorage(app);
   const auth = getAuth(app);
 
   // 외부 스크립트에서 사용할 수 있도록 window에 노출
@@ -1329,58 +1327,88 @@ footer strong{color:#fff;}
   });
 
   // ==================== 관리자: 배너 ====================
-  window.previewBanner = function(e){
+  // 고른 이미지를 가로 1200px로 줄이고 용량을 낮춰 문자열로 바꿔줌
+  let bannerImageData = '';
+
+  function shrinkImage(file){
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onerror = () => reject(new Error('파일을 읽지 못했어요.'));
+      reader.onload = () => {
+        const img = new Image();
+        img.onerror = () => reject(new Error('이미지를 열지 못했어요.'));
+        img.onload = () => {
+          const maxW = 1200;
+          const scale = Math.min(1, maxW / img.width);
+          const cv = document.createElement('canvas');
+          cv.width  = Math.round(img.width  * scale);
+          cv.height = Math.round(img.height * scale);
+          const ctx = cv.getContext('2d');
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, cv.width, cv.height);
+          ctx.drawImage(img, 0, 0, cv.width, cv.height);
+
+          // 600KB 아래로 떨어질 때까지 화질을 조금씩 낮춤
+          const type = cv.toDataURL('image/webp', 0.9).indexOf('image/webp') === 5 ? 'image/webp' : 'image/jpeg';
+          let q = 0.88, out = cv.toDataURL(type, q);
+          while (out.length > 600 * 1024 && q > 0.4) { q -= 0.08; out = cv.toDataURL(type, q); }
+          if (out.length > 900 * 1024) { reject(new Error('이미지 용량이 너무 커요. 조금 더 작게 만들어서 올려주세요.')); return; }
+          resolve(out);
+        };
+        img.src = reader.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  window.previewBanner = async function(e){
     const f = e.target.files[0];
     if (!f) return;
-    if (f.size > 5*1024*1024) { alert('이미지가 5MB를 넘어요. 용량을 줄여서 다시 올려주세요.'); e.target.value = ''; return; }
-    document.getElementById('banner-preview-img').src = URL.createObjectURL(f);
-    document.getElementById('banner-preview').style.display = 'block';
+    const bar = document.getElementById('banner-bar');
+    bar.classList.add('show');
+    bar.querySelector('i').style.width = '40%';
+    try {
+      bannerImageData = await shrinkImage(f);
+      bar.querySelector('i').style.width = '100%';
+      document.getElementById('banner-preview-img').src = bannerImageData;
+      document.getElementById('banner-preview').style.display = 'block';
+      const kb = Math.round(bannerImageData.length / 1024);
+      document.getElementById('banner-size').textContent = '준비 완료 · 약 ' + kb + 'KB';
+    } catch(err) {
+      alert(err.message);
+      e.target.value = ''; bannerImageData = '';
+    } finally {
+      setTimeout(() => { bar.classList.remove('show'); bar.querySelector('i').style.width = '0'; }, 400);
+    }
   };
 
   window.resetBannerForm = function(){
-    ['banner-edit-id','banner-edit-path','banner-edit-url','banner-title','banner-link','banner-start','banner-end','banner-file'].forEach(id => {
+    ['banner-edit-id','banner-edit-url','banner-title','banner-link','banner-start','banner-end','banner-file'].forEach(id => {
       const el = document.getElementById(id); if (el) el.value = '';
     });
     document.getElementById('banner-order').value = 1;
     document.getElementById('banner-preview').style.display = 'none';
+    document.getElementById('banner-size').textContent = '';
     document.getElementById('banner-save-btn').textContent = '배너 등록';
+    bannerImageData = '';
   };
 
   window.saveBanner = async function(){
     const btn   = document.getElementById('banner-save-btn');
-    const file  = document.getElementById('banner-file').files[0];
     const title = document.getElementById('banner-title').value.trim();
-    const editId   = document.getElementById('banner-edit-id').value;
-    let   editPath = document.getElementById('banner-edit-path').value;
-    let   imageUrl = document.getElementById('banner-edit-url').value;
+    const editId = document.getElementById('banner-edit-id').value;
+    const image  = bannerImageData || document.getElementById('banner-edit-url').value;
 
     if (!title) { alert('배너 이름을 적어주세요.'); return; }
-    if (!editId && !file) { alert('배너 이미지를 골라주세요.'); return; }
+    if (!image) { alert('배너 이미지를 골라주세요.'); return; }
 
     btn.disabled = true; btn.textContent = '저장 중...';
-    const bar = document.getElementById('banner-bar');
 
     try {
-      if (file) {
-        const path = 'banners/' + Date.now() + '_' + file.name.replace(/[^\w.\-]/g,'_');
-        const task = uploadBytesResumable(stRef(storage, path), file, { contentType: file.type });
-        bar.classList.add('show');
-        await new Promise((res, rej) => {
-          task.on('state_changed',
-            s => bar.querySelector('i').style.width = (s.bytesTransferred / s.totalBytes * 100) + '%',
-            rej, res);
-        });
-        bar.classList.remove('show'); bar.querySelector('i').style.width = '0';
-        const newUrl = await getDownloadURL(task.snapshot.ref);
-        if (editPath) { try { await deleteObject(stRef(storage, editPath)); } catch(_){} }
-        imageUrl = newUrl; editPath = path;
-      }
-
       const data = {
         title: title,
         alt: title,
-        imageUrl: imageUrl,
-        imagePath: editPath || '',
+        imageUrl: image,
         link: document.getElementById('banner-link').value.trim(),
         order: Number(document.getElementById('banner-order').value) || 1,
         startAt: document.getElementById('banner-start').value || '',
@@ -1401,7 +1429,9 @@ footer strong{color:#fff;}
       loadAdminBanners();
     } catch(e) {
       console.error(e);
-      alert('저장하지 못했어요. 잠시 뒤 다시 시도해주세요.');
+      alert(e && e.code === 'permission-denied'
+        ? '저장 권한이 없어요. Firestore 규칙에 banners 항목이 들어갔는지 확인해주세요.'
+        : '저장하지 못했어요. 잠시 뒤 다시 시도해주세요.');
     } finally {
       btn.disabled = false;
       btn.textContent = document.getElementById('banner-edit-id').value ? '수정 저장' : '배너 등록';
@@ -1410,8 +1440,8 @@ footer strong{color:#fff;}
 
   window.editBanner = function(id, b){
     document.getElementById('banner-edit-id').value = id;
-    document.getElementById('banner-edit-path').value = b.imagePath || '';
     document.getElementById('banner-edit-url').value = b.imageUrl || '';
+    bannerImageData = '';
     document.getElementById('banner-title').value = b.title || '';
     document.getElementById('banner-link').value = b.link || '';
     document.getElementById('banner-order').value = b.order || 1;
@@ -1428,10 +1458,9 @@ footer strong{color:#fff;}
     loadAdminBanners();
   };
 
-  window.deleteBanner = async function(id, path, title){
+  window.deleteBanner = async function(id, title){
     if (!confirm("'" + title + "' 배너를 삭제할까요? 되돌릴 수 없어요.")) return;
     try {
-      if (path) { try { await deleteObject(stRef(storage, path)); } catch(_){} }
       await deleteDoc(doc(db,'banners',id));
       loadAdminBanners();
     } catch(e) { alert('삭제하지 못했어요.'); }
@@ -1464,7 +1493,7 @@ footer strong{color:#fff;}
           + '<div class="ab-acts">'
           +   '<button style="background:#f3f4f6;color:#6b7280;" onclick="toggleBanner(\'' + r.id + '\',' + (b.active !== false) + ')">' + (b.active === false ? '노출하기' : '숨기기') + '</button>'
           +   '<button style="background:#eaf6fd;color:#2899c4;" onclick="editBanner(\'' + r.id + '\', window._banners[' + i + '])">수정</button>'
-          +   '<button style="background:#fdeceb;color:#d94545;" onclick="deleteBanner(\'' + r.id + '\',\'' + (b.imagePath || '') + '\',\'' + (b.title || '').replace(/'/g,"") + '\')">삭제</button>'
+          +   '<button style="background:#fdeceb;color:#d94545;" onclick="deleteBanner(\'' + r.id + '\',\'' + (b.title || '').replace(/'/g,"") + '\')">삭제</button>'
           + '</div></div>';
       });
       window._banners = rows.map(r => r.b);

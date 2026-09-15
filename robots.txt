@@ -1,0 +1,31 @@
+User-agent: *
+Allow: /
+Disallow: /admin-panel.js
+Disallow: /api/
+
+# AI 크롤러도 동일하게 관리자 파일만 차단
+User-agent: GPTBot
+Allow: /
+Disallow: /admin-panel.js
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /admin-panel.js
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /admin-panel.js
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /admin-panel.js
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /admin-panel.js
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /admin-panel.js
+
+Sitemap: https://gatomobile.kr/sitemap.xml

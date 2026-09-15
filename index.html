@@ -1569,7 +1569,9 @@ footer strong{color:#fff;}
     if (!_adminReady) {
       try {
         const m = await import('/admin-panel.js');
-        ov.innerHTML = m.ADMIN_HTML;
+        ov.innerHTML = new TextDecoder().decode(
+          Uint8Array.from(atob(m.ADMIN_B64), function (c) { return c.charCodeAt(0); })
+        );
         _adminReady = true;
       } catch (e) {
         alert('화면을 불러오지 못했습니다. 새로고침 후 다시 시도해주세요.');

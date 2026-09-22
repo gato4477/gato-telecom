@@ -1182,6 +1182,7 @@ footer strong{color:#fff;}
       await addDoc(collection(db, 'startup_inquiries'), {
         name, phone, interest, msg, createdAt: serverTimestamp(), status: '미확인'
       });
+      if (window.gtTrack) window.gtTrack('startup_inquiry_submit', { interest: interest || '미선택' });
       alert('창업문의가 접수되었습니다! 빠르게 연락드릴게요.');
       document.getElementById('si-name').value = '';
       document.getElementById('si-phone').value = '';
@@ -1842,8 +1843,8 @@ footer strong{color:#fff;}
       <div style="text-align:left;">
         <strong style="font-size:16px;">GATO MOBILE</strong><br>
         <span style="font-size:13px;opacity:.75;line-height:2.2;">
-          상호명: 가토통신 | 대표자: 이철용
-          주소: 경기도 부천시 원미구 부천로 39번길 8 동아빌딩 6층 <br>
+          상호명: 가토통신 | 대표자: 이철용<br>
+          주소: 경기도 부천시 원미구 부천로 39번길 8 동아빌딩 6층<br>
           연락처: 010-4316-4477 | Email: 4477gato@gmail.com
         </span>
       </div>
@@ -1896,9 +1897,11 @@ window.addEventListener('DOMContentLoaded',function(){
     .then(function(r){return r.json();})
     .then(function(data){
       if(Array.isArray(data)&&data.length>0){
+        var fetched=[];
         data.forEach(function(r){
-          SR.push({n:r.name,p:r.plan,c:r.carrier,s:parseInt(r.stars)||5,t:r.text,tags:r.tags?r.tags.split(',').map(function(x){return x.trim();}).filter(function(x){return x;}) :[]});
+          fetched.push({n:r.name,p:r.plan,c:r.carrier,s:parseInt(r.stars)||5,t:r.text,tags:r.tags?r.tags.split(',').map(function(x){return x.trim();}).filter(function(x){return x;}) :[]});
         });
+        if(fetched.length) SR = fetched.concat(SR);
       }
       renderRev();
     }).catch(function(){renderRev();});
@@ -2022,6 +2025,8 @@ function updateSlider(){
   });
   // 현재 페이지 카드들의 최대 높이로 맞춤
   var totalCards=cards.length;
+  var pages=Math.max(1,Math.ceil(totalCards/CARDS_PER));
+  if(revIdx>=pages)revIdx=0;
   var pageStart=revIdx*CARDS_PER;
   var pageEnd=Math.min(pageStart+CARDS_PER, totalCards);
   var maxH=0;
@@ -2033,9 +2038,6 @@ function updateSlider(){
     if(cards[i])cards[i].style.height=maxH+'px';
   }
   track.style.transform='translateX(-'+((cardW+gap)*CARDS_PER*revIdx)+'px)';
-  var all=UR.concat(SR);
-  var pages=Math.ceil(all.length/CARDS_PER);
-  if(revIdx>=pages)revIdx=0;
   document.querySelectorAll('[id^="rdot-"]').forEach(function(d,i){d.style.background=i===revIdx?'var(--sky)':'#d1d5db';});
 }
 
@@ -2120,8 +2122,8 @@ function toggleWriteReview(){
 }
 function slideRev(dir){
   CARDS_PER=getCardsPerPage();
-  var all=UR.concat(SR);
-  var pages=Math.ceil(all.length/CARDS_PER);
+  var n=document.querySelectorAll('.rcard').length;
+  var pages=Math.max(1,Math.ceil(n/CARDS_PER));
   revIdx=(revIdx+dir+pages)%pages; updateSlider();
 }
 function goRevPage(i){revIdx=i;updateSlider();}
@@ -2309,7 +2311,7 @@ function submitReview(){
   document.getElementById('r-carrier-val').value='';
   ['kt','lg'].forEach(function(k){var el=document.getElementById('carrier-'+k);if(el){el.style.background='#fff';el.style.color='#6b7280';el.style.borderColor='#e5e7eb';}});
   setStar(0);
-  setTimeout(function(){var go=confirm('후기가 등록되었습니다!\n\n쿠폰을 받으시려면 카카오톡으로 연락해 주세요!\n[확인] 클릭 시 카카오톡으로 이동합니다.');if(go)window.open('http://pf.kakao.com/_espRn/chat','_blank');},300);
+  setTimeout(function(){var go=confirm('후기가 등록되었습니다!\n\n쿠폰을 받으시려면 카카오톡으로 연락해 주세요!\n[확인] 클릭 시 카카오톡으로 이동합니다.');if(go){if(window.gtTrack)window.gtTrack('kakao_click',{location:'review_coupon'});window.open('http://pf.kakao.com/_espRn/chat','_blank');}},300);
 }
 
 var currentCat='전체';
@@ -2414,6 +2416,35 @@ window.addEventListener('popstate',function(e){
     var idx = pages.indexOf(hash);
     showPage(hash, btns[idx] || null, true);
   }
+})();
+</script>
+<script>
+/* ===== GA4 클릭 이벤트 ===== */
+(function(){
+  function send(name, p){ try{ if(typeof gtag==='function') gtag('event', name, p||{}); }catch(e){} }
+  window.gtTrack = send;
+  function where(el){
+    if(el.closest('.gt-cta')) return 'hero';
+    if(el.classList.contains('sns-btn')) return 'floating';
+    if(el.classList.contains('nt')) return 'menu';
+    if(el.closest('footer')) return 'footer';
+    var pg = el.closest('.page');
+    return pg && pg.id ? pg.id.replace('page-','') : 'etc';
+  }
+  document.addEventListener('click', function(e){
+    var el = e.target && e.target.closest ? e.target.closest('a,button,.scard') : null;
+    if(!el) return;
+    var link = (el.getAttribute('href') || '') + ' ' + (el.getAttribute('onclick') || '');
+    if(el.classList.contains('nt-badge')) { send('badge_click'); return; }
+    if(link.indexOf('pf.kakao.com') > -1) { send('kakao_click', {location: where(el)}); return; }
+    if(link.indexOf('n-telecom.co.kr/gatoshop') > -1){
+      var isUsim = link.indexOf('buyusim') > -1;
+      var isLg = el.classList.contains('lg') || link.indexOf('/lg/') > -1 || (el.getAttribute('style')||'').indexOf('e50695') > -1;
+      send('gatoshop_click', {type: isUsim ? 'usim' : 'activation', carrier: isLg ? 'LG' : 'KT', location: where(el)});
+      return;
+    }
+    if(link.indexOf("showPage('self'") > -1) { send('self_activation_click', {location: where(el)}); }
+  }, true);
 })();
 </script>
 </body>

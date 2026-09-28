@@ -1293,6 +1293,24 @@ footer strong{color:#fff;}
       hero.insertBefore(wrap, ctrl);
     });
 
+    // 앤텔레콤 공지·이벤트 상세 페이지는 가토샵 메인을 먼저 거쳐야 열림(아니면 error.aspx).
+    // 새 탭으로 가토샵 메인을 먼저 열고, 잠깐 뒤 원래 주소로 이동시킨다.
+    if (!hero.dataset.ntWarm) {
+      hero.dataset.ntWarm = '1';
+      hero.addEventListener('click', function(e){
+        const a = e.target.closest('.gt-slide a');
+        if (!a) return;
+        const href = a.href;
+        const m = href.match(/^https?:\/\/(www\.)?n-telecom\.co\.kr\/(gatoshop\/)?(view\/service\/.+)$/i);
+        if (!m) return;
+        e.preventDefault();
+        const target = 'https://www.n-telecom.co.kr/gatoshop/' + m[3];
+        const w = window.open('https://www.n-telecom.co.kr/gatoshop/', '_blank');
+        if (!w) { location.href = target; return; }
+        setTimeout(function(){ try { w.location.href = target; } catch(err) {} }, 1500);
+      });
+    }
+
     // 첫 배너의 실제 비율에 맞춰 배너 칸 높이를 맞춤
     var firstImg = hero.querySelector('.gt-slide img');
     if (firstImg) {

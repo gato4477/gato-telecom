@@ -1243,6 +1243,16 @@ footer strong{color:#fff;}
 
   let gtSlides = [], gtIdx = 0, gtTimer = null, gtPlaying = true;
 
+  // 배너 링크 정리: https:// 없이 넣은 외부 주소에 자동으로 https:// 붙이기
+  window.gtFixLink = function(u) {
+    u = (u || '').trim();
+    if (!u) return '';
+    if (/^(https?:|tel:|mailto:|\/|#|\?)/i.test(u)) return u;
+    if (u.indexOf('//') === 0) return 'https:' + u;
+    if (/^[a-z0-9-]+(\.[a-z0-9-]+)+(:\d+)?(\/|\?|#|$)/i.test(u)) return 'https://' + u;
+    return u;
+  };
+
   window.loadHeroBanners = async function() {
     const hero = document.getElementById('gtHero');
     const ctrl = document.getElementById('gtCtrl');
@@ -1276,8 +1286,9 @@ footer strong{color:#fff;}
       wrap.setAttribute('role','group');
       wrap.setAttribute('aria-label', (i+1) + ' / ' + items.length);
       const img = '<img src="' + b.imageUrl + '" alt="' + (b.alt || b.title || '가토통신 배너').replace(/"/g,'&quot;') + '"' + (i===0 ? '' : ' loading="lazy"') + '>';
-      wrap.innerHTML = b.link
-        ? '<a href="' + b.link + '"' + (/^https?:/i.test(b.link) ? ' target="_blank" rel="noopener"' : '') + '>' + img + '</a>'
+      const link = gtFixLink(b.link);
+      wrap.innerHTML = link
+        ? '<a href="' + link.replace(/"/g,'&quot;') + '"' + (/^https?:/i.test(link) ? ' target="_blank" rel="noopener"' : '') + '>' + img + '</a>'
         : '<span class="gt-nolink">' + img + '</span>';
       hero.insertBefore(wrap, ctrl);
     });
@@ -1428,7 +1439,7 @@ footer strong{color:#fff;}
         title: title,
         alt: title,
         imageUrl: image,
-        link: document.getElementById('banner-link').value.trim(),
+        link: gtFixLink(document.getElementById('banner-link').value),
         order: Number(document.getElementById('banner-order').value) || 1,
         startAt: document.getElementById('banner-start').value || '',
         endAt: document.getElementById('banner-end').value || '',

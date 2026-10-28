@@ -26,7 +26,7 @@
 .hero-fix h1{margin:0;font-size:40px;line-height:1.3;font-weight:900;letter-spacing:-1px}
 .hero-fix p{margin:0;font-size:16px;line-height:1.6;color:#3D5A70}
 .hero-fix .deco{position:absolute;right:-40px;bottom:-60px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle at 40% 40%,#C9E8FA,#A9D9F5);opacity:.55}
-.hero-fix .deco2{position:absolute;right:120px;top:-50px;width:150px;height:150px;border-radius:50%;background:#BFE1F6;opacity:.6}
+.hero-fix .deco2{position:absolute;right:120px;top:-50px;width:150px;height:150px;border-radius:50%;background:#F9D3E3;opacity:.7}
 .hero-fix.img{padding:0;background:#E6F4FC}
 .hero-fix.img a,.hero-fix.img span{display:block;width:100%;height:100%}
 .hero-fix.img img{width:100%;height:100%;object-fit:cover;display:block}
@@ -67,8 +67,10 @@
 .price strong{font-size:26px;font-weight:900}
 .allp{align-self:flex-end;font-size:15px;font-weight:700;color:#fff}
 .allp:hover{color:#C8E2F3}
-.bl-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px}
-.bl-head h2{margin:0;font-size:28px;font-weight:900}
+.bl-head{display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;padding:24px 0 8px}
+.bl-head h2{margin:0;font-size:40px;font-weight:900;letter-spacing:-1px;line-height:1.3;word-break:keep-all}
+.bl-head .u{background:linear-gradient(transparent 62%,#FCE8F0 62%)}
+@media (max-width:700px){.bl-head h2{font-size:28px}}
 .bl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px}
 .bc{display:flex;flex-direction:column;gap:10px;color:var(--t)}
 .bc .th{aspect-ratio:16/10;border-radius:16px;background:linear-gradient(135deg,#D7ECF9,#C9E8FA);overflow:hidden;display:flex;align-items:center;justify-content:center;color:var(--pri);font-weight:900;font-size:18px}
@@ -101,7 +103,7 @@
 <div class="hero-fix" id="heroFix">
 <div class="deco" aria-hidden="true"></div><div class="deco2" aria-hidden="true"></div>
 <div class="tx">
-<span class="eyebrow">KT · LG U+ 알뜰폰</span>
+<span class="eyebrow">KT · <span style="color:var(--lg)">LG U+</span> 알뜰폰</span>
 <h1>통신비는 줄이고,<br>개통은 간편하게</h1>
 <p>요금제 고르고 셀프개통까지 한 번에 끝내요</p>
 <a href="/plans/kt" class="btn" style="align-self:flex-start;border-radius:999px">요금제 보러가기</a>
@@ -138,8 +140,9 @@
 </section>
 
 <section aria-label="블로그" style="display:flex;flex-direction:column;gap:24px">
-<div class="bl-head"><div style="display:flex;flex-direction:column;gap:6px"><span class="eyebrow">가토 블로그</span><h2>개통 전에 읽어두면 좋은 글</h2></div><a href="/blog" style="font-size:15px;font-weight:700;white-space:nowrap">전체 보기</a></div>
+<div class="bl-head"><span class="eyebrow">GATO BLOG</span><h2><span style="color:var(--sky)">가토</span>와 함께 알아보는 <span class="u">똑똑한 통신 생활</span></h2><p class="lead">개통 방법부터 요금제 고르는 법까지, 현장에서 자주 받는 질문을 쉽게 풀어드려요</p></div>
 <div class="bl-grid" id="blogGrid"></div>
+<a href="/blog" class="btn ghost" style="align-self:center;border-radius:999px;padding:0 28px">블로그 글 더 보기</a>
 </section>
 </main>
 <footer class="ft">
@@ -154,7 +157,7 @@
 </nav>
 <div class="ft-cols">
 <div class="ft-col"><span class="k">고객센터</span><strong>1899-7700 <small style="font-size:12px;font-weight:500;color:#6B7280">(유료)</small></strong><span>[모바일] 휴대폰 + 114 (무료)</span><span>평일 09:30~18:00 · 토/일/공휴일 휴무</span></div>
-<div class="ft-col"><span class="k">가토통신</span><strong class="p">010-4316-4477</strong><span>월~토 연중무휴 상담 가능</span><span>개통 매일 08:00~21:50</span></div>
+<div class="ft-col"><span class="k">가토통신</span><strong class="p">010-4316-4477</strong><span>365일 상담 가능</span></div>
 <div class="ft-col" style="flex-grow:1.4"><span class="k">사업자 정보</span><span>상호명: 가토통신 | 대표자: 이철용</span><span>주소: 경기도 부천시 원미구 부천로 39번길 8 동아빌딩 6층</span><span>연락처: 010-4316-4477 | Email: 4477gato@gmail.com</span></div>
 </div>
 <span class="ft-copy">© 2026 가토통신. All rights reserved.</span>
@@ -174,9 +177,9 @@
   function drawPlans(){
     tabs.innerHTML=HOME.map(function(t,i){return '<button type="button" role="tab" aria-selected="'+(i===cur)+'" class="'+(i===cur?'on':'')+'" data-i="'+i+'">'+E(t.label)+'</button>';}).join('');
     cards.innerHTML=HOME[cur].plans.map(function(p){
-      return '<article class="pc"><div class="top"><span class="chip">'+E(p.net)+'</span>'+(p.promo?'<span class="chip warn">+10GB 프로모션</span>':'')+'<h3>'+E(p.name)+'</h3></div>'+
+      return '<article class="pc"><div class="top"><span class="chip'+(p.net==='KT망'?'':' pink')+'">'+E(p.net)+'</span>'+(p.promo?'<span class="chip warn">+10GB 프로모션</span>':'')+'<h3>'+E(p.name)+'</h3></div>'+
       '<div class="sp"><span>데이터 <b>'+E(p.data)+'</b></span><span>통화 '+E(p.call)+'</span><span>문자 '+E(p.sms)+'</span><span>소진 후 '+E(p.qos)+'</span></div>'+
-      '<div class="bt"><span class="price">월 <strong>'+E(p.price)+'</strong>원</span><span style="display:flex;gap:8px"><a class="btn sm gray" href="/plans/'+(p.net==='KT망'?'kt':'lg')+'">상세보기</a><a class="btn sm black" href="'+p.url+'" target="_blank" rel="noopener">가입하기</a></span></div></article>';
+      '<div class="bt"><span class="price"'+(p.net==='KT망'?'':' style="color:var(--lg)"')+'>월 <strong>'+E(p.price)+'</strong>원</span><span style="display:flex;gap:8px"><a class="btn sm gray" href="/plans/'+(p.net==='KT망'?'kt':'lg')+'">상세보기</a><a class="btn sm '+(p.net==='KT망'?'':'pink')+'" href="'+p.url+'" target="_blank" rel="noopener">가입하기</a></span></div></article>';
     }).join('');
   }
   tabs.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;cur=+b.dataset.i;drawPlans();});

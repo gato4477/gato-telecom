@@ -1,7 +1,7 @@
 :root{
   --sky:#69BEEE; --pri:#256CAE; --pri2:#69BEEE; --deep:#1E2630;
   --bg:#F3F9FE; --tint:#E6F4FC; --tint2:#EEF8FE; --line:#D7ECF9; --line2:#BFE1F6;
-  --t:#1E2630; --m:#56636F; --m2:#6B7480; --warn:#B42318; --warnbg:#FDECEA;
+  --t:#1E2630; --m:#56636F; --m2:#6B7480; --warn:#B42318; --warnbg:#FDECEA; --lg:#C23A73; --lgtint:#FCE8F0;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -66,6 +66,8 @@ img{max-width:100%}
 .btn.sm{height:40px;font-size:14px;padding:0 16px;border-radius:10px}
 .btn.gray{background:#F1F3F7;color:var(--t)}
 .btn.black{background:#111827}
+.btn.pink{background:var(--lg)}
+.chip.pink{color:var(--lg);background:var(--lgtint)}
 .search{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line2);border-radius:14px;padding:0 16px;height:52px}
 .search input{flex:1 1 auto;border:none;background:transparent;outline:none;min-width:0;font-size:15px}
 .note{margin:0;font-size:13px;color:var(--m);line-height:1.7}

@@ -58,7 +58,7 @@
 .ptabs button:hover{color:#fff;border-color:#69BEEE}
 .ptabs button.on{background:#69BEEE;color:#14304D;border-color:#69BEEE}
 .plans .r{flex:999 1 520px;min-width:0;display:flex;flex-direction:column;gap:14px}
-.plans .rh{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:40px}
+.plans .rh{display:flex;align-items:center;justify-content:flex-end;gap:12px;min-height:40px}
 .plans .rh span{font-size:15px;font-weight:700;color:#B9D3E8}
 #pcards{flex:1 1 auto;display:flex;flex-direction:column;gap:14px}
 #pcards .pc{flex:1 1 0;justify-content:space-between}
@@ -76,7 +76,9 @@
 .bl-head h2{margin:0;font-size:40px;font-weight:900;letter-spacing:-1px;line-height:1.3;word-break:keep-all}
 .bl-head .u{background:linear-gradient(transparent 62%,#FDEAF2 62%)}
 @media (max-width:700px){.bl-head h2{font-size:28px}}
-.bl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px}
+.bl-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+@media (max-width:1000px){.bl-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.bl-grid{grid-template-columns:1fr}}
 .bc{display:flex;flex-direction:column;gap:10px;color:var(--t)}
 .bc .th{aspect-ratio:16/10;border-radius:16px;background:linear-gradient(135deg,#D7ECF9,#C9E8FA);overflow:hidden;display:flex;align-items:center;justify-content:center;color:var(--pri);font-weight:900;font-size:18px}
 .bc .th img{width:100%;height:100%;object-fit:cover}
@@ -141,11 +143,11 @@
 <h2>지금 많이 찾는<br><span>제휴 요금제</span></h2>
 <div class="ptabs" id="ptabs" role="tablist" aria-label="요금제 분류"></div>
 </div>
-<div class="r"><div class="rh"><span id="ptabName">LG U+ 알뜰폰 추천</span><a href="/plans/kt" class="allp" id="allp">전체 요금제 보기 ›</a></div><div id="pcards"></div></div>
+<div class="r"><div class="rh"><a href="/plans/kt" class="allp" id="allp">전체 요금제 보기 ›</a></div><div id="pcards"></div></div>
 </section>
 
 <section aria-label="블로그" style="display:flex;flex-direction:column;gap:24px">
-<div class="bl-head"><span class="eyebrow">GATO BLOG</span><h2><span style="color:var(--sky)">가토</span>와 함께 알아보는 <span class="u">똑똑한 통신 생활</span></h2><p class="lead">개통 방법부터 요금제 고르는 법까지, 현장에서 자주 받는 질문을 쉽게 풀어드려요</p></div>
+<div class="bl-head"><span class="eyebrow">GATO BLOG</span><h2><span style="color:var(--sky)">가토</span>와 함께 알아보는 <span class="u">똑똑한 통신 생활</span></h2></div>
 <div class="bl-grid" id="blogGrid"></div>
 <a href="/blog" class="btn ghost" style="align-self:center;border-radius:999px;padding:0 28px">블로그 글 더 보기</a>
 </section>
@@ -181,7 +183,7 @@
   var HOME=GATO_PLANS.HOME, cur=0, tabs=document.getElementById('ptabs'), cards=document.getElementById('pcards');
   function drawPlans(){
     tabs.innerHTML=HOME.map(function(t,i){return '<button type="button" role="tab" aria-selected="'+(i===cur)+'" class="'+(i===cur?'on':'')+'" data-i="'+i+'">'+E(t.label)+'</button>';}).join('');
-    document.getElementById('ptabName').textContent=HOME[cur].label+' 추천';document.getElementById('allp').href=HOME[cur].id==='lg'?'/plans/lg':'/plans/kt';
+    document.getElementById('allp').href=HOME[cur].id==='lg'?'/plans/lg':'/plans/kt';
     cards.innerHTML=HOME[cur].plans.map(function(p){
       return '<article class="pc"><div class="top"><span class="chip'+(p.net==='KT망'?'':' pink')+'">'+E(p.net)+'</span>'+(p.promo?'<span class="chip warn">+10GB 프로모션</span>':'')+'<h3>'+E(p.name)+'</h3></div>'+
       '<div class="sp"><span>데이터 <b>'+E(p.data)+'</b></span><span>통화 '+E(p.call)+'</span><span>문자 '+E(p.sms)+'</span><span>소진 후 '+E(p.qos)+'</span></div>'+
@@ -234,7 +236,7 @@
 
   /* 블로그 최신 3개 */
   var grid=document.getElementById('blogGrid');
-  gatoQuery('blog',{select:['title','category','createdAt','thumbnail','draft'],orderBy:'createdAt',desc:true,limit:8}).then(function(rows){rows=rows.filter(function(p){return p.title&&p.draft!==true;}).slice(0,3);
+  gatoQuery('blog',{select:['title','category','createdAt','thumbnail','draft'],orderBy:'createdAt',desc:true,limit:8}).then(function(rows){rows=rows.filter(function(p){return p.title&&p.draft!==true;}).slice(0,4);
     grid.innerHTML=rows.map(function(p){
       return '<a class="bc" href="/blog/'+encodeURIComponent(gatoSlug(p.title))+'"><div class="th">'+(p.thumbnail?'<img src="'+E(p.thumbnail)+'" alt="" loading="lazy">':E(p.category||'가토 블로그'))+'</div>'+
         (p.category?'<span class="chip" style="align-self:flex-start">'+E(p.category)+'</span>':'')+'<strong>'+E(p.title)+'</strong><span class="d">'+gatoDate(p.createdAt)+'</span></a>';

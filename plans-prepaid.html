@@ -108,7 +108,7 @@
     if(TAB==='kt'){f.innerHTML=[ALL].concat(P.PARTNERS).map(function(p){var on=p.id===st.partner;return '<button type="button" class="pill" aria-pressed="'+on+'" data-p="'+p.id+'" style="'+(on?'background:'+p.color+';color:#fff;border-color:'+p.color:'')+'">'+E(p.label)+'</button>';}).join('');
       var cp=P.PARTNERS.filter(function(p){return p.id===st.partner;})[0];
       b.innerHTML=cp?'<div class="ben" style="background:'+cp.color+'"><span style="font-size:14px;font-weight:700;opacity:.9">'+E(cp.label)+' 제휴 혜택</span><strong style="font-size:20px;font-weight:900">'+E(cp.benefit)+'</strong></div>':'';}
-    else if(TAB==='prepaid'){f.innerHTML=[['kt','KT 선불'],['lg','LG U+ 선불']].map(function(x){var on=x[0]===st.pnet;return '<button type="button" class="pill'+(on?' on':'')+'" aria-pressed="'+on+'" data-n="'+x[0]+'"'+(on&&x[0]==='lg'?' style="background:#C23A73;border-color:#C23A73"':'')+'>'+x[1]+'</button>';}).join('');b.innerHTML='';}
+    else if(TAB==='prepaid'){f.innerHTML=[['kt','KT 선불'],['lg','LG U+ 선불']].map(function(x){var on=x[0]===st.pnet;return '<button type="button" class="pill'+(on?' on':'')+'" aria-pressed="'+on+'" data-n="'+x[0]+'"'+(on&&x[0]==='lg'?' style="background:#E0286F;border-color:#E0286F"':'')+'>'+x[1]+'</button>';}).join('');b.innerHTML='';}
     else{f.innerHTML='';b.innerHTML='';}
     var sort=SORTS.filter(function(s){return s[0]===st.sort;})[0];
     var list=rows().sort(sort[2]);

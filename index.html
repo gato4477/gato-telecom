@@ -49,14 +49,19 @@
 .quick a .t{display:flex;flex-direction:column;gap:4px;flex:1 1 auto}
 .quick a strong{font-size:20px;font-weight:900}
 .quick a span.s{font-size:14px;opacity:.92}
-.plans{background:var(--pri);border-radius:28px;padding:56px 48px;display:flex;flex-wrap:wrap;gap:40px 48px}
+.plans{background:#14304D;border-radius:28px;padding:56px 48px;display:flex;flex-wrap:wrap;gap:40px 48px}
 .plans .l{flex:1 1 260px;min-width:0;display:flex;flex-direction:column;gap:28px}
 .plans h2{margin:0;font-size:34px;line-height:1.35;font-weight:900;color:#fff}
-.plans h2 span{color:#C9E8FA}
+.plans h2 span{color:#69BEEE}
 .ptabs{display:flex;flex-direction:column;gap:10px}
-.ptabs button{text-align:left;font-size:16px;font-weight:700;padding:14px 22px;border-radius:999px;background:transparent;color:#E6F4FC;border:1.5px solid rgba(255,255,255,.45)}
-.ptabs button.on{background:#fff;color:var(--pri);border-color:#fff}
+.ptabs button{text-align:left;font-size:16px;font-weight:700;padding:14px 22px;border-radius:999px;background:transparent;color:#B9D3E8;border:1.5px solid #2E4E70}
+.ptabs button:hover{color:#fff;border-color:#69BEEE}
+.ptabs button.on{background:#69BEEE;color:#14304D;border-color:#69BEEE}
 .plans .r{flex:999 1 520px;min-width:0;display:flex;flex-direction:column;gap:14px}
+.plans .rh{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:40px}
+.plans .rh span{font-size:15px;font-weight:700;color:#B9D3E8}
+#pcards{flex:1 1 auto;display:flex;flex-direction:column;gap:14px}
+#pcards .pc{flex:1 1 0;justify-content:space-between}
 .pc{background:#fff;border-radius:18px;padding:22px 26px;display:flex;flex-direction:column;gap:14px}
 .pc .top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .pc h3{margin:0;font-size:19px;font-weight:900}
@@ -65,11 +70,11 @@
 .pc .bt{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .price{font-size:15px;color:var(--pri);font-weight:700}
 .price strong{font-size:26px;font-weight:900}
-.allp{align-self:flex-end;font-size:15px;font-weight:700;color:#fff}
+.allp{font-size:15px;font-weight:700;color:#fff;white-space:nowrap}
 .allp:hover{color:#C8E2F3}
 .bl-head{display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;padding:24px 0 8px}
 .bl-head h2{margin:0;font-size:40px;font-weight:900;letter-spacing:-1px;line-height:1.3;word-break:keep-all}
-.bl-head .u{background:linear-gradient(transparent 62%,#FCE8F0 62%)}
+.bl-head .u{background:linear-gradient(transparent 62%,#FDEAF2 62%)}
 @media (max-width:700px){.bl-head h2{font-size:28px}}
 .bl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px}
 .bc{display:flex;flex-direction:column;gap:10px;color:var(--t)}
@@ -136,7 +141,7 @@
 <h2>지금 많이 찾는<br><span>제휴 요금제</span></h2>
 <div class="ptabs" id="ptabs" role="tablist" aria-label="요금제 분류"></div>
 </div>
-<div class="r"><div id="pcards" style="display:flex;flex-direction:column;gap:14px"></div><a href="/plans/kt" class="allp">전체 요금제 보기 ›</a></div>
+<div class="r"><div class="rh"><span id="ptabName">LG U+ 알뜰폰 추천</span><a href="/plans/kt" class="allp" id="allp">전체 요금제 보기 ›</a></div><div id="pcards"></div></div>
 </section>
 
 <section aria-label="블로그" style="display:flex;flex-direction:column;gap:24px">
@@ -176,6 +181,7 @@
   var HOME=GATO_PLANS.HOME, cur=0, tabs=document.getElementById('ptabs'), cards=document.getElementById('pcards');
   function drawPlans(){
     tabs.innerHTML=HOME.map(function(t,i){return '<button type="button" role="tab" aria-selected="'+(i===cur)+'" class="'+(i===cur?'on':'')+'" data-i="'+i+'">'+E(t.label)+'</button>';}).join('');
+    document.getElementById('ptabName').textContent=HOME[cur].label+' 추천';document.getElementById('allp').href=HOME[cur].id==='lg'?'/plans/lg':'/plans/kt';
     cards.innerHTML=HOME[cur].plans.map(function(p){
       return '<article class="pc"><div class="top"><span class="chip'+(p.net==='KT망'?'':' pink')+'">'+E(p.net)+'</span>'+(p.promo?'<span class="chip warn">+10GB 프로모션</span>':'')+'<h3>'+E(p.name)+'</h3></div>'+
       '<div class="sp"><span>데이터 <b>'+E(p.data)+'</b></span><span>통화 '+E(p.call)+'</span><span>문자 '+E(p.sms)+'</span><span>소진 후 '+E(p.qos)+'</span></div>'+

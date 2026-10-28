@@ -17,7 +17,7 @@ body{background:var(--bg)}
 .app{display:none;min-height:100vh}
 .side{width:240px;flex:0 0 240px;background:var(--pri);color:#fff;padding:26px 18px;display:flex;flex-direction:column;gap:6px;position:sticky;top:0;height:100vh}
 .side .lg{padding:0 10px 22px;display:flex;flex-direction:column;line-height:1}
-.side .lg b{font-size:24px;font-weight:900;color:#69BEEE}
+.side .lg b{font-size:24px;font-weight:900;color:#fff}
 .side .lg span{font-size:12px;color:#A8CCE4;margin-top:6px}
 .side button.m{text-align:left;border:none;border-radius:12px;padding:13px 14px;font-size:15px;font-weight:700;background:transparent;color:#C8E2F3}
 .side button.m.on{background:#69BEEE;color:#fff}
@@ -142,20 +142,28 @@ body{background:var(--bg)}
 
 <section class="view" id="v-banner">
 <div class="vh"><h1>메인 배너 관리</h1></div>
+<div class="card" style="padding:22px;display:flex;flex-wrap:wrap;gap:18px;align-items:center">
+<div id="fxPrev" style="flex:0 0 260px;aspect-ratio:16/9;border-radius:12px;background:var(--tint);overflow:hidden;display:flex;align-items:center;justify-content:center;color:var(--m);font-size:13px;text-align:center;padding:10px">기본 문구 사용 중<br>(통신비는 줄이고, 개통은 간편하게)</div>
+<div style="flex:1 1 260px;display:flex;flex-direction:column;gap:8px">
+<span class="chip" style="align-self:flex-start">왼쪽 고정 배너</span>
+<strong style="font-size:17px" id="fxName">메인 왼쪽 큰 배너</strong>
+<span class="note" id="fxInfo">움직이는 배너 옆 왼쪽 칸이에요. 이미지를 올리면 기본 문구 대신 그 이미지가 나와요. 권장 크기 가로 1600 × 세로 800px.</span>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><label class="btn" style="cursor:pointer">이미지 바꾸기<input type="file" id="fxFile" accept="image/*" hidden></label><button type="button" class="btn ghost" id="fxLinkBtn">링크 바꾸기</button><button type="button" class="btn ghost" id="fxDel" style="display:none">기본 문구로 되돌리기</button></div>
+</div></div>
 <div class="card" style="padding:22px;display:flex;flex-direction:column;gap:14px">
-<strong id="bfTitle" style="font-size:17px">배너 등록</strong>
+<strong id="bfTitle" style="font-size:17px">오른쪽 움직이는 배너 등록</strong>
 <div style="display:flex;flex-wrap:wrap;gap:16px">
 <label class="drop" id="bDrop" style="flex:0 0 260px"><input type="file" id="bFile" accept="image/*" hidden><span>눌러서 배너 이미지 올리기</span><span style="font-size:12px">가로 1200px 이상 권장</span></label>
 <div style="flex:1 1 300px;display:flex;flex-direction:column;gap:10px">
 <label class="f"><span>배너 이름</span><input type="text" id="bTitle" placeholder="예: 네이버페이 제휴 요금제"></label>
-<label class="f"><span>자리</span><select id="bSlot"><option value="slide">오른쪽 흘러가는 배너</option><option value="fixed">왼쪽 고정 배너</option></select></label>
+<input type="hidden" id="bSlot" value="slide">
 <label class="f"><span>누르면 이동할 주소</span><input type="text" id="bLink" placeholder="/plans/kt 또는 https://..."></label>
 <div style="display:flex;gap:10px;flex-wrap:wrap"><label class="f" style="flex:1 1 140px"><span>시작일 (선택)</span><input type="date" id="bStart"></label><label class="f" style="flex:1 1 140px"><span>종료일 (선택)</span><input type="date" id="bEnd"></label></div>
 <div style="display:flex;gap:8px"><button type="button" class="btn" id="bSave">배너 등록</button><button type="button" class="btn ghost" id="bReset">새로 쓰기</button></div>
 </div></div></div>
-<span style="font-size:15px;font-weight:700;color:var(--deep)">등록된 배너 · 위에서부터 순서대로 나와요</span>
+<span style="font-size:15px;font-weight:700;color:var(--deep)">오른쪽 움직이는 배너 · 위에서부터 순서대로 나와요</span>
 <div class="card" id="bList"><p class="note" style="padding:20px">불러오는 중…</p></div>
-<p class="note">왼쪽 고정 배너가 없으면 기본 문구(통신비는 줄이고, 개통은 간편하게)가 나와요. 저장하면 메인에 바로 반영돼요.</p>
+<p class="note">저장하면 메인에 바로 반영돼요.</p>
 </section>
 </main>
 </div>
@@ -261,11 +269,29 @@ $('publish').onclick = () => savePost(false);
 $('delPost').onclick = async () => { if(!ed.id || !confirm('이 글을 삭제할까요? 되돌릴 수 없어요.')) return; try{ await deleteDoc(doc(db,'blog',ed.id)); toast('삭제했어요.'); loadPosts(); show('list'); }catch(e){ toast('삭제하지 못했어요.'); } };
 
 /* ---------- 배너 ---------- */
-let banners = [], bImg = '', bEdit = null;
+let banners = [], bImg = '', bEdit = null, fixedB = null;
+function drawFixed(){
+  const p=$('fxPrev');
+  if(fixedB){ p.innerHTML='<img src="'+esc(fixedB.imageUrl)+'" alt="" style="width:100%;height:100%;object-fit:cover">'; p.style.padding='0'; $('fxInfo').textContent='링크: '+(fixedB.link||'없음'); $('fxDel').style.display=''; }
+  else { p.innerHTML='기본 문구 사용 중<br>(통신비는 줄이고, 개통은 간편하게)'; p.style.padding='10px'; $('fxInfo').textContent='움직이는 배너 옆 왼쪽 칸이에요. 이미지를 올리면 기본 문구 대신 그 이미지가 나와요. 권장 크기 가로 1600 × 세로 800px.'; $('fxDel').style.display='none'; }
+}
+async function saveFixed(patch){
+  try{
+    if(fixedB){ await updateDoc(doc(db,'banners',fixedB.id), { ...patch, updatedAt:new Date().toISOString() }); }
+    else { if(!patch.imageUrl) return toast('먼저 이미지를 올려주세요.'); const now=new Date().toISOString(); await addDoc(collection(db,'banners'), { title:'왼쪽 고정 배너', alt:'가토통신', link:'/plans/kt', slot:'fixed', active:true, order:0, startAt:'', endAt:'', createdAt:now, updatedAt:now, ...patch }); }
+    toast('왼쪽 고정 배너를 바꿨어요. 메인에 바로 반영돼요.'); loadBanners();
+  } catch(e){ console.error(e); toast(e.code==='permission-denied'?'저장 권한이 없어요.':'저장하지 못했어요.'); }
+}
+$('fxFile').onchange = async e => { const f=e.target.files[0]; if(!f) return; try{ await saveFixed({ imageUrl: await shrink(f,1600,700) }); }catch(err){ toast(err.message); } e.target.value=''; };
+$('fxLinkBtn').onclick = () => { if(!fixedB) return toast('먼저 이미지를 올려주세요.'); const u=prompt('누르면 이동할 주소를 넣어주세요 (비우면 링크 없음)', fixedB.link||''); if(u===null) return; saveFixed({ link: fixLink(u) }); };
+$('fxDel').onclick = async () => { if(!fixedB || !confirm('이미지를 빼고 기본 문구로 되돌릴까요?')) return; try{ await deleteDoc(doc(db,'banners',fixedB.id)); toast('기본 문구로 되돌렸어요.'); loadBanners(); }catch(e){ toast('처리하지 못했어요.'); } };
 async function loadBanners(){
   try{
     const snap = await getDocs(query(collection(db,'banners'), orderBy('order','asc')));
-    banners = snap.docs.map(d => ({ id:d.id, ...d.data() }));
+    const allB = snap.docs.map(d => ({ id:d.id, ...d.data() }));
+    fixedB = allB.find(b => b.slot==='fixed') || null;
+    banners = allB.filter(b => b.slot!=='fixed');
+    drawFixed();
     $('bList').innerHTML = banners.length ? banners.map((b,i) => `<div class="bn"><img src="${esc(b.imageUrl)}" alt=""><div class="tx"><strong>${esc(b.title)}</strong><span>${b.slot==='fixed'?'왼쪽 고정':'오른쪽 흘러가는 배너'} · ${esc(b.link||'링크 없음')}${b.startAt||b.endAt?' · '+esc(b.startAt||'')+' ~ '+esc(b.endAt||''):''}</span></div>
       <button type="button" class="sb ${b.active===false?'':'on'}" data-a="tog" data-i="${i}">${b.active===false?'숨김':'노출 중'}</button>
       <button type="button" class="sb" data-a="up" data-i="${i}" aria-label="위로">↑</button><button type="button" class="sb" data-a="down" data-i="${i}" aria-label="아래로">↓</button>
@@ -274,7 +300,7 @@ async function loadBanners(){
 }
 function bPreview(v){ bImg=v||''; const d=$('bDrop'); d.querySelectorAll('img').forEach(i=>i.remove()); if(v){ const i=document.createElement('img'); i.src=v; i.alt=''; d.appendChild(i); } }
 $('bFile').onchange = async e => { const f=e.target.files[0]; if(!f) return; try{ bPreview(await shrink(f,1200,600)); }catch(err){ toast(err.message); } e.target.value=''; };
-function bReset(){ bEdit=null; ['bTitle','bLink','bStart','bEnd'].forEach(i=>$(i).value=''); $('bSlot').value='slide'; bPreview(''); $('bfTitle').textContent='배너 등록'; $('bSave').textContent='배너 등록'; }
+function bReset(){ bEdit=null; ['bTitle','bLink','bStart','bEnd'].forEach(i=>$(i).value=''); bPreview(''); $('bfTitle').textContent='배너 등록'; $('bSave').textContent='배너 등록'; }
 $('bReset').onclick = bReset;
 $('bSave').onclick = async () => {
   const title=$('bTitle').value.trim(); if(!title) return toast('배너 이름을 적어주세요.'); if(!bImg) return toast('배너 이미지를 골라주세요.');
@@ -292,7 +318,7 @@ $('bList').onclick = async e => {
   try{
     if(b.dataset.a==='tog'){ await updateDoc(doc(db,'banners',x.id), { active: x.active===false }); }
     else if(b.dataset.a==='up'||b.dataset.a==='down'){ const j=i+(b.dataset.a==='up'?-1:1); if(j<0||j>=banners.length) return; const arr=banners.slice(); [arr[i],arr[j]]=[arr[j],arr[i]]; await Promise.all(arr.map((y,k)=>updateDoc(doc(db,'banners',y.id),{order:k+1}))); }
-    else if(b.dataset.a==='edit'){ bEdit=x.id; $('bTitle').value=x.title||''; $('bLink').value=x.link||''; $('bStart').value=x.startAt||''; $('bEnd').value=x.endAt||''; $('bSlot').value=x.slot==='fixed'?'fixed':'slide'; bPreview(x.imageUrl); $('bfTitle').textContent='배너 수정'; $('bSave').textContent='수정 저장'; window.scrollTo(0,0); return; }
+    else if(b.dataset.a==='edit'){ bEdit=x.id; $('bTitle').value=x.title||''; $('bLink').value=x.link||''; $('bStart').value=x.startAt||''; $('bEnd').value=x.endAt||''; bPreview(x.imageUrl); $('bfTitle').textContent='배너 수정'; $('bSave').textContent='수정 저장'; window.scrollTo(0,0); return; }
     else if(b.dataset.a==='del'){ if(!confirm('이 배너를 삭제할까요?')) return; await deleteDoc(doc(db,'banners',x.id)); }
     loadBanners();
   } catch(err){ console.error(err); toast('처리하지 못했어요.'); }

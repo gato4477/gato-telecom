@@ -171,20 +171,20 @@ ${JSON.stringify(schema, null, 2)}
 <style>
 .pw{max-width:800px;margin:0 auto;padding:32px 20px 80px}
 .back{display:inline-block;margin-bottom:20px;font-weight:700;font-size:14px}
-.post-head{margin-bottom:26px;padding-bottom:20px;border-bottom:1.5px solid #DCEEFA;display:flex;flex-direction:column;gap:10px}
+.post-head{margin-bottom:26px;padding-bottom:20px;border-bottom:1.5px solid #D7ECF9;display:flex;flex-direction:column;gap:10px}
 .post-head h1{margin:0;font-size:30px;font-weight:900;letter-spacing:-.5px;line-height:1.4}
 .post-meta{font-size:13px;color:#4F6577;display:flex;gap:8px;align-items:center}
 .post-thumb{width:100%;border-radius:16px;margin-bottom:24px;display:block}
-.post-body{line-height:1.85;font-size:16px;background:#fff;border:1px solid #DCEEFA;border-radius:20px;padding:32px}
+.post-body{line-height:1.85;font-size:16px;background:#fff;border:1px solid #D7ECF9;border-radius:20px;padding:32px}
 .post-body img{max-width:100%;height:auto}
 .post-body h2{font-size:22px;font-weight:800;margin:36px 0 12px;letter-spacing:-.3px}
 .post-body h3{font-size:18px;font-weight:700;margin:26px 0 10px}
 .post-body p{margin:0 0 16px}
 .post-body ul,.post-body ol{margin:0 0 16px 20px}
 .post-body table{width:100%;border-collapse:collapse;margin:18px 0;font-size:15px;display:block;overflow-x:auto}
-.post-body th,.post-body td{border:1px solid #DCEEFA;padding:10px 12px;text-align:left}
-.post-body th{background:#E8F5FE;font-weight:700}
-.cta{margin-top:36px;padding:26px;background:#E3F2FD;border-radius:18px;text-align:center}
+.post-body th,.post-body td{border:1px solid #D7ECF9;padding:10px 12px;text-align:left}
+.post-body th{background:#EEF8FE;font-weight:700}
+.cta{margin-top:36px;padding:26px;background:#E6F4FC;border-radius:18px;text-align:center}
 .cta p{margin:6px 0 14px;font-size:14px;color:#4F6577}
 @media(max-width:700px){.post-head h1{font-size:23px}.post-body{padding:20px 16px;border-radius:16px}}
 

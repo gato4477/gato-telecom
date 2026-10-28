@@ -1,11 +1,11 @@
 :root{
-  --sky:#45A6F2; --pri:#0569AD; --pri2:#1A94E8; --deep:#0E3A5C;
-  --bg:#F2F8FD; --tint:#E3F2FD; --tint2:#E8F5FE; --line:#DCEEFA; --line2:#C9E6FA;
-  --t:#111827; --m:#4F6577; --m2:#6B7280; --warn:#B42318; --warnbg:#FDECEA;
+  --sky:#69BEEE; --pri:#256CAE; --pri2:#69BEEE; --deep:#1E2630;
+  --bg:#F3F9FE; --tint:#E6F4FC; --tint2:#EEF8FE; --line:#D7ECF9; --line2:#BFE1F6;
+  --t:#1E2630; --m:#56636F; --m2:#6B7480; --warn:#B42318; --warnbg:#FDECEA;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--t);font-family:'Noto Sans KR',-apple-system,BlinkMacSystemFont,sans-serif;font-size:16px;line-height:1.5}
+body{margin:0;background:#FFFFFF;color:var(--t);font-family:'Noto Sans KR',-apple-system,BlinkMacSystemFont,sans-serif;font-size:16px;line-height:1.5}
 a{color:var(--pri);text-decoration:none}
 a:hover{color:var(--deep)}
 button{font-family:inherit;cursor:pointer}
@@ -58,7 +58,7 @@ img{max-width:100%}
 .pills{display:flex;gap:8px;flex-wrap:wrap}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;padding:0 22px;border-radius:12px;font-size:15px;font-weight:700;border:none;background:var(--pri);color:#fff;white-space:nowrap}
 .btn:hover{color:#fff;filter:brightness(1.05)}
-.btn.dark{background:var(--deep)}
+.btn.dark{background:var(--t)}
 .btn.ghost{background:#fff;color:var(--deep);border:1.5px solid var(--deep)}
 .btn.ghost:hover{color:var(--deep)}
 .btn.kakao{background:#FEE500;color:#191919}

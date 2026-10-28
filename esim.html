@@ -37,12 +37,12 @@
 .ob.on{background:var(--tint2);color:var(--pri);border-color:var(--pri)}
 .ob.l{text-align:left;padding:0 16px;height:52px}
 .ob.s.on{background:var(--pri);color:#fff}
-.res{flex:1 1 300px;min-width:0;background:var(--deep);color:#fff;border-radius:20px;padding:26px;display:flex;flex-direction:column;gap:12px;position:sticky;top:90px}
+.res{flex:1 1 300px;min-width:0;background:var(--pri);color:#fff;border-radius:20px;padding:26px;display:flex;flex-direction:column;gap:12px;position:sticky;top:90px}
 .res .v{font-size:28px;font-weight:900;letter-spacing:.5px;word-break:break-all}
-.res .v.e{font-size:18px;color:#8CB8D6}
-.res .cp{height:52px;border:none;border-radius:12px;font-size:16px;font-weight:900;background:#1A94E8;color:#fff}
-.res .cp:disabled{background:#2E6489;color:#8CB8D6;cursor:not-allowed}
-.res .rs{background:transparent;color:#C8E2F3;border:1px solid #2E6489;border-radius:12px;height:44px;font-size:14px;font-weight:700}
+.res .v.e{font-size:18px;color:#E6F4FC}
+.res .cp{height:52px;border:none;border-radius:12px;font-size:16px;font-weight:900;background:#fff;color:#256CAE}
+.res .cp:disabled{background:rgba(255,255,255,.25);color:#E6F4FC;cursor:not-allowed}
+.res .rs{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5);border-radius:12px;height:44px;font-size:14px;font-weight:700}
 .steps .s{display:flex;gap:20px;padding:24px 30px;border-top:1px solid #EEF4F9}
 .steps .s:first-child{border-top:none}
 .steps .n{flex:0 0 auto;width:40px;height:40px;border-radius:999px;background:var(--pri);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900}
@@ -83,7 +83,7 @@
 <div id="actBox" class="hide" style="display:flex;flex-direction:column;gap:8px"><p class="note" style="font-size:14px">리퍼·중고·해외폰은 실제 모델번호가 다를 수 있어요. <strong>설정 › 일반 › 정보 › 모델 번호</strong>를 한 번 눌러서 나온 값이 다르면 입력해 주세요.</p><input type="text" id="actual" placeholder="예: A3106" aria-label="실제 모델번호" style="height:46px;border:1px solid #DDE2EA;border-radius:12px;padding:0 14px"></div></div>
 <div class="card stp hide" id="cStorage"><div class="sh"><i id="stNo">3</i><strong>저장용량 선택</strong></div><div class="pills" id="storages"></div></div>
 </div>
-<div class="res" aria-live="polite"><span style="font-size:13px;font-weight:700;color:#8FD3FB">앤텔레콤 입력용 모델명</span><strong class="v e" id="val">기종과 용량을 선택하세요</strong><span id="info" style="font-size:14px;color:#C8E2F3;min-height:20px"></span><button type="button" class="cp" id="copy" disabled>모델명 복사</button><button type="button" class="rs" id="reset">처음부터 다시 선택</button></div>
+<div class="res" aria-live="polite"><span style="font-size:13px;font-weight:700;color:#E6F4FC">앤텔레콤 입력용 모델명</span><strong class="v e" id="val">기종과 용량을 선택하세요</strong><span id="info" style="font-size:14px;color:#C8E2F3;min-height:20px"></span><button type="button" class="cp" id="copy" disabled>모델명 복사</button><button type="button" class="rs" id="reset">처음부터 다시 선택</button></div>
 </div>
 </section>
 

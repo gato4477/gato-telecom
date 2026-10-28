@@ -23,12 +23,12 @@
 .ptab{display:flex;border-bottom:2px solid #E5E8EF;flex-wrap:wrap}
 .ptab a{margin-bottom:-2px;padding:14px 22px;font-size:17px;font-weight:700;color:var(--m2);border-bottom:3px solid transparent}
 .ptab a.on{color:var(--pri);border-bottom-color:var(--pri)}
-.prebar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;background:var(--deep);color:#fff;border-radius:16px;padding:18px 24px}
+.prebar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;background:var(--pri);color:#fff;border-radius:16px;padding:18px 24px}
 .prebar span{font-size:15px}
 .ben{display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;padding:16px 22px;border-radius:16px;color:#fff}
 .tools{display:flex;align-items:center;justify-content:space-between;gap:12px;position:relative;z-index:5}
 .sortb{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700;color:var(--t);background:#fff;border:1px solid #DDE2EA;border-radius:12px;padding:10px 16px}
-.sortm{position:absolute;right:0;top:50px;width:220px;background:#fff;border-radius:16px;box-shadow:0 12px 32px rgba(14,58,92,.16);padding:8px;display:none;flex-direction:column}
+.sortm{position:absolute;right:0;top:50px;width:220px;background:#fff;border-radius:16px;box-shadow:0 12px 32px rgba(30,38,48,.16);padding:8px;display:none;flex-direction:column}
 .sortm.open{display:flex}
 .sortm button{display:flex;align-items:center;gap:8px;text-align:left;background:none;border:none;border-radius:10px;padding:12px 14px;font-size:15px;color:var(--t)}
 .sortm button.on{color:var(--pri);font-weight:700}
@@ -95,7 +95,7 @@
   var REC=['11GB+일2GB','15GB','100GB','10GB','7GB','300분+15GB','100분+15GB'], REC_LG=[1,4,0,2,3], REC_PRE=[3,4,6,0,1,5,2];
   var num=function(p){return Number(p.replace(/,/g,''));};
   var SORTS=[['rec','추천 순',function(a,b){return a.rank-b.rank;}],['low','낮은 가격 순',function(a,b){return num(a.price)-num(b.price);}],['high','높은 가격 순',function(a,b){return num(b.price)-num(a.price);}],['data','데이터 많은 순',function(a,b){return b.gb-a.gb||num(a.price)-num(b.price);}],['promo','프로모션 먼저',function(a,b){return (b.promo?1:0)-(a.promo?1:0)||num(a.price)-num(b.price);}]];
-  var ALL={id:'all',label:'전체',color:'#0E3A5C'};
+  var ALL={id:'all',label:'전체',color:'#1E2630'};
   function rows(){
     if(TAB==='prepaid') return P.PRE[st.pnet].map(function(x,i){return Object.assign({},x,{rank:REC_PRE.indexOf(i),net:st.pnet==='kt'?'KT 선불':'LG U+ 선불',url:P.PREPAID});});
     if(TAB==='lg') return P.LG.map(function(x,i){return Object.assign({},x,{rank:REC_LG.indexOf(i),net:'LG U+망',url:P.LG_OPEN});});

@@ -1,39 +1,27 @@
 {
   "rewrites": [
-    {
-      "source": "/faq",
-      "destination": "/faq.html"
-    },
-    {
-      "source": "/blog",
-      "destination": "/blog.html"
-    },
-    {
-      "source": "/privacy",
-      "destination": "/privacy.html"
-    },
-    {
-      "source": "/blog/:slug",
-      "destination": "/api/post?slug=:slug"
-    },
-    {
-      "source": "/sitemap.xml",
-      "destination": "/api/sitemap"
-    }
+    { "source": "/open/self", "destination": "/open-self.html" },
+    { "source": "/plans", "destination": "/plans-kt.html" },
+    { "source": "/plans/kt", "destination": "/plans-kt.html" },
+    { "source": "/plans/lg", "destination": "/plans-lg.html" },
+    { "source": "/plans/prepaid", "destination": "/plans-prepaid.html" },
+    { "source": "/usim", "destination": "/usim.html" },
+    { "source": "/esim", "destination": "/esim.html" },
+    { "source": "/faq", "destination": "/faq.html" },
+    { "source": "/blog", "destination": "/blog.html" },
+    { "source": "/blog/:slug", "destination": "/api/post?slug=:slug" },
+    { "source": "/support/contact", "destination": "/contact.html" },
+    { "source": "/support/center", "destination": "/center.html" },
+    { "source": "/admin", "destination": "/admin.html" },
+    { "source": "/privacy", "destination": "/privacy.html" },
+    { "source": "/sitemap.xml", "destination": "/api/sitemap" }
   ],
   "headers": [
-    {
-      "source": "/admin-panel.js",
-      "headers": [
-        {
-          "key": "X-Robots-Tag",
-          "value": "noindex, nofollow, noarchive, nosnippet"
-        },
-        {
-          "key": "Cache-Control",
-          "value": "no-store"
-        }
-      ]
-    }
+    { "source": "/admin(.*)", "headers": [
+      { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive, nosnippet" },
+      { "key": "Cache-Control", "value": "no-store" }
+    ] },
+    { "source": "/assets/(.*)", "headers": [ { "key": "Cache-Control", "value": "public, max-age=3600" } ] },
+    { "source": "/img/(.*)", "headers": [ { "key": "Cache-Control", "value": "public, max-age=604800" } ] }
   ]
 }

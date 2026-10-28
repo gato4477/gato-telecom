@@ -21,16 +21,25 @@ export default async function handler(req, res) {
     const j = await r.json();
     posts = (j.documents || []).map(d => ({
       title: d.fields?.title?.stringValue || '',
-      createdAt: d.fields?.createdAt?.timestampValue || null
-    })).filter(p => p.title);
+      createdAt: d.fields?.createdAt?.timestampValue || null,
+      draft: d.fields?.draft?.booleanValue === true
+    })).filter(p => p.title && !p.draft);
   } catch (e) {
     posts = [];
   }
 
   const fixed = [
     { loc: `${SITE}/`, freq: 'weekly', pri: '1.0' },
+    { loc: `${SITE}/open/self`, freq: 'monthly', pri: '0.9' },
+    { loc: `${SITE}/plans/kt`, freq: 'weekly', pri: '0.9' },
+    { loc: `${SITE}/plans/lg`, freq: 'weekly', pri: '0.9' },
+    { loc: `${SITE}/plans/prepaid`, freq: 'weekly', pri: '0.8' },
+    { loc: `${SITE}/usim`, freq: 'monthly', pri: '0.8' },
+    { loc: `${SITE}/esim`, freq: 'monthly', pri: '0.8' },
     { loc: `${SITE}/faq`, freq: 'monthly', pri: '0.8' },
-    { loc: `${SITE}/blog`, freq: 'weekly', pri: '0.8' }
+    { loc: `${SITE}/blog`, freq: 'weekly', pri: '0.8' },
+    { loc: `${SITE}/support/contact`, freq: 'yearly', pri: '0.5' },
+    { loc: `${SITE}/support/center`, freq: 'monthly', pri: '0.6' }
   ];
 
   const entries = fixed.map(u =>

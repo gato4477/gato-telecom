@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>가토통신 관리자</title>
+<link rel="icon" href="/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css?v=1">
+<style>
+body{background:var(--bg)}
+.login{max-width:420px;margin:80px auto;padding:36px 32px;display:flex;flex-direction:column;gap:12px}
+.login input,.f input,.f textarea,.f select{border:1px solid var(--line2);border-radius:12px;padding:0 14px;height:48px;font-size:15px;outline:none;background:#fff}
+.f textarea{padding:12px 14px;height:auto;line-height:1.6;resize:vertical}
+.login input:focus,.f input:focus,.f textarea:focus,.f select:focus{border-color:var(--pri)}
+.app{display:none;min-height:100vh}
+.side{width:240px;flex:0 0 240px;background:var(--deep);color:#fff;padding:26px 18px;display:flex;flex-direction:column;gap:6px;position:sticky;top:0;height:100vh}
+.side .lg{padding:0 10px 22px;display:flex;flex-direction:column;line-height:1}
+.side .lg b{font-size:24px;font-weight:900;color:#6CC8FB}
+.side .lg span{font-size:12px;color:#A8CCE4;margin-top:6px}
+.side button.m{text-align:left;border:none;border-radius:12px;padding:13px 14px;font-size:15px;font-weight:700;background:transparent;color:#C8E2F3}
+.side button.m.on{background:#1A94E8;color:#fff}
+.side .who{font-size:12px;color:#A8CCE4;padding:0 10px;word-break:break-all}
+.side .out{margin:8px 10px 0;background:transparent;border:1px solid #2E6489;color:#C8E2F3;border-radius:10px;height:36px;font-size:13px;font-weight:700}
+.main{flex:1 1 auto;min-width:0;padding:32px 32px 80px;display:flex;flex-direction:column;gap:18px}
+.view{display:none;flex-direction:column;gap:18px}
+.view.on{display:flex}
+.vh{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}
+.vh h1{margin:0;font-size:26px;font-weight:900}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:14px 20px;border-top:1px solid #EEF4F9}
+.row:first-child{border-top:none}
+.row .tt{flex:1 1 260px;min-width:0;font-size:15px;font-weight:700}
+.row .dd{font-size:13px;color:var(--m)}
+.st{font-size:12px;font-weight:700;padding:3px 9px;border-radius:6px}
+.st.pub{background:var(--tint);color:var(--pri)}
+.st.dr{background:#FFF4D6;color:#8A5A00}
+.ed{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start}
+.ed .l{flex:999 1 520px;min-width:0;padding:22px;display:flex;flex-direction:column;gap:12px}
+.ed .r{flex:1 1 280px;min-width:0;display:flex;flex-direction:column;gap:14px}
+.ed .r .card{padding:18px;display:flex;flex-direction:column;gap:10px}
+.ttl{border:none;border-bottom:2px solid var(--line);font-size:24px;font-weight:900;padding:6px 0 12px;outline:none;width:100%}
+.slug{font-size:13px;color:var(--m);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.slug span{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px 10px;color:var(--deep);word-break:break-all}
+.tb{display:flex;gap:4px;flex-wrap:wrap;border:1px solid var(--line);border-bottom:none;border-radius:12px 12px 0 0;padding:8px;background:#F7FBFE}
+.tb button{min-width:38px;height:36px;border:none;border-radius:8px;background:transparent;color:var(--deep);font-size:14px;font-weight:700;padding:0 10px}
+.tb button:hover{background:var(--tint)}
+.tb .sp{flex:1}
+.tb .mode.on{background:var(--deep);color:#fff}
+.wys{min-height:420px;border:1px solid var(--line);border-radius:0 0 12px 12px;padding:18px;font-size:16px;line-height:1.8;outline:none;background:#fff;overflow:auto}
+.wys img{max-width:100%;height:auto}
+.wys table{border-collapse:collapse;width:100%}
+.wys td,.wys th{border:1px solid #DCEEFA;padding:8px 10px}
+.htm{display:none;min-height:420px;border:1px solid var(--line);border-radius:0 0 12px 12px;padding:14px;font-family:ui-monospace,Menlo,monospace;font-size:13px;line-height:1.6;width:100%;resize:vertical}
+.drop{aspect-ratio:16/9;border:2px dashed #9FD0F2;border-radius:12px;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--m);font-size:13px;text-align:center;cursor:pointer;overflow:hidden;position:relative}
+.drop img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cats{display:flex;gap:6px;flex-wrap:wrap}
+.cats button{font-size:13px;font-weight:700;padding:7px 12px;border-radius:999px;background:#fff;color:#374151;border:1px solid var(--line2)}
+.cats button.on{background:var(--pri);color:#fff;border-color:var(--pri)}
+.toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:var(--deep);color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:700;display:none;z-index:99}
+.bn{display:flex;flex-wrap:wrap;gap:14px 18px;align-items:center;padding:16px 20px;border-top:1px solid #EEF4F9}
+.bn:first-child{border-top:none}
+.bn img{width:150px;aspect-ratio:16/9;object-fit:cover;border-radius:10px;background:var(--bg)}
+.bn .tx{flex:1 1 220px;min-width:0;display:flex;flex-direction:column;gap:4px}
+.bn .tx span{font-size:13px;color:var(--m);word-break:break-all}
+.sb{height:36px;border:1px solid var(--line2);border-radius:8px;background:#fff;color:var(--deep);padding:0 10px;font-size:13px;font-weight:700}
+.sb.del{color:var(--warn);border-color:#F3C4C0}
+.sb.on{background:var(--tint);color:var(--pri);border-color:#9FD0F2}
+.f{display:flex;flex-direction:column;gap:6px}
+.f>span{font-size:14px;font-weight:700}
+@media (max-width:860px){.app{flex-direction:column}.side{width:auto;flex:none;height:auto;position:static;flex-direction:row;flex-wrap:wrap;align-items:center}.side .lg{padding:0 10px 0 0}.side .who,.side .grow{display:none}.main{padding:20px 14px 60px}}
+</style>
+</head>
+<body>
+
+<div class="card login" id="login">
+<h1 style="margin:0;font-size:22px;font-weight:900">관리자 로그인</h1>
+<p class="note">가토통신 관리자 전용이에요.</p>
+<input type="email" id="email" placeholder="이메일" autocomplete="username">
+<input type="password" id="pw" placeholder="비밀번호" autocomplete="current-password">
+<span id="lerr" style="font-size:14px;color:var(--warn);min-height:18px"></span>
+<button type="button" class="btn" id="lbtn">로그인</button>
+</div>
+
+<div class="app" id="app">
+<aside class="side">
+<div class="lg"><b>가토통신</b><span>관리자</span></div>
+<button type="button" class="m on" data-v="list">블로그 글 목록</button>
+<button type="button" class="m" data-v="editor">블로그 글쓰기</button>
+<button type="button" class="m" data-v="banner">메인 배너 관리</button>
+<span class="grow" style="flex:1"></span>
+<a href="/" target="_blank" rel="noopener" style="color:#C8E2F3;font-size:13px;padding:0 10px">사이트 열기 ↗</a>
+<span class="who" id="who"></span>
+<button type="button" class="out" id="logout">로그아웃</button>
+</aside>
+<main class="main">
+
+<section class="view on" id="v-list">
+<div class="vh"><h1>블로그 글 목록</h1><button type="button" class="btn" id="newPost">새 글 쓰기</button></div>
+<div class="card" id="postList"><p class="note" style="padding:20px">불러오는 중…</p></div>
+</section>
+
+<section class="view" id="v-editor">
+<div class="vh"><h1 id="edTitle">블로그 글쓰기</h1>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn ghost" id="saveDraft">임시저장</button><button type="button" class="btn" id="publish">발행하기</button></div></div>
+<div class="ed">
+<div class="card l">
+<input type="text" class="ttl" id="title" placeholder="제목을 입력하세요">
+<div class="slug">글 주소 <span id="slug">gatomobile.kr/blog/</span></div>
+<div>
+<div class="tb" id="tb">
+<button type="button" data-c="h2" title="소제목">H2</button>
+<button type="button" data-c="h3" title="작은 소제목">H3</button>
+<button type="button" data-c="bold" title="굵게"><b>B</b></button>
+<button type="button" data-c="ul" title="목록">• 목록</button>
+<button type="button" data-c="table" title="표">표</button>
+<button type="button" data-c="img" title="사진">사진</button>
+<button type="button" data-c="link" title="링크">링크</button>
+<button type="button" data-c="cta" title="신청 버튼">신청 버튼</button>
+<span class="sp"></span>
+<button type="button" class="mode on" data-m="w">편집</button>
+<button type="button" class="mode" data-m="h">HTML</button>
+</div>
+<div class="wys" id="wys" contenteditable="true"></div>
+<textarea class="htm" id="htm" spellcheck="false" placeholder="HTML을 그대로 붙여넣어도 돼요"></textarea>
+</div>
+</div>
+<div class="r">
+<div class="card"><strong style="font-size:15px">대표 이미지</strong>
+<label class="drop" id="thumbDrop"><input type="file" id="thumbFile" accept="image/*" hidden><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0569AD" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"></rect><circle cx="9" cy="10" r="2"></circle><path d="M21 16l-5-5-9 9"></path></svg><span>눌러서 이미지 올리기</span><span style="font-size:12px">블로그 목록 · 메인 카드에 나와요</span></label>
+<button type="button" class="sb del" id="thumbDel" style="display:none;align-self:flex-start">이미지 빼기</button></div>
+<div class="card"><strong style="font-size:15px">카테고리</strong>
+<div class="cats" id="cats"></div>
+<div style="display:flex;gap:6px"><input type="text" id="newCat" placeholder="새 카테고리" style="flex:1;min-width:0;height:40px;border:1px solid var(--line2);border-radius:10px;padding:0 12px;font-size:14px"><button type="button" class="btn sm dark" id="addCat">추가</button></div></div>
+<div class="card f"><strong style="font-size:15px">검색 설명 (SEO)</strong>
+<textarea id="desc" rows="3" maxlength="160" placeholder="검색 결과에 보일 한두 줄 요약"></textarea>
+<span class="note" style="font-size:12px">비워두면 본문 첫 문단이 자동으로 들어가요</span></div>
+<button type="button" class="sb del" id="delPost" style="display:none;height:44px">이 글 삭제</button>
+</div>
+</div>
+</section>
+
+<section class="view" id="v-banner">
+<div class="vh"><h1>메인 배너 관리</h1></div>
+<div class="card" style="padding:22px;display:flex;flex-direction:column;gap:14px">
+<strong id="bfTitle" style="font-size:17px">배너 등록</strong>
+<div style="display:flex;flex-wrap:wrap;gap:16px">
+<label class="drop" id="bDrop" style="flex:0 0 260px"><input type="file" id="bFile" accept="image/*" hidden><span>눌러서 배너 이미지 올리기</span><span style="font-size:12px">가로 1200px 이상 권장</span></label>
+<div style="flex:1 1 300px;display:flex;flex-direction:column;gap:10px">
+<label class="f"><span>배너 이름</span><input type="text" id="bTitle" placeholder="예: 네이버페이 제휴 요금제"></label>
+<label class="f"><span>자리</span><select id="bSlot"><option value="slide">오른쪽 흘러가는 배너</option><option value="fixed">왼쪽 고정 배너</option></select></label>
+<label class="f"><span>누르면 이동할 주소</span><input type="text" id="bLink" placeholder="/plans/kt 또는 https://..."></label>
+<div style="display:flex;gap:10px;flex-wrap:wrap"><label class="f" style="flex:1 1 140px"><span>시작일 (선택)</span><input type="date" id="bStart"></label><label class="f" style="flex:1 1 140px"><span>종료일 (선택)</span><input type="date" id="bEnd"></label></div>
+<div style="display:flex;gap:8px"><button type="button" class="btn" id="bSave">배너 등록</button><button type="button" class="btn ghost" id="bReset">새로 쓰기</button></div>
+</div></div></div>
+<span style="font-size:15px;font-weight:700;color:var(--deep)">등록된 배너 · 위에서부터 순서대로 나와요</span>
+<div class="card" id="bList"><p class="note" style="padding:20px">불러오는 중…</p></div>
+<p class="note">왼쪽 고정 배너가 없으면 기본 문구(통신비는 줄이고, 개통은 간편하게)가 나와요. 저장하면 메인에 바로 반영돼요.</p>
+</section>
+</main>
+</div>
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs, getDoc, doc, deleteDoc, updateDoc, orderBy, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+const app = initializeApp({apiKey:"AIzaSyDXed9i1ju0Nr8DXqGJZ4WMW8dcnIMP4i8",authDomain:"gato-mobile.firebaseapp.com",projectId:"gato-mobile",storageBucket:"gato-mobile.firebasestorage.app",messagingSenderId:"831742761635",appId:"1:831742761635:web:229a96a262b5b3bd9a3d16"});
+const db = getFirestore(app), auth = getAuth(app);
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const slugify = t => (t||'').trim().replace(/[^가-힣a-zA-Z0-9\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-').toLowerCase().slice(0,80);
+const fmt = ts => { if(!ts) return ''; const d = ts.toDate ? ts.toDate() : new Date(ts); return d.getFullYear()+'. '+(d.getMonth()+1)+'. '+d.getDate()+'.'; };
+const toast = m => { const t=$('toast'); t.textContent=m; t.style.display='block'; clearTimeout(toast._t); toast._t=setTimeout(()=>t.style.display='none',2600); };
+const fixLink = u => { u=(u||'').trim(); if(!u) return ''; if(/^(https?:|tel:|mailto:|\/|#|\?)/i.test(u)) return u; if(u.indexOf('//')===0) return 'https:'+u; if(/^[a-z0-9-]+(\.[a-z0-9-]+)+(:\d+)?(\/|\?|#|$)/i.test(u)) return 'https://'+u; return u; };
+function shrink(file, maxW, maxKB){
+  return new Promise((res, rej) => {
+    const r = new FileReader(); r.onerror = () => rej(new Error('파일을 읽지 못했어요.'));
+    r.onload = () => { const img = new Image(); img.onerror = () => rej(new Error('이미지를 열지 못했어요.'));
+      img.onload = () => { const s = Math.min(1, maxW/img.width); const cv = document.createElement('canvas'); cv.width = Math.round(img.width*s); cv.height = Math.round(img.height*s);
+        const c = cv.getContext('2d'); c.fillStyle='#fff'; c.fillRect(0,0,cv.width,cv.height); c.drawImage(img,0,0,cv.width,cv.height);
+        const type = cv.toDataURL('image/webp',0.9).indexOf('image/webp')===5 ? 'image/webp' : 'image/jpeg';
+        let q=0.88, out=cv.toDataURL(type,q); while(out.length>maxKB*1024 && q>0.4){ q-=0.08; out=cv.toDataURL(type,q); }
+        if(out.length>(maxKB+300)*1024) return rej(new Error('이미지 용량이 너무 커요. 더 작은 이미지로 올려주세요.'));
+        res(out); };
+      img.src = r.result; };
+    r.readAsDataURL(file); });
+}
+
+/* ---------- 로그인 ---------- */
+$('lbtn').onclick = async () => { $('lerr').textContent=''; try { await signInWithEmailAndPassword(auth, $('email').value.trim(), $('pw').value); } catch(e){ $('lerr').textContent='이메일이나 비밀번호를 다시 확인해 주세요.'; } };
+$('pw').addEventListener('keydown', e => { if(e.key==='Enter') $('lbtn').click(); });
+$('logout').onclick = () => signOut(auth);
+onAuthStateChanged(auth, u => {
+  $('login').style.display = u ? 'none' : '';
+  $('app').style.display = u ? 'flex' : 'none';
+  if(u){ $('who').textContent = u.email + ' 로그인 중'; loadPosts(); loadBanners(); }
+});
+
+/* ---------- 메뉴 ---------- */
+function show(v){ document.querySelectorAll('.side .m').forEach(b=>b.classList.toggle('on', b.dataset.v===v)); document.querySelectorAll('.view').forEach(s=>s.classList.toggle('on', s.id==='v-'+v)); window.scrollTo(0,0); }
+document.querySelectorAll('.side .m').forEach(b => b.onclick = () => { if(b.dataset.v==='editor') newPost(); show(b.dataset.v); });
+
+/* ---------- 블로그 ---------- */
+const DEFAULT_CATS = ['선불폰','알뜰폰','개통 방법','정지·미납','번호이동','유심·eSIM'];
+let posts = [], cats = DEFAULT_CATS.slice(), ed = { id:null, cat:'', thumb:'' }, mode='w';
+async function loadPosts(){
+  try{
+    const snap = await getDocs(query(collection(db,'blog'), orderBy('createdAt','desc')));
+    posts = snap.docs.map(d => ({ id:d.id, ...d.data() }));
+    posts.forEach(p => { if(p.category && !cats.includes(p.category)) cats.push(p.category); });
+    $('postList').innerHTML = posts.length ? posts.map(p => `<div class="row"><span class="st ${p.draft?'dr':'pub'}">${p.draft?'임시저장':'발행'}</span>${p.category?`<span class="chip">${esc(p.category)}</span>`:''}<span class="tt">${esc(p.title)}</span><span class="dd">${fmt(p.createdAt)}</span><button type="button" class="sb" data-e="${p.id}">수정</button>${p.draft?'':`<a class="sb" style="display:inline-flex;align-items:center" href="/blog/${encodeURIComponent(slugify(p.title))}" target="_blank" rel="noopener">보기</a>`}</div>`).join('') : '<p class="note" style="padding:20px">아직 글이 없어요.</p>';
+  } catch(e){ console.error(e); $('postList').innerHTML = '<p class="note" style="padding:20px">글을 불러오지 못했어요.</p>'; }
+}
+$('postList').onclick = e => { const b = e.target.closest('button[data-e]'); if(!b) return; openPost(posts.find(p=>p.id===b.dataset.e)); };
+$('newPost').onclick = () => { newPost(); show('editor'); };
+function drawCats(){ $('cats').innerHTML = cats.map(c => `<button type="button" class="${c===ed.cat?'on':''}" data-c="${esc(c)}">${esc(c)}</button>`).join(''); }
+$('cats').onclick = e => { const b = e.target.closest('button'); if(!b) return; ed.cat = ed.cat===b.dataset.c ? '' : b.dataset.c; drawCats(); };
+$('addCat').onclick = () => { const c = $('newCat').value.trim(); if(!c) return; if(!cats.includes(c)) cats.push(c); ed.cat = c; $('newCat').value=''; drawCats(); };
+function setThumb(v){ ed.thumb = v||''; const d=$('thumbDrop'); d.querySelectorAll('img').forEach(i=>i.remove()); if(v){ const i=document.createElement('img'); i.src=v; i.alt=''; d.appendChild(i); } $('thumbDel').style.display = v?'':'none'; }
+$('thumbFile').onchange = async e => { const f=e.target.files[0]; if(!f) return; try{ setThumb(await shrink(f,1200,220)); }catch(err){ toast(err.message); } e.target.value=''; };
+$('thumbDel').onclick = () => setThumb('');
+function setSlug(){ $('slug').textContent = 'gatomobile.kr/blog/' + (slugify($('title').value) || '글-주소'); }
+$('title').oninput = setSlug;
+function newPost(){ ed = { id:null, cat:'', thumb:'' }; $('edTitle').textContent='블로그 글쓰기'; $('title').value=''; $('desc').value=''; $('wys').innerHTML=''; $('htm').value=''; setThumb(''); setMode('w'); drawCats(); setSlug(); $('delPost').style.display='none'; }
+function openPost(p){ if(!p) return; ed = { id:p.id, cat:p.category||'', thumb:p.thumbnail||'', wasDraft:!!p.draft }; $('edTitle').textContent='글 수정'; $('title').value=p.title||''; $('desc').value=p.description||''; $('wys').innerHTML=p.content||''; $('htm').value=p.content||''; setThumb(p.thumbnail||''); setMode(/<style|<html|<!doctype/i.test(p.content||'')?'h':'w'); drawCats(); setSlug(); $('delPost').style.display=''; show('editor'); }
+function setMode(m){ if(m===mode && m) {} if(m==='h' && mode==='w') $('htm').value=$('wys').innerHTML; if(m==='w' && mode==='h') $('wys').innerHTML=$('htm').value; mode=m; $('wys').style.display=m==='w'?'':'none'; $('htm').style.display=m==='h'?'block':'none'; document.querySelectorAll('.tb .mode').forEach(b=>b.classList.toggle('on', b.dataset.m===m)); }
+document.querySelectorAll('.tb .mode').forEach(b => b.onclick = () => setMode(b.dataset.m));
+const content = () => mode==='w' ? $('wys').innerHTML : $('htm').value;
+function insertHTML(h){ if(mode==='h'){ const t=$('htm'); const s=t.selectionStart; t.value=t.value.slice(0,s)+h+t.value.slice(t.selectionEnd); return; } $('wys').focus(); document.execCommand('insertHTML', false, h); }
+$('tb').onclick = async e => { const b=e.target.closest('button[data-c]'); if(!b) return; const c=b.dataset.c;
+  if(mode==='w' && (c==='h2'||c==='h3')){ $('wys').focus(); document.execCommand('formatBlock', false, c); return; }
+  if(c==='bold'){ if(mode==='w'){ $('wys').focus(); document.execCommand('bold'); } else insertHTML('<strong></strong>'); return; }
+  if(c==='ul'){ if(mode==='w'){ $('wys').focus(); document.execCommand('insertUnorderedList'); } else insertHTML('<ul><li></li></ul>'); return; }
+  if(c==='h2'||c==='h3'){ insertHTML(`<${c}></${c}>`); return; }
+  if(c==='table'){ insertHTML('<table><tbody><tr><td style="background:#0E3A5C;color:#fff;font-weight:700">항목</td><td style="background:#0E3A5C;color:#fff;font-weight:700">내용</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td></tr></tbody></table><p><br></p>'); return; }
+  if(c==='link'){ const u=prompt('연결할 주소를 넣어주세요'); if(!u) return; if(mode==='w'){ $('wys').focus(); document.execCommand('createLink', false, fixLink(u)); } else insertHTML(`<a href="${esc(fixLink(u))}">링크</a>`); return; }
+  if(c==='cta'){ insertHTML('<p style="text-align:center;margin:28px 0"><a href="https://www.n-telecom.co.kr/gatomobile/view/open/kt/face_auth.aspx" style="display:inline-block;background:#0569AD;color:#fff;font-weight:800;padding:14px 28px;border-radius:12px;text-decoration:none">KT 알뜰폰 신청하기</a></p>'); return; }
+  if(c==='img'){ const inp=document.createElement('input'); inp.type='file'; inp.accept='image/*'; inp.onchange=async()=>{ const f=inp.files[0]; if(!f) return; try{ const d=await shrink(f,1000,160); insertHTML(`<p><img src="${d}" alt=""></p>`); }catch(err){ toast(err.message); } }; inp.click(); }
+};
+async function savePost(draft){
+  const title = $('title').value.trim(); const body = content().trim();
+  if(!title) return toast('제목을 입력해 주세요.');
+  if(!draft && !body) return toast('본문을 입력해 주세요.');
+  const dup = posts.find(p => p.id!==ed.id && slugify(p.title)===slugify(title));
+  if(dup) return toast('같은 주소의 글이 이미 있어요. 제목을 조금 바꿔주세요.');
+  const data = { title, category: ed.cat, content: body, description: $('desc').value.trim(), thumbnail: ed.thumb, draft: !!draft, isNotice: false };
+  const size = JSON.stringify(data).length; if(size > 950*1024) return toast('글 용량이 너무 커요. 본문 사진 수를 줄여주세요.');
+  ['saveDraft','publish'].forEach(i=>$(i).disabled=true);
+  try{
+    if(ed.id){ if(ed.wasDraft && !draft) data.createdAt = serverTimestamp(); await updateDoc(doc(db,'blog',ed.id), data); }
+    else { data.createdAt = serverTimestamp(); const r = await addDoc(collection(db,'blog'), data); ed.id = r.id; $('delPost').style.display=''; }
+    ed.wasDraft = !!draft;
+    toast(draft ? '임시저장했어요.' : '발행했어요. gatomobile.kr/blog/'+slugify(title)+' 에 올라갔어요.');
+    loadPosts();
+  } catch(e){ console.error(e); toast(e.code==='permission-denied' ? '저장 권한이 없어요. 다시 로그인해 주세요.' : '저장하지 못했어요.'); }
+  finally{ ['saveDraft','publish'].forEach(i=>$(i).disabled=false); }
+}
+$('saveDraft').onclick = () => savePost(true);
+$('publish').onclick = () => savePost(false);
+$('delPost').onclick = async () => { if(!ed.id || !confirm('이 글을 삭제할까요? 되돌릴 수 없어요.')) return; try{ await deleteDoc(doc(db,'blog',ed.id)); toast('삭제했어요.'); loadPosts(); show('list'); }catch(e){ toast('삭제하지 못했어요.'); } };
+
+/* ---------- 배너 ---------- */
+let banners = [], bImg = '', bEdit = null;
+async function loadBanners(){
+  try{
+    const snap = await getDocs(query(collection(db,'banners'), orderBy('order','asc')));
+    banners = snap.docs.map(d => ({ id:d.id, ...d.data() }));
+    $('bList').innerHTML = banners.length ? banners.map((b,i) => `<div class="bn"><img src="${esc(b.imageUrl)}" alt=""><div class="tx"><strong>${esc(b.title)}</strong><span>${b.slot==='fixed'?'왼쪽 고정':'오른쪽 흘러가는 배너'} · ${esc(b.link||'링크 없음')}${b.startAt||b.endAt?' · '+esc(b.startAt||'')+' ~ '+esc(b.endAt||''):''}</span></div>
+      <button type="button" class="sb ${b.active===false?'':'on'}" data-a="tog" data-i="${i}">${b.active===false?'숨김':'노출 중'}</button>
+      <button type="button" class="sb" data-a="up" data-i="${i}" aria-label="위로">↑</button><button type="button" class="sb" data-a="down" data-i="${i}" aria-label="아래로">↓</button>
+      <button type="button" class="sb" data-a="edit" data-i="${i}">수정</button><button type="button" class="sb del" data-a="del" data-i="${i}">삭제</button></div>`).join('') : '<p class="note" style="padding:20px">등록된 배너가 없어요.</p>';
+  } catch(e){ console.error(e); $('bList').innerHTML = '<p class="note" style="padding:20px">배너를 불러오지 못했어요.</p>'; }
+}
+function bPreview(v){ bImg=v||''; const d=$('bDrop'); d.querySelectorAll('img').forEach(i=>i.remove()); if(v){ const i=document.createElement('img'); i.src=v; i.alt=''; d.appendChild(i); } }
+$('bFile').onchange = async e => { const f=e.target.files[0]; if(!f) return; try{ bPreview(await shrink(f,1200,600)); }catch(err){ toast(err.message); } e.target.value=''; };
+function bReset(){ bEdit=null; ['bTitle','bLink','bStart','bEnd'].forEach(i=>$(i).value=''); $('bSlot').value='slide'; bPreview(''); $('bfTitle').textContent='배너 등록'; $('bSave').textContent='배너 등록'; }
+$('bReset').onclick = bReset;
+$('bSave').onclick = async () => {
+  const title=$('bTitle').value.trim(); if(!title) return toast('배너 이름을 적어주세요.'); if(!bImg) return toast('배너 이미지를 골라주세요.');
+  const data = { title, alt:title, imageUrl:bImg, link:fixLink($('bLink').value), slot:$('bSlot').value, startAt:$('bStart').value||'', endAt:$('bEnd').value||'', updatedAt:new Date().toISOString() };
+  $('bSave').disabled=true;
+  try{
+    if(bEdit){ await updateDoc(doc(db,'banners',bEdit), data); toast('배너를 수정했어요.'); }
+    else { data.active=true; data.order=(banners.reduce((m,b)=>Math.max(m,b.order||0),0))+1; data.createdAt=data.updatedAt; await addDoc(collection(db,'banners'), data); toast('배너를 등록했어요.'); }
+    bReset(); loadBanners();
+  } catch(e){ console.error(e); toast(e.code==='permission-denied' ? '저장 권한이 없어요.' : '저장하지 못했어요.'); }
+  finally{ $('bSave').disabled=false; }
+};
+$('bList').onclick = async e => {
+  const b=e.target.closest('button[data-a]'); if(!b) return; const i=+b.dataset.i, x=banners[i];
+  try{
+    if(b.dataset.a==='tog'){ await updateDoc(doc(db,'banners',x.id), { active: x.active===false }); }
+    else if(b.dataset.a==='up'||b.dataset.a==='down'){ const j=i+(b.dataset.a==='up'?-1:1); if(j<0||j>=banners.length) return; const arr=banners.slice(); [arr[i],arr[j]]=[arr[j],arr[i]]; await Promise.all(arr.map((y,k)=>updateDoc(doc(db,'banners',y.id),{order:k+1}))); }
+    else if(b.dataset.a==='edit'){ bEdit=x.id; $('bTitle').value=x.title||''; $('bLink').value=x.link||''; $('bStart').value=x.startAt||''; $('bEnd').value=x.endAt||''; $('bSlot').value=x.slot==='fixed'?'fixed':'slide'; bPreview(x.imageUrl); $('bfTitle').textContent='배너 수정'; $('bSave').textContent='수정 저장'; window.scrollTo(0,0); return; }
+    else if(b.dataset.a==='del'){ if(!confirm('이 배너를 삭제할까요?')) return; await deleteDoc(doc(db,'banners',x.id)); }
+    loadBanners();
+  } catch(err){ console.error(err); toast('처리하지 못했어요.'); }
+};
+</script>
+</body>
+</html>

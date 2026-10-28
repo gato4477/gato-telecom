@@ -109,7 +109,8 @@ module.exports = async (req, res) => {
     return res.status(500).send('<!doctype html><meta charset="utf-8"><p>일시적으로 글을 불러오지 못했어요.</p>');
   }
 
-  const post = posts.find(p => slugify(p.title) === slug) || posts.find(p => p.id === slug);
+  const live = posts.filter(p => p.draft !== true);
+  const post = live.find(p => slugify(p.title) === slug) || live.find(p => p.id === slug);
 
   if (!post) {
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
@@ -122,7 +123,7 @@ module.exports = async (req, res) => {
   }
 
   const { styles, body } = splitContent(post.content);
-  const summary = makeSummary(body);
+  const summary = (post.description || '').trim().slice(0, 155) || makeSummary(body);
   const url = `${SITE}/blog/${encodeURIComponent(slugify(post.title))}`;
   const published = post.createdAt || new Date().toISOString();
   const dateText = new Date(published).toLocaleDateString('ko-KR');
@@ -155,112 +156,94 @@ module.exports = async (req, res) => {
 <meta property="og:title" content="${esc(post.title)}">
 <meta property="og:description" content="${esc(summary)}">
 <meta property="og:url" content="${esc(url)}">
+${post.thumbnail && /^https?:/.test(post.thumbnail) ? `<meta property="og:image" content="${esc(post.thumbnail)}">` : ''}
 <link rel="canonical" href="${esc(url)}">
 <meta name="google-site-verification" content="yLwtQOQErWNIXvJmKw1kyLiD2Ziu1ZuJN_QYxwgAYUA">
 <meta name="naver-site-verification" content="f23fe941fa9c2d49aa4082228a56eeedf35ce1ce">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="icon" href="/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css?v=1">
 <script type="application/ld+json">
 ${JSON.stringify(schema, null, 2)}
 </script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-LEJJMRTQBC"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-LEJJMRTQBC');
-</script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LEJJMRTQBC');</script>
 <style>
-:root{--sky:#4DBDE8;--skyd:#2899c4;--skyb:#e8f7fd;--org:#FF6B35;--t:#1a1a1a;--m:#6b7280;}
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:"Noto Sans KR",sans-serif;background:#f8fbff;color:var(--t);font-size:16px;}
-
-/* NAV - blog.html 과 동일 */
-.nav{position:sticky;top:0;z-index:100;background:#fff;border-bottom:1px solid #f0f0f0;box-shadow:0 2px 16px rgba(0,0,0,.06);}
-.nav-in{max-width:1200px;margin:0 auto;display:flex;align-items:center;padding:0 32px;gap:4px;}
-.logo{font-size:24px;font-weight:900;color:var(--sky);letter-spacing:-1px;padding:15px 0;margin-right:20px;text-decoration:none;display:flex;flex-direction:column;align-items:flex-end;line-height:1;white-space:nowrap;}
-.logo span{font-size:9px;font-weight:500;color:#9ca3af;letter-spacing:0.5px;margin-top:1px;}
-.nt{padding:17px 17px;font-size:16px;font-weight:600;color:var(--m);text-decoration:none;border-bottom:3px solid transparent;white-space:nowrap;transition:color .2s;display:inline-block;}
-.nt:hover{color:var(--sky);}
-.nt.on{color:var(--sky);border-bottom-color:var(--sky);}
-
-/* 본문 - 목록 페이지와 동일한 폭 */
-.wrap{width:100%;max-width:780px;margin:0 auto;padding:32px 24px 80px;}
-.back{display:inline-block;margin-bottom:20px;color:var(--sky);font-weight:700;font-size:14px;text-decoration:none;}
-.post-head{margin-bottom:26px;padding-bottom:20px;border-bottom:1.5px solid #e5e9f5;}
-.post-head h1{font-size:27px;font-weight:900;letter-spacing:-.5px;line-height:1.4;margin-bottom:10px;}
-.post-date{font-size:13px;color:var(--m);}
-.post-body{line-height:1.8;}
-.post-body img{max-width:100%;height:auto;}
-.post-body h2{font-size:21px;font-weight:800;margin:34px 0 12px;letter-spacing:-.3px;}
-.post-body h3{font-size:18px;font-weight:700;margin:26px 0 10px;}
-.post-body p{margin-bottom:16px;}
-.post-body ul,.post-body ol{margin:0 0 16px 20px;}
-.post-body table{width:100%;border-collapse:collapse;margin:18px 0;font-size:15px;}
-.post-body th,.post-body td{border:1px solid #e5e9f5;padding:10px 12px;text-align:left;}
-.post-body th{background:#f0f8fd;font-weight:700;}
-
-.cta{margin-top:44px;padding:26px;background:#fff;border-radius:16px;border:1.5px solid #f0f0f0;text-align:center;}
-.cta a{display:inline-block;margin-top:12px;background:var(--org);color:#fff;font-weight:800;padding:13px 28px;border-radius:9px;text-decoration:none;}
-
-footer{background:#1a3a4a;color:#8bb8c8;text-align:center;padding:30px 20px;font-size:14px;line-height:2.3;}
-footer strong{color:#fff;}
-
-@media(max-width:768px){
-  .nav-in{padding:0 12px;gap:0;flex-wrap:wrap;}
-  .logo{font-size:18px;padding:12px 0;margin-right:8px;}
-  .nt{padding:12px 8px;font-size:13px;}
-  .post-head h1{font-size:22px;}
-}
+.pw{max-width:800px;margin:0 auto;padding:32px 20px 80px}
+.back{display:inline-block;margin-bottom:20px;font-weight:700;font-size:14px}
+.post-head{margin-bottom:26px;padding-bottom:20px;border-bottom:1.5px solid #DCEEFA;display:flex;flex-direction:column;gap:10px}
+.post-head h1{margin:0;font-size:30px;font-weight:900;letter-spacing:-.5px;line-height:1.4}
+.post-meta{font-size:13px;color:#4F6577;display:flex;gap:8px;align-items:center}
+.post-thumb{width:100%;border-radius:16px;margin-bottom:24px;display:block}
+.post-body{line-height:1.85;font-size:16px;background:#fff;border:1px solid #DCEEFA;border-radius:20px;padding:32px}
+.post-body img{max-width:100%;height:auto}
+.post-body h2{font-size:22px;font-weight:800;margin:36px 0 12px;letter-spacing:-.3px}
+.post-body h3{font-size:18px;font-weight:700;margin:26px 0 10px}
+.post-body p{margin:0 0 16px}
+.post-body ul,.post-body ol{margin:0 0 16px 20px}
+.post-body table{width:100%;border-collapse:collapse;margin:18px 0;font-size:15px;display:block;overflow-x:auto}
+.post-body th,.post-body td{border:1px solid #DCEEFA;padding:10px 12px;text-align:left}
+.post-body th{background:#E8F5FE;font-weight:700}
+.cta{margin-top:36px;padding:26px;background:#E3F2FD;border-radius:18px;text-align:center}
+.cta p{margin:6px 0 14px;font-size:14px;color:#4F6577}
+@media(max-width:700px){.post-head h1{font-size:23px}.post-body{padding:20px 16px;border-radius:16px}}
 
 /* 아래는 글마다 들어있는 스타일 (본문 안으로 한정됨) */
 ${styles}
 
-/* 안전장치 - 글 스타일이 새더라도 메뉴/푸터 폭은 지킵니다 */
+/* 안전장치 - 글 스타일이 새더라도 메뉴/푸터는 지킵니다 */
 html,body{max-width:none !important;width:auto !important;margin:0 !important;padding:0 !important;}
-.nav{max-width:none !important;width:auto !important;display:block !important;}
-.nav-in{max-width:1200px !important;}
-footer{max-width:none !important;width:auto !important;}
+.hd,.ft{max-width:none !important;width:auto !important;}
 </style>
 </head>
 <body>
-<nav class="nav">
-  <div class="nav-in">
-    <a href="/" class="logo">가토통신<span>\u00d7앤텔레콤</span></a>
-    <a href="/" class="nt">홈</a>
-    <a href="/#self" class="nt">셀프개통</a>
-    <a href="/#usim" class="nt">유심구매</a>
-    <a href="/faq" class="nt">FAQ</a>
-    <a href="/blog" class="nt on">블로그</a>
-    <a href="/#startup" class="nt">창업문의</a>
-  </div>
-</nav>
-
-<main class="wrap">
-  <a href="/blog" class="back">← 목록으로</a>
+<header class="hd">
+<div class="hd-in">
+<a href="/" class="logo" aria-label="가토통신 홈"><b>가토통신</b><span>× 앤텔레콤</span></a>
+<nav class="gnb" aria-label="주 메뉴"><div class="gm"><a href="/open/self" class="gm-top">개통</a><div class="gm-sub"><a href="/open/self">셀프개통</a><a href="https://xn--h49a23sumlf7l.kr" target="_blank" rel="noopener">선불폰 개통</a></div></div><div class="gm"><a href="/plans/kt" class="gm-top">요금제</a><div class="gm-sub"><a href="/plans/kt">KT 알뜰폰</a><a href="/plans/lg">LG 알뜰폰</a><a href="/plans/prepaid">선불요금제</a></div></div><div class="gm"><a href="/usim" class="gm-top">유심</a><div class="gm-sub"><a href="/usim">유심구매</a><a href="/esim">eSIM</a></div></div><div class="gm"><a href="/blog" class="gm-top on">블로그</a></div><div class="gm"><a href="/faq" class="gm-top">고객지원</a><div class="gm-sub"><a href="/faq">자주 묻는 질문</a><a href="/support/contact">1:1 문의</a><a href="/support/center">센터 안내</a></div></div></nav>
+<a href="https://xn--h49a23sumlf7l.kr" target="_blank" rel="noopener" class="hd-pre">선불폰</a>
+<button type="button" class="mbtn" aria-label="메뉴 열기" aria-expanded="false" aria-controls="mnav"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button>
+</div>
+<nav class="mnav" id="mnav" aria-label="모바일 메뉴"><h3>개통</h3><a href="/open/self">셀프개통</a><a href="https://xn--h49a23sumlf7l.kr" target="_blank" rel="noopener">선불폰 개통</a><h3>요금제</h3><a href="/plans/kt">KT 알뜰폰</a><a href="/plans/lg">LG 알뜰폰</a><a href="/plans/prepaid">선불요금제</a><h3>유심</h3><a href="/usim">유심구매</a><a href="/esim">eSIM</a><h3>블로그</h3><a href="/blog">블로그</a><h3>고객지원</h3><a href="/faq">자주 묻는 질문</a><a href="/support/contact">1:1 문의</a><a href="/support/center">센터 안내</a><h3>가토선불폰</h3><a href="https://xn--h49a23sumlf7l.kr" target="_blank" rel="noopener">선불폰 사이트 바로가기</a></nav>
+</header>
+<main class="pw">
+  <a href="/blog" class="back">← 블로그 목록</a>
   <article>
     <header class="post-head">
+      ${post.category ? `<span class="chip" style="align-self:flex-start">${esc(post.category)}</span>` : ''}
       <h1>${esc(post.title)}</h1>
-      <div class="post-date">${esc(dateText)}</div>
+      <div class="post-meta">${esc(dateText)} · 가토통신</div>
     </header>
+    ${post.thumbnail ? `<img class="post-thumb" src="${esc(post.thumbnail)}" alt="">` : ''}
     <div class="post-body">
 ${body}
     </div>
   </article>
-
   <div class="cta">
-    <strong style="font-size:17px">선불폰·알뜰폰 개통이 필요하세요?</strong>
-    <p style="font-size:14px;color:#6b7280;margin-top:6px">신규 개통 매일 08:00~21:50</p>
-    <a href="http://pf.kakao.com/_espRn/chat">카카오톡 채널 가토</a>
+    <strong style="font-size:18px">알뜰폰·선불폰 개통이 필요하세요?</strong>
+    <p>신규 개통 매일 08:00~21:50 · 셀프개통으로 집에서 바로 가능해요</p>
+    <span style="display:inline-flex;gap:8px;flex-wrap:wrap;justify-content:center"><a class="btn" href="/open/self">셀프개통 안내</a><a class="btn kakao" href="https://pf.kakao.com/_espRn/chat" target="_blank" rel="noopener">카카오톡 채널 가토</a></span>
   </div>
 </main>
-
-<footer>
-  <strong>GATO MOBILE</strong><br>
-  상호명: 가토통신 | 대표자: 하주연 | 사업자번호: 702-73-00624<br>
-  주소: 경기도 부천시 원미구 원미로 57번길46-1<br>
-  연락처: 010-4316-4477 | Email: greeny89@naver.com<br>
-  <span style="font-size:12px;opacity:.6">\u00a9 2025 가토통신. All rights reserved.</span>
+<footer class="ft">
+<div class="ft-in">
+<nav class="ft-links" aria-label="하단 링크">
+<a href="https://www.n-telecom.co.kr/view/terms/terms.aspx?type=01" target="_blank" rel="noopener">이용약관</a>
+<a class="b" href="https://www.n-telecom.co.kr/gatomobile/view/terms/terms.aspx?type=03" target="_blank" rel="noopener">개인정보처리방침</a>
+<a href="https://msafer.or.kr/index.do" target="_blank" rel="noopener">명의도용방지서비스</a>
+<a href="https://spam.kisa.or.kr/spam/main.do" target="_blank" rel="noopener">불법스팸대응센터</a>
+<a href="https://xn--h49a23sumlf7l.kr" target="_blank" rel="noopener">가토선불폰</a>
+<a href="/support/contact?topic=partner">제휴문의</a>
+</nav>
+<div class="ft-cols">
+<div class="ft-col"><span class="k">고객센터</span><strong>1899-7700 <small style="font-size:12px;font-weight:500;color:#6B7280">(유료)</small></strong><span>[모바일] 휴대폰 + 114 (무료)</span><span>평일 09:30~18:00 · 토/일/공휴일 휴무</span></div>
+<div class="ft-col"><span class="k">가토통신</span><strong class="p">010-4316-4477</strong><span>월~토 연중무휴 상담 가능</span><span>개통 매일 08:00~21:50</span></div>
+<div class="ft-col" style="flex-grow:1.4"><span class="k">사업자 정보</span><span>상호명: 가토통신 | 대표자: 이철용</span><span>주소: 경기도 부천시 원미구 부천로 39번길 8 동아빌딩 6층</span><span>연락처: 010-4316-4477 | Email: 4477gato@gmail.com</span></div>
+</div>
+<span class="ft-copy">© 2026 가토통신. All rights reserved.</span>
+</div>
 </footer>
+<script src="/assets/site.js?v=1" defer></script>
 </body>
 </html>`;
 

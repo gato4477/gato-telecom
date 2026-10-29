@@ -38,7 +38,8 @@ module.exports = async (req, res) => {
 
   const when = new Date(now).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' });
   const text =
-    `<b>[가토통신 ${escHtml(topic)}]</b>\n` +
+    `🔵 <b>[가토통신 홈페이지] ${escHtml(topic)}</b>\n` +
+    `사이트: gatomobile.kr\n` +
     `연락처: ${escHtml(contact)}\n` +
     `시간: ${escHtml(when)}\n\n` +
     escHtml(message);

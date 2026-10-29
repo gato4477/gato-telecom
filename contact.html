@@ -97,7 +97,7 @@
     fetch('/api/inquiry',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contact:c,message:m,topic:topic==='partner'?'제휴문의':'1:1 문의',hp:$('hp').value,page:location.pathname})})
     .then(function(r){return r.json().then(function(j){if(!r.ok||!j.ok)throw new Error(j.error||'fail');});})
     .then(function(){$('fm').style.display='none';$('done').style.display='flex';if(window.gtag)gtag('event','inquiry_submit',{topic:topic||'general'});})
-    .catch(function(){$('err').textContent='전송에 실패했어요. 카카오톡이나 전화로 연락 주세요.';$('send').disabled=false;$('send').textContent='문의 남기기';});
+    .catch(function(e){var code=(e&&e.message)||'network';$('err').textContent='전송에 실패했어요. 카카오톡이나 전화로 연락 주세요. (오류: '+code+')';$('send').disabled=false;$('send').textContent='문의 남기기';});
   });
 })();
 </script>

@@ -28,6 +28,8 @@
 .hero-fix .deco{position:absolute;right:-40px;bottom:-60px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle at 40% 40%,#C9E8FA,#A9D9F5);opacity:.55}
 .hero-fix .deco2{position:absolute;right:120px;top:-50px;width:150px;height:150px;border-radius:50%;background:#F9D3E3;opacity:.7}
 .hero-fix.img{padding:0;background:#E6F4FC}
+.hero-fix.vid{padding:0;background:#fff;border:1px solid #E5E8EF;min-height:0;aspect-ratio:2/1}
+.hero-fix.vid video{width:100%;height:100%;object-fit:contain;display:block;background:#fff}
 .hero-fix.img a,.hero-fix.img span{display:block;width:100%;height:100%}
 .hero-fix.img img{width:100%;height:100%;object-fit:cover;display:block}
 .slider{flex:1 1 340px;min-width:0;min-height:400px;border-radius:24px;overflow:hidden;position:relative;background:#E6F4FC}
@@ -107,14 +109,9 @@
 </header>
 <main class="wrap" style="padding-top:32px;gap:40px">
 <section class="hero" aria-label="메인 배너">
-<div class="hero-fix" id="heroFix">
-<div class="deco" aria-hidden="true"></div><div class="deco2" aria-hidden="true"></div>
-<div class="tx">
-<span class="eyebrow">KT · <span style="color:var(--lg)">LG U+</span> 알뜰폰</span>
-<h1>통신비는 줄이고,<br>개통은 간편하게</h1>
-<p>요금제 고르고 셀프개통까지 한 번에 끝내요</p>
-<a href="/plans/kt" class="btn" style="align-self:flex-start;border-radius:999px">요금제 보러가기</a>
-</div>
+<div class="hero-fix vid" id="heroFix">
+<h1 class="sr">통신비 절약의 시작, 가토통신</h1>
+<video id="heroVid" src="/img/gato-gauge.mp4" poster="/img/gato-gauge.jpg" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
 </div>
 <div class="slider" id="slider" aria-roledescription="carousel" aria-label="제휴 배너">
 <div class="sl-ctrl" id="slCtrl">
@@ -225,6 +222,7 @@
   var tx=0;slider.addEventListener('touchstart',function(e){tx=e.touches[0].clientX;},{passive:true});
   slider.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>45){go(dx<0?1:-1);start();}},{passive:true});
   build(FALL,false);
+  (function(){var v=document.getElementById('heroVid');if(!v)return;if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches){v.removeAttribute('autoplay');v.pause();}else{var pr=v.play();if(pr&&pr.catch)pr.catch(function(){});}})();
   gatoQuery('banners',{orderBy:'order'}).then(function(rows){
     var t=gatoToday();
     rows=rows.filter(function(b){return b.active!==false&&!(b.startAt&&b.startAt>t)&&!(b.endAt&&b.endAt<t)&&b.imageUrl;});

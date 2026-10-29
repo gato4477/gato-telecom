@@ -143,12 +143,12 @@ body{background:var(--bg)}
 <section class="view" id="v-banner">
 <div class="vh"><h1>메인 배너 관리</h1></div>
 <div class="card" style="padding:22px;display:flex;flex-wrap:wrap;gap:18px;align-items:center">
-<div id="fxPrev" style="flex:0 0 260px;aspect-ratio:16/9;border-radius:12px;background:var(--tint);overflow:hidden;display:flex;align-items:center;justify-content:center;color:var(--m);font-size:13px;text-align:center;padding:10px">기본 문구 사용 중<br>(통신비는 줄이고, 개통은 간편하게)</div>
+<div id="fxPrev" style="flex:0 0 260px;aspect-ratio:16/9;border-radius:12px;background:var(--tint);overflow:hidden;display:flex;align-items:center;justify-content:center;color:var(--m);font-size:13px;text-align:center;padding:10px"><img src="/img/gato-gauge.jpg" alt="기본 모션 배너" style="width:100%;height:100%;object-fit:contain;background:#fff"></div>
 <div style="flex:1 1 260px;display:flex;flex-direction:column;gap:8px">
 <span class="chip" style="align-self:flex-start">왼쪽 고정 배너</span>
 <strong style="font-size:17px" id="fxName">메인 왼쪽 큰 배너</strong>
-<span class="note" id="fxInfo">움직이는 배너 옆 왼쪽 칸이에요. 이미지를 올리면 기본 문구 대신 그 이미지가 나와요. 권장 크기 가로 1600 × 세로 800px.</span>
-<div style="display:flex;gap:8px;flex-wrap:wrap"><label class="btn" style="cursor:pointer">이미지 바꾸기<input type="file" id="fxFile" accept="image/*" hidden></label><button type="button" class="btn ghost" id="fxLinkBtn">링크 바꾸기</button><button type="button" class="btn ghost" id="fxDel" style="display:none">기본 문구로 되돌리기</button></div>
+<span class="note" id="fxInfo">움직이는 배너 옆 왼쪽 칸이에요. 지금은 게이지 모션 영상이 나와요. 이미지를 올리면 영상 대신 그 이미지가 나와요. 권장 크기 가로 1600 × 세로 800px.</span>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><label class="btn" style="cursor:pointer">이미지 바꾸기<input type="file" id="fxFile" accept="image/*" hidden></label><button type="button" class="btn ghost" id="fxLinkBtn">링크 바꾸기</button><button type="button" class="btn ghost" id="fxDel" style="display:none">기본 영상으로 되돌리기</button></div>
 </div></div>
 <div class="card" style="padding:22px;display:flex;flex-direction:column;gap:14px">
 <strong id="bfTitle" style="font-size:17px">오른쪽 움직이는 배너 등록</strong>
@@ -273,7 +273,7 @@ let banners = [], bImg = '', bEdit = null, fixedB = null;
 function drawFixed(){
   const p=$('fxPrev');
   if(fixedB){ p.innerHTML='<img src="'+esc(fixedB.imageUrl)+'" alt="" style="width:100%;height:100%;object-fit:cover">'; p.style.padding='0'; $('fxInfo').textContent='링크: '+(fixedB.link||'없음'); $('fxDel').style.display=''; }
-  else { p.innerHTML='기본 문구 사용 중<br>(통신비는 줄이고, 개통은 간편하게)'; p.style.padding='10px'; $('fxInfo').textContent='움직이는 배너 옆 왼쪽 칸이에요. 이미지를 올리면 기본 문구 대신 그 이미지가 나와요. 권장 크기 가로 1600 × 세로 800px.'; $('fxDel').style.display='none'; }
+  else { p.innerHTML='<img src="/img/gato-gauge.jpg" alt="기본 모션 배너" style="width:100%;height:100%;object-fit:contain;background:#fff">'; p.style.padding='0'; $('fxInfo').textContent='움직이는 배너 옆 왼쪽 칸이에요. 지금은 게이지 모션 영상이 나와요. 이미지를 올리면 영상 대신 그 이미지가 나와요. 권장 크기 가로 1600 × 세로 800px.'; $('fxDel').style.display='none'; }
 }
 async function saveFixed(patch){
   try{
@@ -284,7 +284,7 @@ async function saveFixed(patch){
 }
 $('fxFile').onchange = async e => { const f=e.target.files[0]; if(!f) return; try{ await saveFixed({ imageUrl: await shrink(f,1600,700) }); }catch(err){ toast(err.message); } e.target.value=''; };
 $('fxLinkBtn').onclick = () => { if(!fixedB) return toast('먼저 이미지를 올려주세요.'); const u=prompt('누르면 이동할 주소를 넣어주세요 (비우면 링크 없음)', fixedB.link||''); if(u===null) return; saveFixed({ link: fixLink(u) }); };
-$('fxDel').onclick = async () => { if(!fixedB || !confirm('이미지를 빼고 기본 문구로 되돌릴까요?')) return; try{ await deleteDoc(doc(db,'banners',fixedB.id)); toast('기본 문구로 되돌렸어요.'); loadBanners(); }catch(e){ toast('처리하지 못했어요.'); } };
+$('fxDel').onclick = async () => { if(!fixedB || !confirm('이미지를 빼고 기본 모션 영상으로 되돌릴까요?')) return; try{ await deleteDoc(doc(db,'banners',fixedB.id)); toast('기본 모션 영상으로 되돌렸어요.'); loadBanners(); }catch(e){ toast('처리하지 못했어요.'); } };
 async function loadBanners(){
   try{
     const snap = await getDocs(query(collection(db,'banners'), orderBy('order','asc')));

@@ -1,0 +1,130 @@
+from common import *
+R=ROOT
+src=open(HERE+'data/Esim.dc.html',encoding='utf-8').read()
+a=src.index('const DATA = {'); b=src.index('    const on = ',a)
+DATA=src[a:b].strip().rstrip(';')+';'
+CSS='''<style>
+.cost{display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px;padding:22px 28px}
+.gen{display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start}
+.gen .l{flex:999 1 480px;min-width:0;display:flex;flex-direction:column;gap:14px}
+.gen .stp{padding:20px;display:flex;flex-direction:column;gap:14px}
+.gen .sh{display:flex;align-items:center;gap:10px}
+.gen .sh i{font-style:normal;width:28px;height:28px;border-radius:999px;background:var(--pri);color:#fff;font-size:14px;font-weight:900;display:flex;align-items:center;justify-content:center}
+.gen .sh strong{font-size:17px}
+.seg{display:flex;gap:6px;background:#E9ECF2;padding:4px;border-radius:12px}
+.seg button{flex:1 1 0;height:44px;border:none;border-radius:10px;font-size:15px;font-weight:700;background:transparent;color:#4B5563}
+.seg button.on{background:#fff;color:var(--pri);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.grid9{display:grid;grid-template-columns:repeat(auto-fill,minmax(86px,1fr));gap:8px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.ob{font-weight:700;border-radius:12px;height:48px;font-size:15px;background:#fff;color:var(--t);border:1.5px solid #DDE2EA}
+.ob.on{background:var(--tint2);color:var(--pri);border-color:var(--pri)}
+.ob.l{text-align:left;padding:0 16px;height:52px}
+.ob.s.on{background:var(--pri);color:#fff}
+.res{flex:1 1 300px;min-width:0;background:var(--pri);color:#fff;border-radius:20px;padding:26px;display:flex;flex-direction:column;gap:12px;position:sticky;top:90px}
+.res .v{font-size:28px;font-weight:900;letter-spacing:.5px;word-break:break-all}
+.res .v.e{font-size:18px;color:#E6F4FC}
+.res .cp{height:52px;border:none;border-radius:12px;font-size:16px;font-weight:900;background:#fff;color:#256CAE}
+.res .cp:disabled{background:rgba(255,255,255,.25);color:#E6F4FC;cursor:not-allowed}
+.res .rs{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5);border-radius:12px;height:44px;font-size:14px;font-weight:700}
+.steps .s{display:flex;gap:20px;padding:24px 30px;border-top:1px solid #EEF4F9}
+.steps .s:first-child{border-top:none}
+.steps .n{flex:0 0 auto;width:40px;height:40px;border-radius:999px;background:var(--pri);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900}
+.steps h3{margin:0 0 6px;font-size:18px;font-weight:900}
+.steps p{margin:0;font-size:15px;line-height:1.6;color:#4B5563}
+.steps .path{display:inline-block;margin-top:8px;font-size:14px;font-weight:700;color:var(--deep);background:#F1F3F7;padding:7px 12px;border-radius:8px}
+.hide{display:none!important}
+@media (max-width:700px){.res{position:static}.grid4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+'''
+body='''<main class="wrap narrow">
+<section class="ptitle"><a href="/usim" class="eyebrow">유심 › eSIM 사용 설명서</a><h1 class="h1">eSIM은 유심 없이 폰에서 바로 개통해요</h1><p class="lead">유심을 사러 갈 필요도, 택배를 기다릴 필요도 없어요. 아래에서 내 폰 모델명만 만들어서 신청서에 넣으면 돼요.</p></section>
+<section class="card cost"><span style="font-size:15px;font-weight:700;color:#4B5563">eSIM 발급 비용</span><strong style="font-size:30px;font-weight:900;color:var(--pri)">2,750<small style="font-size:18px">원</small></strong><span style="font-size:14px;color:var(--m2)">유심을 따로 살 필요 없이 이 비용만 들어요</span></section>
+
+<section aria-label="eSIM 모델명 만들기" style="display:flex;flex-direction:column;gap:16px">
+<div class="ptitle"><h2 style="margin:0;font-size:26px;font-weight:900">eSIM 단말 모델명 만들기</h2><p class="lead">eSIM 신청서에는 폰 모델명을 정해진 형식으로 넣어야 해요. 기종과 용량만 고르면 입력할 모델명이 바로 나와요.</p></div>
+<div class="gen">
+<div class="l">
+<div class="card stp">
+<div class="seg" id="brand"><button type="button" data-b="iphone" class="on">아이폰</button><button type="button" data-b="galaxy">갤럭시</button></div>
+<label class="search" style="height:48px;background:var(--bg)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4F6577" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg><span class="sr">모델번호로 찾기</span><input type="search" id="q" placeholder="모델번호로 바로 찾기 (예: A3106, SM-S921N)"></label>
+<span id="qmsg" style="font-size:13px;color:var(--warn)"></span><div id="hits" class="pills"></div>
+</div>
+<div class="card stp"><div class="sh"><i>1</i><strong id="stitle">아이폰 시리즈 선택</strong></div><div class="grid9" id="series"></div></div>
+<div class="card stp hide" id="cModel"><div class="sh"><i>2</i><strong>기종 선택</strong></div><div class="grid2" id="models"></div></div>
+<div class="card stp hide" id="cState"><div class="sh"><i>3</i><strong>단말 상태</strong><span style="font-size:13px;color:var(--m2)">해당될 때만 바꿔주세요</span></div>
+<div class="grid4" id="states"></div>
+<div id="actBox" class="hide" style="display:flex;flex-direction:column;gap:8px"><p class="note" style="font-size:14px">리퍼·중고·해외폰은 실제 모델번호가 다를 수 있어요. <strong>설정 › 일반 › 정보 › 모델 번호</strong>를 한 번 눌러서 나온 값이 다르면 입력해 주세요.</p><input type="text" id="actual" placeholder="예: A3106" aria-label="실제 모델번호" style="height:46px;border:1px solid #DDE2EA;border-radius:12px;padding:0 14px"></div></div>
+<div class="card stp hide" id="cStorage"><div class="sh"><i id="stNo">3</i><strong>저장용량 선택</strong></div><div class="pills" id="storages"></div></div>
+</div>
+<div class="res" aria-live="polite"><span style="font-size:13px;font-weight:700;color:#E6F4FC">앤텔레콤 입력용 모델명</span><strong class="v e" id="val">기종과 용량을 선택하세요</strong><span id="info" style="font-size:14px;color:#C8E2F3;min-height:20px"></span><button type="button" class="cp" id="copy" disabled>모델명 복사</button><button type="button" class="rs" id="reset">처음부터 다시 선택</button></div>
+</div>
+</section>
+
+<section aria-label="eSIM 개통 순서" style="display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px"><h2 style="margin:0;font-size:24px;font-weight:900">eSIM 개통 순서</h2><div class="seg" id="os" style="border-radius:999px;width:220px"><button type="button" data-o="ios" class="on" style="border-radius:999px">아이폰</button><button type="button" data-o="android" style="border-radius:999px">갤럭시</button></div></div>
+<div class="card steps" id="steps"></div>
+</section>
+<section style="display:flex;flex-wrap:wrap;gap:12px"><a class="btn lg" href="/open/self">eSIM으로 개통하러 가기</a><a class="btn lg ghost" href="'''+KAKAO+'''" target="_blank" rel="noopener">카톡으로 물어보기</a></section>
+</main>
+'''
+js='''<script>
+(function(){
+  '''+DATA+'''
+  var $=function(i){return document.getElementById(i);}, S={brand:'iphone',series:'',mi:-1,storage:'',pstate:'basic',actual:''};
+  var E=function(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');};
+  var sl=function(x){return x.indexOf('TB')>-1?x:x+'GB';};
+  function old(){return S.brand==='iphone'&&S.series&&['16','17'].indexOf(S.series)<0;}
+  function model(){return S.mi>=0?DATA[S.brand].models[S.series][S.mi]:null;}
+  function draw(){
+    [].forEach.call($('brand').children,function(b){b.classList.toggle('on',b.dataset.b===S.brand);});
+    $('stitle').textContent=S.brand==='iphone'?'아이폰 시리즈 선택':'갤럭시 시리즈 선택';
+    $('series').innerHTML=DATA[S.brand].series.map(function(x){return '<button type="button" class="ob'+(S.series===x?' on':'')+'" data-s="'+E(x)+'">'+E(x)+'</button>';}).join('');
+    $('cModel').classList.toggle('hide',!S.series);
+    $('models').innerHTML=S.series?DATA[S.brand].models[S.series].map(function(m,i){return '<button type="button" class="ob l'+(S.mi===i?' on':'')+'" data-m="'+i+'">'+E(m[0])+'</button>';}).join(''):'';
+    var m=model(), so=!!m&&old();
+    $('cState').classList.toggle('hide',!so);
+    $('states').innerHTML=[['basic','기본'],['refurb','리퍼'],['used','중고'],['overseas','해외폰']].map(function(x){return '<button type="button" class="ob'+(S.pstate===x[0]?' on':'')+'" data-p="'+x[0]+'">'+x[1]+'</button>';}).join('');
+    $('actBox').classList.toggle('hide',!(so&&S.pstate!=='basic'));
+    $('cStorage').classList.toggle('hide',!m);$('stNo').textContent=so?4:3;
+    $('storages').innerHTML=m?m[2].map(function(x){return '<button type="button" class="ob s'+(S.storage===x?' on':'')+'" style="min-width:110px;padding:0 18px" data-g="'+x+'">'+sl(x)+'</button>';}).join(''):'';
+    var v='';
+    if(m&&S.storage){
+      if(S.brand==='galaxy')v='OMD-'+m[1]+'-'+S.storage;
+      else{var sc=S.storage==='1TB'?'1T':S.storage==='2TB'?'2T':S.storage;
+        if(old()){var pre={basic:'ULK',refurb:'R',used:'UD',overseas:'TAC'}[S.pstate];var t=S.pstate!=='basic'?S.actual.trim().toUpperCase().replace(/\\s/g,''):'';v=pre+'-'+(t||m[1])+'-'+sc;}
+        else v=m[1]+'-'+sc;}
+    }
+    $('val').textContent=v||'기종과 용량을 선택하세요';$('val').classList.toggle('e',!v);
+    $('info').textContent=m?m[0]+(S.storage?' · '+sl(S.storage):''):'';
+    $('copy').disabled=!v;$('copy').dataset.v=v;
+  }
+  $('brand').onclick=function(e){var b=e.target.closest('button');if(!b)return;S={brand:b.dataset.b,series:'',mi:-1,storage:'',pstate:'basic',actual:''};$('actual').value='';draw();};
+  $('series').onclick=function(e){var b=e.target.closest('button');if(!b)return;S.series=b.dataset.s;S.mi=-1;S.storage='';S.pstate='basic';draw();};
+  $('models').onclick=function(e){var b=e.target.closest('button');if(!b)return;S.mi=+b.dataset.m;S.storage='';S.pstate='basic';draw();};
+  $('states').onclick=function(e){var b=e.target.closest('button');if(!b)return;S.pstate=b.dataset.p;draw();};
+  $('storages').onclick=function(e){var b=e.target.closest('button');if(!b)return;S.storage=b.dataset.g;draw();};
+  $('actual').oninput=function(){S.actual=this.value;draw();};
+  $('reset').onclick=function(){S={brand:S.brand,series:'',mi:-1,storage:'',pstate:'basic',actual:''};$('actual').value='';$('q').value='';$('hits').innerHTML='';draw();};
+  $('copy').onclick=function(){var v=this.dataset.v,b=this;if(!v)return;var done=function(){b.textContent='복사 완료';setTimeout(function(){b.textContent='모델명 복사';},1200);};
+    if(navigator.clipboard)navigator.clipboard.writeText(v).then(done,function(){fb();});else fb();
+    function fb(){var t=document.createElement('textarea');t.value=v;document.body.appendChild(t);t.select();document.execCommand('copy');t.remove();done();}};
+  var norm=function(t){return String(t||'').toUpperCase().replace(/[^A-Z0-9]/g,'');};
+  $('q').oninput=function(){var nq=norm(this.value),hits=[];$('qmsg').textContent='';
+    if(nq.length>=4){Object.keys(DATA).forEach(function(bk){DATA[bk].series.forEach(function(se){DATA[bk].models[se].forEach(function(m,i){var c=norm(m[1]);if(c===nq||c.indexOf(nq)===0||(/^\\d{3,4}$/.test(nq)&&c.replace(/\\D/g,'')===nq)||norm(m[0]).indexOf(nq)>-1)hits.push([bk,se,i,m]);});});});
+      if(!hits.length)$('qmsg').textContent='일치하는 기종이 없어요. 모델번호를 다시 확인해 주세요.';}
+    $('hits').innerHTML=hits.map(function(h,k){return '<button type="button" class="pill" data-k="'+k+'">'+E(h[3][0]+' ('+h[3][1]+')')+'</button>';}).join('');
+    $('hits').onclick=function(e){var b=e.target.closest('button');if(!b)return;var h=hits[+b.dataset.k];S={brand:h[0],series:h[1],mi:h[2],storage:'',pstate:'basic',actual:''};$('q').value='';$('hits').innerHTML='';draw();};
+  };
+  var STEPS={ios:[['QR코드로 eSIM 추가','와이파이에 연결한 상태에서 아래 경로로 들어가 QR코드를 찍어요.','설정 › 셀룰러 › eSIM 추가 › QR 코드 사용'],['재시동 후 개통 확인','등록이 끝나면 폰을 껐다 켜고, 상단에 통신사 이름과 안테나가 보이면 끝이에요.','']],
+    android:[['QR코드로 eSIM 추가','와이파이에 연결한 상태에서 아래 경로로 들어가 QR코드를 찍어요.','설정 › 연결 › SIM 관리자 › eSIM 추가'],['재시동 후 개통 확인','등록이 끝나면 폰을 껐다 켜고, 상단에 안테나가 보이면 끝이에요.','']]};
+  var COMMON=[['셀프개통에서 eSIM 선택','KT 또는 LG 개통하기를 누르고 유심 종류에서 eSIM을 고른 뒤, 위에서 만든 모델명을 신청서에 넣어요.',''],['개통 완료 후 QR코드 받기','개통이 끝나면 eSIM 등록용 QR코드(또는 활성화 코드)를 받아요.','']];
+  function drawSteps(os){[].forEach.call($('os').children,function(b){b.classList.toggle('on',b.dataset.o===os);});
+    $('steps').innerHTML=COMMON.concat(STEPS[os]).map(function(s,i){return '<div class="s"><span class="n">'+(i+1)+'</span><div><h3>'+s[0]+'</h3><p>'+s[1]+'</p>'+(s[2]?'<span class="path">'+s[2]+'</span>':'')+'</div></div>';}).join('');}
+  $('os').onclick=function(e){var b=e.target.closest('button');if(b)drawSteps(b.dataset.o);};
+  draw();drawSteps('ios');
+})();
+</script>
+'''
+open(R+'esim.html','w',encoding='utf-8').write(page('eSIM 사용 설명서 · 모델명 만들기 - 가토통신','eSIM 발급 비용 2,750원. 아이폰·갤럭시 기종과 용량을 고르면 앤텔레콤 eSIM 신청서에 넣을 단말 모델명을 바로 만들어 드려요.','/esim','유심',body,js,CSS))
+print('esim ok')

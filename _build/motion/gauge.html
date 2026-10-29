@@ -1,0 +1,162 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:K;src:url(noto-sans-kr-korean-700-normal.woff2);font-weight:700}
+@font-face{font-family:K;src:url(noto-sans-kr-korean-900-normal.woff2);font-weight:900}
+@font-face{font-family:K;src:url(noto-sans-kr-korean-500-normal.woff2);font-weight:500}
+@font-face{font-family:M;src:url(montserrat-latin-800-normal.woff2);font-weight:800}
+@font-face{font-family:M;src:url(montserrat-latin-900-normal.woff2);font-weight:900}
+html,body{margin:0;background:#fff;overflow:hidden}
+svg{display:block;width:1600px;height:800px}
+.k{font-family:K,sans-serif}
+.n{font-family:M,K,sans-serif}
+</style></head>
+<body>
+<svg id="s" viewBox="0 0 1600 800" xmlns="http://www.w3.org/2000/svg">
+  <g id="all">
+  <g id="gauge">
+    <g id="band"></g>
+    <path id="outer" fill="none" stroke="#111" stroke-width="7" stroke-linecap="round"/>
+    <path id="inner" fill="none" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+    <g id="ticks"></g>
+    <g id="labels" class="n" font-weight="800" font-size="26" fill="#111" text-anchor="middle"></g>
+    <g id="shock" stroke="#111" stroke-width="6" stroke-linecap="round"></g>
+    <g id="speed" stroke="#111" stroke-width="4" stroke-linecap="round" fill="none"></g>
+    <g id="needleG">
+      <path id="needle" fill="#FF3B30" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+      <circle id="hub" r="26" fill="#111"/>
+      <circle id="hub2" r="9" fill="#fff"/>
+    </g>
+    <g id="conf"></g>
+    <g id="readout" class="n" text-anchor="middle">
+      <text id="ro" y="0" font-weight="900" font-size="64" fill="#111"></text>
+    </g>
+  </g>
+    <g id="txt">
+      <g id="t1"><text class="k" x="0" y="0" font-weight="700" font-size="46" fill="#111">통신비 절약의 시작,</text></g>
+      <g id="t2">
+        <rect id="hl" x="-8" y="-46" height="52" rx="6" fill="#FFD43B"/>
+        <text class="k" x="0" y="0" font-weight="900" font-size="128" fill="#111" letter-spacing="-4">가토통신</text>
+      </g>
+      <g id="spark" stroke="#111" stroke-width="6" stroke-linecap="round"></g>
+    </g>
+  </g>
+</svg>
+<script>
+const NS='http://www.w3.org/2000/svg';
+const CX=520, CY=520, R=272, RB=232, RI=196, MAX=80000;
+const $=id=>document.getElementById(id);
+const mk=(tag,at,par)=>{const e=document.createElementNS(NS,tag);for(const k in at)e.setAttribute(k,at[k]);par&&par.appendChild(e);return e;};
+const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+const prog=(t,a,b)=>clamp((t-a)/(b-a));
+const eo=x=>1-Math.pow(1-x,3), eio=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+const eback=x=>{const c=1.9;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2);};
+const ang=v=>Math.PI*(1-v/MAX);
+const pt=(v,r)=>[CX+r*Math.cos(ang(v)),CY-r*Math.sin(ang(v))];
+const arc=(v0,v1,r)=>{const a=pt(v0,r),b=pt(v1,r);return `M${a[0]},${a[1]} A${r},${r} 0 0 1 ${b[0]},${b[1]}`;};
+
+// static geometry
+$('outer').setAttribute('d',arc(0,MAX,R));
+$('inner').setAttribute('d',arc(0,MAX,RI));
+const outerLen=Math.PI*R, innerLen=Math.PI*RI;
+const COLS=['#4FC3F7','#FFD43B','#FF9F43','#FF5C8A'];
+const segs=COLS.map((c,i)=>{const g=600;const p=mk('path',{d:arc(i*20000+g,(i+1)*20000-g,RB),fill:'none',stroke:c,'stroke-width':48,'stroke-linecap':'butt'},$('band'));p._len=Math.PI*RB/4;return p;});
+const ticks=[];for(let i=0;i<=16;i++){const v=i*5000,maj=i%4===0;const a=pt(v,R+12),b=pt(v,R+(maj?40:26));ticks.push(mk('line',{x1:a[0],y1:a[1],x2:b[0],y2:b[1],stroke:'#111','stroke-width':maj?6:4,'stroke-linecap':'round'},$('ticks')));}
+const labs=['0','2만','4만','6만','8만'].map((s,i)=>{const p=pt(i*20000,R+76);const t=mk('text',{x:p[0],y:p[1]+9},$('labels'));t.textContent=s;return t;});
+// needle (pointing left, rotated)
+const L=R-38;
+$('needle').setAttribute('d',`M${CX-L},${CY} L${CX+4},${CY-13} L${CX+30},${CY} L${CX+4},${CY+13} Z`);
+$('hub').setAttribute('cx',CX);$('hub').setAttribute('cy',CY);$('hub2').setAttribute('cx',CX);$('hub2').setAttribute('cy',CY);
+$('readout').setAttribute('transform',`translate(${CX},${CY+118})`);
+// shock marks near top-right
+const shocks=[[0,-1],[.55,-.8],[-.55,-.8]].map(([dx,dy])=>mk('line',{},$('shock')));
+// speed lines
+const speeds=[0,1,2].map(i=>mk('path',{},$('speed')));
+// confetti
+let seed=7;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+const conf=[];for(let i=0;i<26;i++){const c=COLS.concat(['#111','#FF3B30'])[i%6];const sh=i%3;
+  const e=sh===0?mk('rect',{x:-9,y:-4,width:18,height:8,rx:2,fill:c},$('conf')):sh===1?mk('circle',{r:6,fill:c},$('conf')):mk('path',{d:'M-10,0 Q-5,-8 0,0 T10,0',fill:'none',stroke:c,'stroke-width':5,'stroke-linecap':'round'},$('conf'));
+  const a=-Math.PI*(0.05+rnd()*0.9);const sp=260+rnd()*420;conf.push({e,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,rot:rnd()*360,vr:(rnd()-.5)*900,d:rnd()*0.08});}
+// text pos
+const TX=1000;
+$('t1').setAttribute('transform',`translate(${TX},400)`);
+const sparks=[[ -.2,-1],[.5,-.85],[.95,-.3]].map(()=>mk('line',{},$('spark')));
+let hlW=0;
+document.fonts.ready.then(()=>{hlW=$('t2').querySelector('text').getComputedTextLength()+16;window.ready=true;});
+
+const fmt=v=>Math.round(v/100)*100;
+const VLAND=17900, VHI=70000, TLAND=3.55;
+function needleV(t){
+  if(t<1.5) return 0;
+  if(t<2.25) return VHI*eback(prog(t,1.5,2.25));
+  const keys=[VHI,36000,66000,28000,56000,42000];
+  if(t<TLAND){const seg=(TLAND-2.25)/(keys.length-1);const i=Math.min(keys.length-2,Math.floor((t-2.25)/seg));const f=eio(prog(t,2.25+i*seg,2.25+(i+1)*seg));return keys[i]+(keys[i+1]-keys[i])*f;}
+  const u=t-TLAND, start=42000;
+  // pull down then spring-settle
+  if(u<0.38) return start+(VLAND-9000-start)*eio(u/0.38);
+  const w=u-0.38;return VLAND+(-9000)*Math.exp(-5.5*w)*Math.cos(13*w)+ (t>4.6?Math.sin(t*5)*120:0);
+}
+window.renderAt=function(t){
+  // loop fade
+  const fo=prog(t,8.4,9.0);
+  $('all').setAttribute('opacity',1-fo);
+  $('all').setAttribute('transform',`translate(800 400) scale(${1-0.04*eio(fo)}) translate(-800 -400)`);
+  // outlines draw
+  const d1=eo(prog(t,0.1,1.0));
+  $('outer').setAttribute('stroke-dasharray',outerLen);$('outer').setAttribute('stroke-dashoffset',outerLen*(1-d1));
+  const d2=eo(prog(t,0.3,1.15));
+  $('inner').setAttribute('stroke-dasharray',innerLen);$('inner').setAttribute('stroke-dashoffset',innerLen*(1-d2));
+  ticks.forEach((tk,i)=>{const p=eback(prog(t,0.35+i*0.035,0.6+i*0.035));tk.setAttribute('opacity',clamp(p*3));tk.setAttribute('stroke-dasharray',100);tk.setAttribute('stroke-dashoffset',100-60*clamp(p,0,1.2));});
+  labs.forEach((l,i)=>{const p=eo(prog(t,0.7+i*0.08,1.0+i*0.08));l.setAttribute('opacity',p);l.setAttribute('transform',`translate(0 ${10*(1-p)})`);});
+  // band segments pop
+  const land=prog(t,TLAND+0.38,TLAND+0.6);
+  segs.forEach((s,i)=>{const p=eo(prog(t,0.85+i*0.16,1.35+i*0.16));s.setAttribute('stroke-dasharray',s._len);s.setAttribute('stroke-dashoffset',s._len*(1-p));
+    let op=1, w=48;
+    if(i>0){op=1-0.72*eo(land)*(1-fo);} else {const pu=prog(t,TLAND+0.38,TLAND+0.85);w=48+16*Math.sin(Math.PI*pu);}
+    // right zone flash red-ish when needle high
+    if(i===3&&t>2.0&&t<TLAND){w=48+8*Math.abs(Math.sin(t*14));}
+    s.setAttribute('opacity',op);s.setAttribute('stroke-width',w);});
+  // needle
+  const v=needleV(t);
+  const show=eback(prog(t,1.3,1.6));
+  $('needleG').setAttribute('opacity',clamp(show*2));
+  $('needle').setAttribute('transform',`rotate(${v/MAX*180} ${CX} ${CY})`);
+  const hs=clamp(show,0,1.3);
+  $('hub').setAttribute('r',26*hs);$('hub2').setAttribute('r',9*hs);
+  // readout
+  const rv=t<1.5?0:(t>TLAND+0.3?(t>TLAND+0.9?VLAND:Math.max(VLAND,fmt(v))):fmt(Math.max(0,v)));
+  $('ro').innerHTML=`<tspan class="k" font-size="40" font-weight="700" dx="0">월 </tspan>${rv.toLocaleString('en-US')}<tspan class="k" font-size="40" font-weight="700">원</tspan>`;
+  const rop=eo(prog(t,1.4,1.8));$('readout').setAttribute('opacity',rop);
+  const hot=t>1.9&&t<TLAND+0.2;
+  $('ro').setAttribute('fill',hot?'#FF3B30':'#111');
+  const pop=prog(t,TLAND+0.38,TLAND+0.75);
+  $('readout').setAttribute('transform',`translate(${CX},${CY+118}) scale(${1+0.14*Math.sin(Math.PI*pop)})`);
+  // shock marks while high
+  const sh=prog(t,2.05,2.3)*(1-prog(t,3.2,3.4));
+  const tip=pt(VHI,R+120);
+  shocks.forEach((l,i)=>{const dirs=[[0.15,-1],[0.85,-0.45],[-0.5,-0.9]][i];const len=34*eback(clamp(sh));const b=[tip[0]+dirs[0]*10,tip[1]+dirs[1]*10];
+    l.setAttribute('x1',b[0]);l.setAttribute('y1',b[1]);l.setAttribute('x2',b[0]+dirs[0]*len);l.setAttribute('y2',b[1]+dirs[1]*len);l.setAttribute('opacity',sh>0.01?1:0);});
+  // speed lines during wobble
+  const wob=t>2.25&&t<TLAND+0.35;
+  speeds.forEach((p,i)=>{if(!wob){p.setAttribute('opacity',0);return;}
+    const v2=needleV(t-0.05-i*0.03), r=R-60-i*28; const a0=ang(v),a1=ang(v2);
+    const s0=[CX+r*Math.cos(a0),CY-r*Math.sin(a0)], s1=[CX+r*Math.cos(a1),CY-r*Math.sin(a1)];
+    const big=Math.abs(v-v2)>1500; p.setAttribute('opacity',big?0.9:0);
+    p.setAttribute('d',`M${s1[0]},${s1[1]} A${r},${r} 0 0 ${v>v2?1:0} ${s0[0]},${s0[1]}`);});
+  // confetti burst at landing point
+  const ct=t-(TLAND+0.4); const origin=pt(VLAND,RB);
+  conf.forEach(c=>{const u=ct-c.d; if(u<0||u>1.6){c.e.setAttribute('opacity',0);return;}
+    const x=origin[0]+c.vx*u, y=origin[1]+c.vy*u+620*u*u; c.e.setAttribute('opacity',clamp(1.4-u));c.e.setAttribute('transform',`translate(${x} ${y}) rotate(${c.rot+c.vr*u})`);});
+  const sl=eio(prog(t,4.5,5.2));$('gauge').setAttribute('transform',`translate(${280*(1-sl)} 0)`);
+  // text
+  const p1=eo(prog(t,5.0,5.5));
+  $('t1').setAttribute('opacity',p1);$('t1').setAttribute('transform',`translate(${TX} ${400+30*(1-p1)})`);
+  const p2=eback(prog(t,5.3,5.8));
+  $('t2').setAttribute('opacity',clamp(p2*2));$('t2').setAttribute('transform',`translate(${TX} ${560+40*(1-clamp(p2))})`);
+  const ph=eio(prog(t,5.75,6.15));$('hl').setAttribute('width',hlW*ph);
+  const ps=prog(t,6.05,6.35);const sx=TX+hlW-4, sy=560-112;
+  sparks.forEach((l,i)=>{const d=[[0,-1],[0.75,-0.65],[1,0]][i];const len=30*eback(clamp(ps));const b=[sx+d[0]*16,sy+d[1]*16];
+    l.setAttribute('x1',b[0]);l.setAttribute('y1',b[1]);l.setAttribute('x2',b[0]+d[0]*len);l.setAttribute('y2',b[1]+d[1]*len);l.setAttribute('opacity',ps>0.01?1:0);});
+};
+</script>
+</body></html>

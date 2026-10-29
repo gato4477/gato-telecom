@@ -1,0 +1,199 @@
+from common import *
+CSS='''<style>
+.hero{display:flex;flex-wrap:wrap;gap:20px}
+.hero-fix{flex:999 1 560px;min-width:0;min-height:400px;border-radius:24px;background:#E6F4FC;color:var(--deep);padding:48px;display:flex;align-items:center;justify-content:space-between;gap:24px;overflow:hidden;position:relative}
+.hero-fix .tx{display:flex;flex-direction:column;gap:20px;max-width:440px;position:relative;z-index:1}
+.hero-fix h1{margin:0;font-size:40px;line-height:1.3;font-weight:900;letter-spacing:-1px}
+.hero-fix p{margin:0;font-size:16px;line-height:1.6;color:#3D5A70}
+.hero-fix .deco{position:absolute;right:-40px;bottom:-60px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle at 40% 40%,#C9E8FA,#A9D9F5);opacity:.55}
+.hero-fix .deco2{position:absolute;right:120px;top:-50px;width:150px;height:150px;border-radius:50%;background:#F9D3E3;opacity:.7}
+.hero-fix.img{padding:0;background:#E6F4FC}
+.hero-fix.vid{padding:0;background:#fff;border:1px solid #E5E8EF;min-height:0;aspect-ratio:2/1}
+.hero-fix.vid video{width:100%;height:100%;object-fit:contain;display:block;background:#fff}
+.hero-fix.img a,.hero-fix.img span{display:block;width:100%;height:100%}
+.hero-fix.img img{width:100%;height:100%;object-fit:cover;display:block}
+.slider{flex:1 1 340px;min-width:0;min-height:400px;border-radius:24px;overflow:hidden;position:relative;background:#E6F4FC}
+.sl{position:absolute;inset:0;opacity:0;transition:opacity .5s ease;visibility:hidden}
+.sl.on{opacity:1;visibility:visible}
+.sl img{width:100%;height:100%;object-fit:contain;display:block}
+.sl a,.sl>span{display:block;width:100%;height:100%}
+.sl.txt{padding:32px 32px 64px;display:flex;flex-direction:column;gap:14px;color:#fff}
+.sl.txt b.bd{align-self:flex-start;font-size:13px;background:rgba(255,255,255,.92);color:#111827;padding:6px 12px;border-radius:999px}
+.sl.txt h2{margin:auto 0 0;font-size:24px;word-break:keep-all;line-height:1.35;font-weight:900;white-space:pre-line}
+.sl.txt p{margin:0;font-size:15px;opacity:.92}
+.sl-ctrl{position:absolute;left:0;right:0;bottom:16px;display:flex;align-items:center;justify-content:center;gap:10px;z-index:2}
+.sl-ctrl button.ar{width:32px;height:32px;border-radius:999px;border:none;background:rgba(0,0,0,.35);color:#fff;display:flex;align-items:center;justify-content:center}
+.sl-ctrl button.dt{border:none;padding:0;height:8px;width:8px;border-radius:999px;background:#fff;opacity:.55}
+.sl-ctrl button.dt.on{width:22px;opacity:1}
+.quick{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.quick a{display:flex;align-items:center;gap:18px;color:#fff;border-radius:20px;padding:26px 30px}
+.quick a .ic{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.quick a .t{display:flex;flex-direction:column;gap:4px;flex:1 1 auto}
+.quick a strong{font-size:20px;font-weight:900}
+.quick a span.s{font-size:14px;opacity:.92}
+.plans{background:#14304D;border-radius:28px;padding:56px 48px;display:flex;flex-wrap:wrap;gap:40px 48px}
+.plans .l{flex:1 1 260px;min-width:0;display:flex;flex-direction:column;gap:28px}
+.plans h2{margin:0;font-size:34px;line-height:1.35;font-weight:900;color:#fff}
+.plans h2 span{color:#69BEEE}
+.ptabs{display:flex;flex-direction:column;gap:10px}
+.ptabs button{text-align:left;font-size:16px;font-weight:700;padding:14px 22px;border-radius:999px;background:transparent;color:#B9D3E8;border:1.5px solid #2E4E70}
+.ptabs button:hover{color:#fff;border-color:#69BEEE}
+.ptabs button.on{background:#69BEEE;color:#14304D;border-color:#69BEEE}
+.plans .r{flex:999 1 520px;min-width:0;display:flex;flex-direction:column;gap:14px}
+.plans .rh{display:flex;align-items:center;justify-content:flex-end;gap:12px;min-height:40px}
+.plans .rh span{font-size:15px;font-weight:700;color:#B9D3E8}
+#pcards{flex:1 1 auto;display:flex;flex-direction:column;gap:14px}
+#pcards .pc{flex:1 1 0;justify-content:space-between}
+.pc{background:#fff;border-radius:18px;padding:22px 26px;display:flex;flex-direction:column;gap:14px}
+.pc .top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.pc h3{margin:0;font-size:19px;font-weight:900}
+.pc .sp{display:flex;gap:8px 22px;flex-wrap:wrap;font-size:14px;color:#4B5563}
+.pc .sp b{color:var(--deep)}
+.pc .bt{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.price{font-size:15px;color:var(--pri);font-weight:700}
+.price strong{font-size:26px;font-weight:900}
+.allp{font-size:15px;font-weight:700;color:#fff;white-space:nowrap}
+.allp:hover{color:#C8E2F3}
+.bl-head{display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;padding:24px 0 8px}
+.bl-head h2{margin:0;font-size:40px;font-weight:900;letter-spacing:-1px;line-height:1.3;word-break:keep-all}
+.bl-head .u{background:linear-gradient(transparent 62%,#FDEAF2 62%)}
+@media (max-width:700px){.bl-head h2{font-size:28px}}
+.bl-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+@media (max-width:1000px){.bl-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.bl-grid{grid-template-columns:1fr}}
+.bc{display:flex;flex-direction:column;gap:10px;color:var(--t)}
+.bc .th{aspect-ratio:16/10;border-radius:16px;background:linear-gradient(135deg,#D7ECF9,#C9E8FA);overflow:hidden;display:flex;align-items:center;justify-content:center;color:var(--pri);font-weight:900;font-size:18px}
+.bc .th img{width:100%;height:100%;object-fit:cover}
+.bc strong{font-size:16px;line-height:1.5}
+.bc .d{font-size:13px;color:var(--m2)}
+@media (max-width:700px){
+  .hero-fix{padding:32px 24px;min-height:300px}
+  .hero-fix h1{font-size:30px}
+  .slider{min-height:340px}
+  .plans{padding:32px 20px;border-radius:22px}
+  .plans h2{font-size:26px}
+  .ptabs{flex-direction:row;overflow-x:auto;padding-bottom:4px}
+  .ptabs button{white-space:nowrap;padding:10px 16px;font-size:14px}
+}
+</style>
+'''
+BODY=f'''<main class="wrap" style="padding-top:32px;gap:40px">
+<section class="hero" aria-label="메인 배너">
+<div class="hero-fix vid" id="heroFix">
+<h1 class="sr">통신비 절약의 시작, 가토통신</h1>
+<video id="heroVid" src="/img/gato-gauge.mp4" poster="/img/gato-gauge.jpg" autoplay muted loop playsinline preload="auto" aria-hidden="true"></video>
+</div>
+<div class="slider" id="slider" aria-roledescription="carousel" aria-label="제휴 배너">
+<div class="sl-ctrl" id="slCtrl">
+<button type="button" class="ar" id="slPrev" aria-label="이전 배너"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
+<span id="slDots" style="display:flex;gap:6px;align-items:center"></span>
+<button type="button" class="ar" id="slNext" aria-label="다음 배너"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
+</div>
+</div>
+</section>
+
+<section class="quick" aria-label="바로가기">
+<a href="/open/self" style="background:#69BEEE;color:#1E2630">
+<span class="ic" style="background:rgba(255,255,255,.18)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2"></rect><path d="M11 18h2"></path></svg></span>
+<span class="t"><strong>개통하기</strong><span class="s">신청서 작성부터 개통까지 온라인으로</span></span>
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+</a>
+<a href="{KAKAO}" target="_blank" rel="noopener" style="background:var(--pri)">
+<span class="ic" style="background:rgba(255,255,255,.12)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"></path></svg></span>
+<span class="t"><strong>카톡으로 물어보기</strong><span class="s">카카오톡 채널 '가토'로 바로 연결</span></span>
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+</a>
+</section>
+
+<section class="plans" aria-label="제휴 요금제">
+<div class="l">
+<h2>지금 많이 찾는<br><span>제휴 요금제</span></h2>
+<div class="ptabs" id="ptabs" role="tablist" aria-label="요금제 분류"></div>
+</div>
+<div class="r"><div class="rh"><a href="/plans/kt" class="allp" id="allp">전체 요금제 보기 ›</a></div><div id="pcards"></div></div>
+</section>
+
+<section aria-label="블로그" style="display:flex;flex-direction:column;gap:24px">
+<div class="bl-head"><span class="eyebrow">GATO BLOG</span><h2><span style="color:var(--sky)">가토</span>와 함께 알아보는 <span class="u">똑똑한 통신 생활</span></h2></div>
+<div class="bl-grid" id="blogGrid"></div>
+<a href="/blog" class="btn ghost" style="align-self:center;border-radius:999px;padding:0 28px">블로그 글 더 보기</a>
+</section>
+</main>
+'''
+JS='''<script src="/assets/plans.js?v=1"></script>
+<script src="/assets/fs.js?v=1"></script>
+<script>
+(function(){
+  /* 예전 주소(#self 등)로 들어오면 새 페이지로 */
+  var hm={'#self':'/open/self','#usim':'/usim','#startup':'/support/contact?topic=partner','#faq':'/faq','#esim':'/esim'};
+  if(hm[location.hash]){location.replace(hm[location.hash]);return;}
+  var E=gatoEsc;
+  /* 요금제 탭 */
+  var HOME=GATO_PLANS.HOME, cur=0, tabs=document.getElementById('ptabs'), cards=document.getElementById('pcards');
+  function drawPlans(){
+    tabs.innerHTML=HOME.map(function(t,i){return '<button type="button" role="tab" aria-selected="'+(i===cur)+'" class="'+(i===cur?'on':'')+'" data-i="'+i+'">'+E(t.label)+'</button>';}).join('');
+    document.getElementById('allp').href=HOME[cur].id==='lg'?'/plans/lg':'/plans/kt';
+    cards.innerHTML=HOME[cur].plans.map(function(p){
+      return '<article class="pc"><div class="top"><span class="chip'+(p.net==='KT망'?'':' pink')+'">'+E(p.net)+'</span>'+(p.promo?'<span class="chip warn">+10GB 프로모션</span>':'')+'<h3>'+E(p.name)+'</h3></div>'+
+      '<div class="sp"><span>데이터 <b>'+E(p.data)+'</b></span><span>통화 '+E(p.call)+'</span><span>문자 '+E(p.sms)+'</span><span>소진 후 '+E(p.qos)+'</span></div>'+
+      '<div class="bt"><span class="price"'+(p.net==='KT망'?'':' style="color:var(--lg)"')+'>월 <strong>'+E(p.price)+'</strong>원</span><span style="display:flex;gap:8px"><a class="btn sm gray" href="/plans/'+(p.net==='KT망'?'kt':'lg')+'">상세보기</a><a class="btn sm '+(p.net==='KT망'?'':'pink')+'" href="'+p.url+'" target="_blank" rel="noopener">가입하기</a></span></div></article>';
+    }).join('');
+  }
+  tabs.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;cur=+b.dataset.i;drawPlans();});
+  drawPlans();
+
+  /* 배너 */
+  var slider=document.getElementById('slider'), ctrl=document.getElementById('slCtrl'), dots=document.getElementById('slDots');
+  var FALL=[
+    {badge:'네이버페이',title:'네이버페이 제휴 요금제\\n결제할수록 혜택이 쌓여요',sub:'매월 네이버페이 포인트 5,000P',color:'#03A94D',link:'/plans/kt'},
+    {badge:'쿠팡',title:'쿠팡 제휴 요금제\\n쇼핑하면서 통신비까지',sub:'매월 쿠팡캐시 5,000원',color:'#E8432E',link:'/plans/kt'},
+    {badge:'다이소',title:'다이소 제휴 요금제\\n가볍게 시작하는 알뜰폰',sub:'매월 다이소 상품권 5,000원',color:'#D9541E',link:'/plans/kt'}];
+  var slides=[], idx=0, timer=null;
+  function wrapLink(link,inner){link=gatoFixLink(link);return link?'<a href="'+E(link)+'"'+(/^https?:/i.test(link)?' target="_blank" rel="noopener"':'')+'>'+inner+'</a>':'<span>'+inner+'</span>';}
+  function build(items,isImg){
+    slider.querySelectorAll('.sl').forEach(function(n){n.remove();});
+    items.forEach(function(b,i){
+      var d=document.createElement('div');
+      if(isImg){d.className='sl';d.innerHTML=wrapLink(b.link,'<img src="'+E(b.imageUrl)+'" alt="'+E(b.alt||b.title||'가토통신 배너')+'"'+(i?' loading="lazy"':'')+'>');}
+      else{d.className='sl txt';d.style.background=b.color;d.innerHTML='<b class="bd">'+E(b.badge)+'</b><h2>'+E(b.title)+'</h2><p>'+E(b.sub)+'</p>';d.style.cursor='pointer';d.onclick=function(){location.href=b.link;};}
+      slider.insertBefore(d,ctrl);
+    });
+    slides=[].slice.call(slider.querySelectorAll('.sl'));idx=0;
+    dots.innerHTML=slides.map(function(_,i){return '<button type="button" class="dt" aria-label="'+(i+1)+'번 배너 보기" data-i="'+i+'"></button>';}).join('');
+    ctrl.style.display=slides.length>1?'flex':'none';
+    show();start();
+  }
+  function show(){slides.forEach(function(s,i){s.classList.toggle('on',i===idx);});[].forEach.call(dots.children,function(d,i){d.classList.toggle('on',i===idx);});}
+  function go(n){if(!slides.length)return;idx=(idx+n+slides.length)%slides.length;show();}
+  function start(){stop();if(slides.length>1)timer=setInterval(function(){go(1);},4500);}
+  function stop(){if(timer)clearInterval(timer);timer=null;}
+  document.getElementById('slPrev').onclick=function(){go(-1);start();};
+  document.getElementById('slNext').onclick=function(){go(1);start();};
+  dots.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;idx=+b.dataset.i;show();start();});
+  slider.addEventListener('mouseenter',stop);slider.addEventListener('mouseleave',start);
+  var tx=0;slider.addEventListener('touchstart',function(e){tx=e.touches[0].clientX;},{passive:true});
+  slider.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>45){go(dx<0?1:-1);start();}},{passive:true});
+  build(FALL,false);
+  (function(){var v=document.getElementById('heroVid');if(!v)return;if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches){v.removeAttribute('autoplay');v.pause();}else{var pr=v.play();if(pr&&pr.catch)pr.catch(function(){});}})();
+  gatoQuery('banners',{orderBy:'order'}).then(function(rows){
+    var t=gatoToday();
+    rows=rows.filter(function(b){return b.active!==false&&!(b.startAt&&b.startAt>t)&&!(b.endAt&&b.endAt<t)&&b.imageUrl;});
+    var fix=rows.filter(function(b){return b.slot==='fixed';})[0];
+    var sl=rows.filter(function(b){return b.slot!=='fixed';});
+    if(sl.length)build(sl,true);
+    if(fix){var h=document.getElementById('heroFix');h.className='hero-fix img';h.innerHTML=wrapLink(fix.link,'<img src="'+E(fix.imageUrl)+'" alt="'+E(fix.alt||fix.title||'가토통신')+'">');}
+  }).catch(function(){});
+
+  /* 블로그 최신 3개 */
+  var grid=document.getElementById('blogGrid');
+  gatoQuery('blog',{select:['title','category','createdAt','thumbnail','draft'],orderBy:'createdAt',desc:true,limit:8}).then(function(rows){rows=rows.filter(function(p){return p.title&&p.draft!==true;}).slice(0,4);
+    grid.innerHTML=rows.map(function(p){
+      return '<a class="bc" href="/blog/'+encodeURIComponent(gatoSlug(p.title))+'"><div class="th">'+(p.thumbnail?'<img src="'+E(p.thumbnail)+'" alt="" loading="lazy">':E(p.category||'가토 블로그'))+'</div>'+
+        (p.category?'<span class="chip" style="align-self:flex-start">'+E(p.category)+'</span>':'')+'<strong>'+E(p.title)+'</strong><span class="d">'+gatoDate(p.createdAt)+'</span></a>';
+    }).join('');
+  }).catch(function(){grid.innerHTML='<p class="note">글을 불러오지 못했어요.</p>';});
+})();
+</script>
+'''
+open(ROOT+'index.html','w',encoding='utf-8').write(page('가토통신 - KT·LG U+ 알뜰폰 셀프개통','KT·LG U+ 알뜰폰 요금제 비교부터 셀프개통, 유심 구매, 선불폰까지. 가토통신에서 통신비를 줄여보세요.','/','',BODY,JS,CSS))
+print('index ok')

@@ -51,7 +51,7 @@ module.exports = async (req, res) => {
       body: JSON.stringify({ chat_id: chatId, text, parse_mode: 'HTML', disable_web_page_preview: true })
     });
     const j = await r.json().catch(() => ({}));
-    if (!r.ok || !j.ok) return res.status(502).json({ ok: false, error: 'telegram' });
+    if (!r.ok || !j.ok) return res.status(502).json({ ok: false, error: 'telegram: ' + String(j.description || r.status).slice(0, 80) });
     return res.status(200).json({ ok: true });
   } catch (e) {
     return res.status(502).json({ ok: false, error: 'telegram' });

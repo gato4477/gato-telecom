@@ -88,6 +88,7 @@ body{background:var(--bg)}
 <button type="button" class="m on" data-v="list">블로그 글 목록</button>
 <button type="button" class="m" data-v="editor">블로그 글쓰기</button>
 <button type="button" class="m" data-v="banner">메인 배너 관리</button>
+<button type="button" class="m" data-v="popup">팝업 관리</button>
 <span class="grow" style="flex:1"></span>
 <a href="/" target="_blank" rel="noopener" style="color:#C8E2F3;font-size:13px;padding:0 10px">사이트 열기 ↗</a>
 <span class="who" id="who"></span>
@@ -164,6 +165,23 @@ body{background:var(--bg)}
 <span style="font-size:15px;font-weight:700;color:var(--deep)">오른쪽 움직이는 배너 · 위에서부터 순서대로 나와요</span>
 <div class="card" id="bList"><p class="note" style="padding:20px">불러오는 중…</p></div>
 <p class="note">저장하면 메인에 바로 반영돼요.</p>
+</section>
+
+<section class="view" id="v-popup">
+<div class="vh"><h1>팝업 관리</h1></div>
+<div class="card" style="padding:22px;display:flex;flex-direction:column;gap:14px">
+<strong id="pfTitle" style="font-size:17px">팝업 등록</strong>
+<div style="display:flex;flex-wrap:wrap;gap:16px">
+<label class="drop" id="pDrop" style="flex:0 0 220px;aspect-ratio:8/9"><input type="file" id="pFile" accept="image/*" hidden><span>눌러서 팝업 이미지 올리기</span><span style="font-size:12px">권장 가로 800 × 세로 900px</span></label>
+<div style="flex:1 1 300px;display:flex;flex-direction:column;gap:10px">
+<label class="f"><span>팝업 이름</span><input type="text" id="pTitle" placeholder="예: 쿠팡캐시 후불요금제"></label>
+<label class="f"><span>누르면 이동할 주소</span><input type="text" id="pLink" placeholder="/plans/kt 또는 https://..."></label>
+<div style="display:flex;gap:10px;flex-wrap:wrap"><label class="f" style="flex:1 1 140px"><span>시작일 (선택)</span><input type="date" id="pStart"></label><label class="f" style="flex:1 1 140px"><span>종료일 (선택)</span><input type="date" id="pEnd"></label></div>
+<div style="display:flex;gap:8px"><button type="button" class="btn" id="pSave">팝업 등록</button><button type="button" class="btn ghost" id="pReset">새로 쓰기</button></div>
+</div></div></div>
+<span style="font-size:15px;font-weight:700;color:var(--deep)">메인 팝업 · 위에서부터 순서대로 넘어가요</span>
+<div class="card" id="pList"><p class="note" style="padding:20px">불러오는 중…</p></div>
+<p class="note">메인 첫 화면 가운데에 떠요. 여러 개면 화살표로 넘겨볼 수 있고, '오늘 하루 보지 않기'를 누른 사람에겐 그날 다시 안 떠요.</p>
 </section>
 </main>
 </div>
@@ -290,8 +308,9 @@ async function loadBanners(){
     const snap = await getDocs(query(collection(db,'banners'), orderBy('order','asc')));
     const allB = snap.docs.map(d => ({ id:d.id, ...d.data() }));
     fixedB = allB.find(b => b.slot==='fixed') || null;
-    banners = allB.filter(b => b.slot!=='fixed');
-    drawFixed();
+    banners = allB.filter(b => b.slot!=='fixed' && b.slot!=='popup');
+    popups = allB.filter(b => b.slot==='popup');
+    drawFixed(); drawPopups();
     $('bList').innerHTML = banners.length ? banners.map((b,i) => `<div class="bn"><img src="${esc(b.imageUrl)}" alt=""><div class="tx"><strong>${esc(b.title)}</strong><span>${b.slot==='fixed'?'왼쪽 고정':'오른쪽 흘러가는 배너'} · ${esc(b.link||'링크 없음')}${b.startAt||b.endAt?' · '+esc(b.startAt||'')+' ~ '+esc(b.endAt||''):''}</span></div>
       <button type="button" class="sb ${b.active===false?'':'on'}" data-a="tog" data-i="${i}">${b.active===false?'숨김':'노출 중'}</button>
       <button type="button" class="sb" data-a="up" data-i="${i}" aria-label="위로">↑</button><button type="button" class="sb" data-a="down" data-i="${i}" aria-label="아래로">↓</button>
@@ -320,6 +339,40 @@ $('bList').onclick = async e => {
     else if(b.dataset.a==='up'||b.dataset.a==='down'){ const j=i+(b.dataset.a==='up'?-1:1); if(j<0||j>=banners.length) return; const arr=banners.slice(); [arr[i],arr[j]]=[arr[j],arr[i]]; await Promise.all(arr.map((y,k)=>updateDoc(doc(db,'banners',y.id),{order:k+1}))); }
     else if(b.dataset.a==='edit'){ bEdit=x.id; $('bTitle').value=x.title||''; $('bLink').value=x.link||''; $('bStart').value=x.startAt||''; $('bEnd').value=x.endAt||''; bPreview(x.imageUrl); $('bfTitle').textContent='배너 수정'; $('bSave').textContent='수정 저장'; window.scrollTo(0,0); return; }
     else if(b.dataset.a==='del'){ if(!confirm('이 배너를 삭제할까요?')) return; await deleteDoc(doc(db,'banners',x.id)); }
+    loadBanners();
+  } catch(err){ console.error(err); toast('처리하지 못했어요.'); }
+};
+
+/* ---------- 팝업 ---------- */
+let popups = [], pImg = '', pEdit = null;
+function drawPopups(){
+  $('pList').innerHTML = popups.length ? popups.map((b,i) => `<div class="bn"><img src="${esc(b.imageUrl)}" alt="" style="width:90px;aspect-ratio:8/9"><div class="tx"><strong>${esc(b.title)}</strong><span>${esc(b.link||'링크 없음')}${b.startAt||b.endAt?' · '+esc(b.startAt||'')+' ~ '+esc(b.endAt||''):''}</span></div>
+    <button type="button" class="sb ${b.active===false?'':'on'}" data-a="tog" data-i="${i}">${b.active===false?'숨김':'노출 중'}</button>
+    <button type="button" class="sb" data-a="up" data-i="${i}" aria-label="위로">↑</button><button type="button" class="sb" data-a="down" data-i="${i}" aria-label="아래로">↓</button>
+    <button type="button" class="sb" data-a="edit" data-i="${i}">수정</button><button type="button" class="sb del" data-a="del" data-i="${i}">삭제</button></div>`).join('') : '<p class="note" style="padding:20px">등록된 팝업이 없어요. 팝업이 없으면 메인에 아무것도 안 떠요.</p>';
+}
+function pPreview(v){ pImg=v||''; const d=$('pDrop'); d.querySelectorAll('img').forEach(i=>i.remove()); if(v){ const i=document.createElement('img'); i.src=v; i.alt=''; d.appendChild(i); } }
+$('pFile').onchange = async e => { const f=e.target.files[0]; if(!f) return; try{ pPreview(await shrink(f,900,600)); }catch(err){ toast(err.message); } e.target.value=''; };
+function pReset(){ pEdit=null; ['pTitle','pLink','pStart','pEnd'].forEach(i=>$(i).value=''); pPreview(''); $('pfTitle').textContent='팝업 등록'; $('pSave').textContent='팝업 등록'; }
+$('pReset').onclick = pReset;
+$('pSave').onclick = async () => {
+  const title=$('pTitle').value.trim(); if(!title) return toast('팝업 이름을 적어주세요.'); if(!pImg) return toast('팝업 이미지를 골라주세요.');
+  const data = { title, alt:title, imageUrl:pImg, link:fixLink($('pLink').value), slot:'popup', startAt:$('pStart').value||'', endAt:$('pEnd').value||'', updatedAt:new Date().toISOString() };
+  $('pSave').disabled=true;
+  try{
+    if(pEdit){ await updateDoc(doc(db,'banners',pEdit), data); toast('팝업을 수정했어요.'); }
+    else { data.active=true; data.order=(popups.reduce((m,b)=>Math.max(m,b.order||0),0))+1; data.createdAt=data.updatedAt; await addDoc(collection(db,'banners'), data); toast('팝업을 등록했어요. 메인에 바로 떠요.'); }
+    pReset(); loadBanners();
+  } catch(e){ console.error(e); toast(e.code==='permission-denied' ? '저장 권한이 없어요.' : '저장하지 못했어요.'); }
+  finally{ $('pSave').disabled=false; }
+};
+$('pList').onclick = async e => {
+  const b=e.target.closest('button[data-a]'); if(!b) return; const i=+b.dataset.i, x=popups[i];
+  try{
+    if(b.dataset.a==='tog'){ await updateDoc(doc(db,'banners',x.id), { active: x.active===false }); }
+    else if(b.dataset.a==='up'||b.dataset.a==='down'){ const j=i+(b.dataset.a==='up'?-1:1); if(j<0||j>=popups.length) return; const arr=popups.slice(); [arr[i],arr[j]]=[arr[j],arr[i]]; await Promise.all(arr.map((y,k)=>updateDoc(doc(db,'banners',y.id),{order:k+1}))); }
+    else if(b.dataset.a==='edit'){ pEdit=x.id; $('pTitle').value=x.title||''; $('pLink').value=x.link||''; $('pStart').value=x.startAt||''; $('pEnd').value=x.endAt||''; pPreview(x.imageUrl); $('pfTitle').textContent='팝업 수정'; $('pSave').textContent='수정 저장'; window.scrollTo(0,0); return; }
+    else if(b.dataset.a==='del'){ if(!confirm('이 팝업을 삭제할까요?')) return; await deleteDoc(doc(db,'banners',x.id)); }
     loadBanners();
   } catch(err){ console.error(err); toast('처리하지 못했어요.'); }
 };

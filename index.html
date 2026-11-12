@@ -86,6 +86,26 @@
 .bc .th img{width:100%;height:100%;object-fit:cover}
 .bc strong{font-size:16px;line-height:1.5}
 .bc .d{font-size:13px;color:var(--m2)}
+.pop{position:fixed;inset:0;z-index:200;background:rgba(17,24,39,.55);display:none;align-items:center;justify-content:center;padding:20px}
+.pop.on{display:flex;animation:popIn .25s ease}
+@keyframes popIn{from{opacity:0}to{opacity:1}}
+.pop-in{position:relative;width:min(440px,100%);display:flex;flex-direction:column;align-items:center;gap:14px}
+.pop-dots{display:flex;gap:6px;align-items:center;min-height:8px}
+.pop-dots button{border:none;padding:0;width:8px;height:8px;border-radius:999px;background:#fff;opacity:.85}
+.pop-dots button.on{width:34px;background:#69BEEE;opacity:1}
+.pop-card{width:100%;background:#fff;border-radius:22px;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.25)}
+.pop-sl{display:grid;touch-action:pan-y}
+.pop-sl>div{grid-area:1/1;opacity:0;visibility:hidden;transition:opacity .35s ease;display:flex;align-items:center;background:#fff}
+.pop-sl>div.on{opacity:1;visibility:visible}
+.pop-sl a,.pop-sl span{display:block;width:100%}
+.pop-sl img{display:block;width:100%;height:auto;max-height:72vh;object-fit:contain}
+.pop-bt{display:flex;border-top:1px solid #E5E8EF}
+.pop-bt button{flex:1 1 0;height:58px;border:none;background:#fff;font-size:15px;font-weight:500;color:#1E2630}
+.pop-bt button+button{border-left:1px solid #E5E8EF}
+.pop-bt button:hover{background:#F7FBFE}
+.pop-ar{position:absolute;top:50%;width:52px;height:52px;border-radius:999px;border:2px solid #fff;background:rgba(17,24,39,.35);color:#fff;display:flex;align-items:center;justify-content:center;transform:translateY(-50%)}
+.pop-ar.p{left:-76px}.pop-ar.n{right:-76px}
+@media (max-width:620px){.pop-ar{width:40px;height:40px}.pop-ar.p{left:8px}.pop-ar.n{right:8px}.pop-bt button{height:52px;font-size:14px}}
 @media (max-width:700px){
   .hero-fix{padding:32px 24px;min-height:300px}
   .hero-fix h1{font-size:30px}
@@ -167,6 +187,17 @@
 <span class="ft-copy">© 2026 가토통신. All rights reserved.</span>
 </div>
 </footer>
+<div class="pop" id="pop" role="dialog" aria-modal="true" aria-label="이벤트 안내">
+<div class="pop-in">
+<div class="pop-dots" id="popDots"></div>
+<div class="pop-card">
+<div class="pop-sl" id="popSl"></div>
+<div class="pop-bt"><button type="button" id="popToday">오늘 하루 보지 않기</button><button type="button" id="popClose">닫기</button></div>
+</div>
+<button type="button" class="pop-ar p" id="popPrev" aria-label="이전 팝업"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg></button>
+<button type="button" class="pop-ar n" id="popNext" aria-label="다음 팝업"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
+</div>
+</div>
 <script src="/assets/site.js?v=1" defer></script>
 <script src="/assets/plans.js?v=1"></script>
 <script src="/assets/fs.js?v=1"></script>
@@ -227,10 +258,38 @@
     var t=gatoToday();
     rows=rows.filter(function(b){return b.active!==false&&!(b.startAt&&b.startAt>t)&&!(b.endAt&&b.endAt<t)&&b.imageUrl;});
     var fix=rows.filter(function(b){return b.slot==='fixed';})[0];
-    var sl=rows.filter(function(b){return b.slot!=='fixed';});
+    var sl=rows.filter(function(b){return b.slot!=='fixed'&&b.slot!=='popup';});
+    var pops=rows.filter(function(b){return b.slot==='popup';});
     if(sl.length)build(sl,true);
+    if(pops.length)openPop(pops);
     if(fix){var h=document.getElementById('heroFix');h.className='hero-fix img';h.innerHTML=wrapLink(fix.link,'<img src="'+E(fix.imageUrl)+'" alt="'+E(fix.alt||fix.title||'가토통신')+'">');}
   }).catch(function(){});
+
+  /* 메인 팝업 */
+  function openPop(list){
+    var KEY='gatoPopHide', t=gatoToday();
+    try{if(localStorage.getItem(KEY)===t)return;}catch(e){}
+    var pop=document.getElementById('pop'), box=document.getElementById('popSl'), pd=document.getElementById('popDots'), pi=0, pt=null;
+    box.innerHTML=list.map(function(b,i){return '<div class="'+(i?'':'on')+'">'+wrapLink(b.link,'<img src="'+E(b.imageUrl)+'" alt="'+E(b.alt||b.title||'가토통신 이벤트')+'">')+'</div>';}).join('');
+    var items=[].slice.call(box.children), multi=items.length>1;
+    pd.innerHTML=multi?items.map(function(_,i){return '<button type="button" aria-label="'+(i+1)+'번 팝업 보기" data-i="'+i+'"></button>';}).join(''):'';
+    document.getElementById('popPrev').style.display=document.getElementById('popNext').style.display=multi?'':'none';
+    function sh(){items.forEach(function(s,i){s.classList.toggle('on',i===pi);});[].forEach.call(pd.children,function(d,i){d.classList.toggle('on',i===pi);});}
+    function mv(n){pi=(pi+n+items.length)%items.length;sh();auto();}
+    function auto(){if(pt)clearInterval(pt);pt=multi?setInterval(function(){pi=(pi+1)%items.length;sh();},5000):null;}
+    function close(){pop.classList.remove('on');if(pt)clearInterval(pt);document.removeEventListener('keydown',key);}
+    function key(e){if(e.key==='Escape')close();else if(multi&&e.key==='ArrowLeft')mv(-1);else if(multi&&e.key==='ArrowRight')mv(1);}
+    document.getElementById('popPrev').onclick=function(){mv(-1);};
+    document.getElementById('popNext').onclick=function(){mv(1);};
+    pd.onclick=function(e){var b=e.target.closest('button');if(!b)return;pi=+b.dataset.i;sh();auto();};
+    document.getElementById('popClose').onclick=close;
+    document.getElementById('popToday').onclick=function(){try{localStorage.setItem(KEY,t);}catch(e){}close();};
+    pop.onclick=function(e){if(e.target===pop)close();};
+    var sx=0;box.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;},{passive:true});
+    box.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-sx;if(multi&&Math.abs(dx)>45)mv(dx<0?1:-1);},{passive:true});
+    document.addEventListener('keydown',key);
+    sh();auto();pop.classList.add('on');
+  }
 
   /* 블로그 최신 3개 */
   var grid=document.getElementById('blogGrid');

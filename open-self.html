@@ -21,11 +21,23 @@
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-LEJJMRTQBC');</script>
 <style>
 .top2{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px}
-.hours{background:var(--pri);color:#fff;border-radius:22px;padding:30px 34px;display:flex;flex-wrap:wrap;align-items:center;gap:24px}
-.hours h2{margin:0;font-size:22px;font-weight:900}
-.hours .b{flex:1 1 200px;background:rgba(255,255,255,.14);border-radius:14px;padding:18px 22px;display:flex;flex-direction:column;gap:6px}
-.hours .b span{font-size:14px;color:#E6F4FC}
-.hours .b strong{font-size:26px;font-weight:900}
+.openbtns{flex:1 1 100%;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.openbtns .btn{height:80px;font-size:23px;font-weight:700;border-radius:18px;padding:0 12px}
+.hours{background:#fff;color:var(--t);border:2px solid var(--t);border-radius:18px;overflow:hidden}
+.hours h2{margin:0;padding:16px 24px;font-size:20px;font-weight:700;text-align:center;border-bottom:1px solid #D5DAE1}
+.hours .row{display:grid;grid-template-columns:1fr 1fr}
+.hours .b{padding:22px 16px 24px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center}
+.hours .b+.b{border-left:1px solid #D5DAE1}
+.hours .b span{font-size:16px;font-weight:500;color:#4B5563}
+.hours .b strong{font-size:32px;font-weight:700;letter-spacing:-.5px;font-variant-numeric:tabular-nums}
+.hours .b em{font-style:normal;white-space:nowrap}
+@media (max-width:640px){
+  .openbtns{gap:10px}
+  .openbtns .btn{height:64px;font-size:18px;border-radius:14px}
+  .hours .row{grid-template-columns:1fr}
+  .hours .b+.b{border-left:none;border-top:1px solid #D5DAE1}
+  .hours .b strong{font-size:26px}
+}
 .chk{overflow:hidden}
 .ck{display:flex;flex-wrap:wrap;align-items:center;gap:18px 20px;padding:26px 30px;border-top:1px solid #EEF4F9}
 .ck:first-child{border-top:none}
@@ -52,13 +64,13 @@
 <main class="wrap narrow">
 <section class="top2">
 <div class="ptitle"><span class="eyebrow">개통 · 셀프개통</span><h1 class="h1">셀프개통 전에<br>이것만 확인해 주세요</h1><p class="lead">본인 명의 모바일 인증서만 있으면 집에서 바로 개통할 수 있어요.</p></div>
-<div style="display:flex;gap:12px;flex-wrap:wrap"><a class="btn lg" href="https://www.n-telecom.co.kr/gatomobile/view/open/kt/face_auth.aspx" target="_blank" rel="noopener">KT 개통하기</a><a class="btn lg pink" href="https://www.n-telecom.co.kr/gatomobile/view/open/lg/face_auth.aspx" target="_blank" rel="noopener">LG 개통하기</a></div>
+<div class="openbtns"><a class="btn" href="https://www.n-telecom.co.kr/gatomobile/view/open/kt/face_auth.aspx" target="_blank" rel="noopener">KT 개통하기</a><a class="btn pink" href="https://www.n-telecom.co.kr/gatomobile/view/open/lg/face_auth.aspx" target="_blank" rel="noopener">LG 개통하기</a></div>
 </section>
 <section class="hours" aria-label="개통 가능 시간">
 <h2>개통 가능 시간</h2>
-<div style="display:flex;flex-wrap:wrap;gap:16px;flex:1 1 420px">
-<div class="b"><span>신규 가입</span><strong>매일 08:00 ~ 21:50</strong></div>
-<div class="b"><span>번호이동</span><strong>월~토 10:00 ~ 19:50</strong></div>
+<div class="row">
+<div class="b"><span>신규 가입</span><strong>매일 <em>08:00 ~ 21:50</em></strong></div>
+<div class="b"><span>번호이동</span><strong>월~토 <em>10:00 ~ 19:50</em></strong></div>
 </div>
 </section>
 <section class="card chk" aria-label="신청 전 체크리스트">

@@ -13,7 +13,7 @@ MENU=[('개통','/open/self',[('셀프개통','/open/self'),('선불폰 개통',
       ('요금제','/plans/kt',[('KT 알뜰폰','/plans/kt'),('LG 알뜰폰','/plans/lg'),('선불요금제','/plans/prepaid')]),
       ('유심','/usim',[('유심구매','/usim'),('eSIM','/esim')]),
       ('블로그','/blog',[]),
-      ('고객지원','/faq',[('자주 묻는 질문','/faq'),('1:1 문의','/support/contact'),('센터 안내','/support/center')])]
+      ('고객지원','/faq',[('자주 묻는 질문','/faq'),('1:1 문의','/support/contact'),('센터 안내','/support/center'),('해지 신청','https://www.n-telecom.co.kr/view/service/change_can.aspx')])]
 
 def ext(u): return ' target="_blank" rel="noopener"' if u.startswith('http') else ''
 

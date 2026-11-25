@@ -27,10 +27,9 @@ CSS='''<style>
 .sl-ctrl button.dt.on{width:22px;opacity:1}
 .quick{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
 .quick a{display:flex;align-items:center;gap:18px;color:#fff;border-radius:20px;padding:26px 30px}
-.quick a .ic{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
 .quick a .t{display:flex;flex-direction:column;gap:4px;flex:1 1 auto}
-.quick a strong{font-size:20px;font-weight:900}
-.quick a span.s{font-size:14px;opacity:.92}
+.quick a strong{font-size:22px;font-weight:700}
+.quick a span.s{font-size:15px;font-weight:400}
 .plans{background:#14304D;border-radius:28px;padding:56px 48px;display:flex;flex-wrap:wrap;gap:40px 48px}
 .plans .l{flex:1 1 260px;min-width:0;display:flex;flex-direction:column;gap:28px}
 .plans h2{margin:0;font-size:34px;line-height:1.35;font-weight:900;color:#fff}
@@ -94,12 +93,10 @@ BODY=f'''<main class="wrap" style="padding-top:32px;gap:40px">
 
 <section class="quick" aria-label="바로가기">
 <a href="/open/self" style="background:#69BEEE;color:#1E2630">
-<span class="ic" style="background:rgba(255,255,255,.18)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2"></rect><path d="M11 18h2"></path></svg></span>
 <span class="t"><strong>개통하기</strong><span class="s">신청서 작성부터 개통까지 온라인으로</span></span>
 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
 </a>
 <a href="{KAKAO}" target="_blank" rel="noopener" style="background:var(--pri)">
-<span class="ic" style="background:rgba(255,255,255,.12)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"></path></svg></span>
 <span class="t"><strong>카톡으로 물어보기</strong><span class="s">카카오톡 채널 '가토'로 바로 연결</span></span>
 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
 </a>

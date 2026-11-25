@@ -162,7 +162,7 @@ ${post.thumbnail && /^https?:/.test(post.thumbnail) ? `<meta property="og:image"
 <meta name="naver-site-verification" content="f23fe941fa9c2d49aa4082228a56eeedf35ce1ce">
 <link rel="icon" href="/favicon.ico">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/site.css?v=1">
+<link rel="stylesheet" href="/assets/site.css?v=2">
 <script type="application/ld+json">
 ${JSON.stringify(schema, null, 2)}
 </script>
@@ -239,6 +239,7 @@ ${body}
 <div class="ft-col"><span class="k">고객센터</span><strong>1899-7700 <small style="font-size:12px;font-weight:500;color:#6B7280">(유료)</small></strong><span>[모바일] 휴대폰 + 114 (무료)</span><span>평일 09:30~18:00 · 토/일/공휴일 휴무</span></div>
 <div class="ft-col"><span class="k">가토통신</span><strong class="p">010-4316-4477</strong><span>365일 상담 가능</span></div>
 <div class="ft-col" style="flex-grow:1.4"><span class="k">사업자 정보</span><span>상호명: 가토통신 | 대표자: 하다겸</span><span>주소: 경기도 부천시 원미구 부천로 39번길 8 동아빌딩 6층</span><span>연락처: 010-4316-4477 | Email: 4477gato@gmail.com</span></div>
+<a class="ft-badge" href="https://info.n-telecom.co.kr/ntelecom-asp/customers/event_view.aspx?idx=505" target="_blank" rel="noopener"><img src="/img/ntelecom-online-badge.png" width="87" height="100" alt="앤텔레콤 온라인 개통 판매점 인증 안내 보기" loading="lazy"></a>
 </div>
 <span class="ft-copy">© 2026 가토통신. All rights reserved.</span>
 </div>
